@@ -19,10 +19,6 @@ describe('App', () => {
         <App />
       </BrowserRouter>,
     );
-    expect(
-      getAllByText(
-        new RegExp('Welcome @auto-sklad/sklad-bogdanauto-com-ua', 'gi'),
-      ).length > 0,
-    ).toBeTruthy();
+    expect(getAllByText(new RegExp('Welcome @auto-sklad/sklad-bogdanauto-com-ua', 'gi')).length > 0).toBeTruthy();
   });
 });
