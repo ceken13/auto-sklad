@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
-
+import { HomePage } from '../pages/HomePage/index.js';
 export function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<div>Hello first project</div>} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </div>
   );
