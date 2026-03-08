@@ -1,15 +1,7 @@
-import Button from '@mui/material/Button';
+import { Header } from '../../components/Header';
 
 export function HomePage() {
-  return (
-    <div>
-      <div>
-        <Button variant="contained" sx={{ backgroundColor: 'red' }}>
-          Hello Material UI
-        </Button>
-      </div>
-    </div>
-  );
+  return <Header />;
 }
 
 export default HomePage;
