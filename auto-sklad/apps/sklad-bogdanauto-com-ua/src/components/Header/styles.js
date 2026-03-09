@@ -38,7 +38,7 @@ export const getStyles = (theme) => ({
     bgcolor: '#0d6b5c',
     height: '100%',
     color: '#fff',
-    maxHeight: 'calc(100vh - 140px)', // обмежує висоту, 120px — це приблизна висота header+footer, підкоригуй під себе
+    maxHeight: 'calc(100vh - 140px)',
     overflowY: 'auto',
   },
   closeIconRightMenu: {

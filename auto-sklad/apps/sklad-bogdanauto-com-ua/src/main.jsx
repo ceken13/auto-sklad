@@ -7,6 +7,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme';
 import App from './app/app';
 import '@fontsource/inter';
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
