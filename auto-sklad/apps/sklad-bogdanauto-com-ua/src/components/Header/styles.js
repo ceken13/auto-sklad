@@ -33,4 +33,30 @@ export const getStyles = (theme) => ({
     color: '#404B52',
     textDecoration: 'none',
   },
+  rightMenuLayout: {
+    width: '40vw',
+    bgcolor: '#0d6b5c',
+    height: '100%',
+    color: '#fff',
+    maxHeight: 'calc(100vh - 140px)', // обмежує висоту, 120px — це приблизна висота header+footer, підкоригуй під себе
+    overflowY: 'auto',
+  },
+  closeIconRightMenu: {
+    color: '#fff',
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 2000,
+  },
+  bottomRightMenu: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 2,
+    bgcolor: '#2E2B2A',
+    p: '55px 0',
+    justifyContent: 'space-around',
+  },
+  rightMenuTxt: {
+    fontSize: '18px',
+  },
 });

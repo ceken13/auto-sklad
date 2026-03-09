@@ -11,6 +11,8 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Roboto, Arial',
+    fontFamily: 'Inter, sans-serif',
+
+    body2: { fontSize: 18 },
   },
 });
