@@ -36,18 +36,31 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          backgroundColor: '#0f6b5a',
           height: '60px',
           width: '295px',
           borderRadius: '12px',
           fontSize: '16px',
           fontWeight: 500,
           textTransform: 'none',
-          '&:hover': {
-            backgroundColor: '#0d5d4f',
-          },
         },
       },
+      variants: [
+        {
+          props: { variant: 'filter' },
+          style: {
+            border: '1px solid #E0E0E0',
+            backgroundColor: '#FFFFFF',
+            color: '#999999',
+            textTransform: 'none',
+            height: '60px',
+            minWidth: '120px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontWeight: 500,
+            width: '200px',
+          },
+        },
+      ],
     },
   },
 });
