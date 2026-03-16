@@ -4,5 +4,6 @@ export const getStyles = (theme) => ({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     gap: '30px',
+    marginBottom: '60px',
   },
 });

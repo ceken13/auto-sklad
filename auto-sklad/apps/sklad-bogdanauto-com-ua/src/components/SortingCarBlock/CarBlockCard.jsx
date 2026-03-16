@@ -6,8 +6,21 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-export function CarBlockCard() {
+export function CarBlockCard({
+  model,
+  imgCar,
+  bealerName,
+  dealerSity,
+  carBrand,
+  engine,
+  year,
+  exteriorColor,
+  regularPrice,
+  loanRepayment,
+  specialOffer,
+}) {
   const styles = getStyles(theme);
+
   return (
     <Box sx={styles.carItemWrap}>
       {/* LEFT SIDE */}
@@ -18,17 +31,15 @@ export function CarBlockCard() {
             Забрати за 60 хвилин
           </Box>
 
-          <Box sx={styles.specialOfferLabel}>
-            <ThumbUpIcon sx={styles.icon} />
-            Спеціальна пропозиція
-          </Box>
+          {specialOffer && (
+            <Box sx={styles.specialOfferLabel}>
+              <ThumbUpIcon sx={styles.icon} />
+              Спеціальна пропозиція
+            </Box>
+          )}
         </Stack>
 
-        <Box
-          component="img"
-          src="https://bogdanauto.com.ua/wp-content/uploads/2025/10/Frame-31945-3-2.jpg"
-          sx={styles.imgCar}
-        />
+        <Box component="img" src={imgCar} sx={styles.imgCar} />
 
         <Typography color="green" sx={{ fontSize: '14px' }}>
           В наявності
@@ -36,21 +47,23 @@ export function CarBlockCard() {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '20px' }}>
           <LocationOnIcon sx={{ color: '#006A5D', fontSize: 20 }} />
-          <Typography variant="body2">Богдан-Авто Луцьк, м.Луцьк</Typography>
+          <Typography variant="body2">
+            {bealerName}, {dealerSity}
+          </Typography>
         </Box>
       </Box>
 
       {/* RIGHT SIDE */}
       <Box sx={{ flex: 1 }}>
         <Typography variant="h6" sx={{ mb: 1 }}>
-          HAVAL H5
+          {model} {carBrand}
         </Typography>
 
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
-          2.0 D
+          {engine}
         </Typography>
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
-          Рік випуску: 2025
+          Рік випуску: {year}
         </Typography>
 
         <Stack direction="row" spacing={1} alignItems="center" sx={{ fontSize: '14px', margin: '30px 0' }}>
@@ -59,17 +72,17 @@ export function CarBlockCard() {
           </Typography>
 
           <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
-            CX Purple
+            {exteriorColor}
           </Typography>
         </Stack>
 
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
           Регулярна ціна:
-          <span style={{ fontSize: '18px', fontWeight: 700, marginLeft: '10px' }}>1 595 000 грн</span>
+          <span style={{ fontSize: '18px', fontWeight: 700, marginLeft: '10px' }}>{regularPrice} грн</span>
         </Typography>
 
         <Typography variant="body2" color="text.secondary" sx={{ fontSize: '14px', margin: '8px 0' }}>
-          Кредитний платіж: <strong>9600 грн/міс.*</strong>
+          Кредитний платіж: <strong>{loanRepayment} грн/міс.*</strong>
         </Typography>
 
         <Button variant="contained" sx={{ mt: 2, width: '100%', marginTop: '60px' }}>

@@ -5,6 +5,7 @@ import { theme } from '../../theme';
 import { getStyles } from './styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { CarBlockCard } from './CarBlockCard';
+import { carsMock } from './carsMock';
 
 export function SortingCarBlock() {
   const styles = getStyles(theme);
@@ -44,7 +45,21 @@ export function SortingCarBlock() {
           </Menu>
         </Box>
       </Box>
-      <CarBlockCard />
+      {carsMock.map((data) => (
+        <CarBlockCard
+          carBrand={data.carBrand}
+          model={data.model}
+          imgCar={data.imgCar}
+          bealerName={data.bealerName}
+          dealerSity={data.dealerSity}
+          engine={data.engine}
+          year={data.year}
+          exteriorColor={data.exteriorColor}
+          regularPrice={data.regularPrice}
+          loanRepayment={data.loanRepayment}
+          specialOffer={data.specialOffer}
+        />
+      ))}
     </>
   );
 }

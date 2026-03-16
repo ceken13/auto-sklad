@@ -20,7 +20,7 @@ export function Filters() {
   return (
     <Box>
       <Box sx={styles.layoutFilters}>
-        <Stack spacing={1}>
+        <Stack>
           {/* Марка */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -188,7 +188,7 @@ export function Filters() {
           </Accordion>
 
           {/* Ціна */}
-          <Box>
+          <Box sx={{ padding: '16px 20px' }}>
             <Typography sx={{ mb: 2 }}>Ціна, грн</Typography>
 
             <Stack spacing={2}>
@@ -216,11 +216,23 @@ export function Filters() {
           </Accordion>
           {/* Додаткові фільтри */}
           <Stack>
-            <FormControlLabel control={<Checkbox />} label="Вживані авто" />
+            <FormControlLabel
+              sx={{ padding: '0px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
+              control={<Checkbox />}
+              label="Вживані авто"
+            />
 
-            <FormControlLabel control={<Checkbox />} label="Спеціальна пропозиція" />
+            <FormControlLabel
+              sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
+              control={<Checkbox />}
+              label="Спеціальна пропозиція"
+            />
 
-            <FormControlLabel control={<Checkbox />} label="Забрати за 60 хвилин" />
+            <FormControlLabel
+              sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
+              control={<Checkbox />}
+              label="Забрати за 60 хвилин"
+            />
           </Stack>
         </Stack>
       </Box>
