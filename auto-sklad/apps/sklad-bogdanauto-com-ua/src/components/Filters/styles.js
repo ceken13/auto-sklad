@@ -11,4 +11,13 @@ export const getStyles = (theme) => ({
     gap: '20px',
     mb: '10px',
   },
+  accordionStyles: {
+    margin: '5px 0',
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    border: 'none',
+    '&:before': {
+      display: 'none',
+    },
+  },
 });
