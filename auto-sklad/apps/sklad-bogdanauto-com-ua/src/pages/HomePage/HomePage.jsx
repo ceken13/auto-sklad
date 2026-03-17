@@ -1,12 +1,12 @@
 import { Header } from '../../components/Header';
-import { MainLayout } from '../../components/MainLayout';
+import { MainLayoutHomePage } from '../../components/MainLayoutHomePage';
 import { Footer } from '../../components/Footer';
 
 export function HomePage() {
   return (
     <>
       <Header />
-      <MainLayout />
+      <MainLayoutHomePage />
       <Footer />
     </>
   );

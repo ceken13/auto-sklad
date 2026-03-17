@@ -2,8 +2,8 @@ import { Box, Typography, Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import { theme } from '../../theme';
 import { getStyles } from './styles';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import { PickUpLabel } from './PickUpLabel';
+import { SpecialOfferLabel } from './SpecialOfferLabel';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export function CarBlockCard({
@@ -28,19 +28,9 @@ export function CarBlockCard({
       {/* LEFT SIDE */}
       <Box sx={{ width: 320 }}>
         <Stack sx={styles.saleLabels}>
-          {pickUpOffer && (
-            <Box sx={styles.pickUpLabel}>
-              <AccessTimeIcon sx={styles.icon} />
-              Забрати за 60 хвилин
-            </Box>
-          )}
+          {pickUpOffer && <PickUpLabel />}
 
-          {specialOffer && (
-            <Box sx={styles.specialOfferLabel}>
-              <ThumbUpIcon sx={styles.icon} />
-              Спеціальна пропозиція
-            </Box>
-          )}
+          {specialOffer && <SpecialOfferLabel />}
         </Stack>
 
         <Box component="img" src={imgCar} sx={styles.imgCar} />
