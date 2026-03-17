@@ -18,6 +18,8 @@ export function CarBlockCard({
   regularPrice,
   loanRepayment,
   specialOffer,
+  pickUpOffer,
+  availablCar,
 }) {
   const styles = getStyles(theme);
 
@@ -26,10 +28,12 @@ export function CarBlockCard({
       {/* LEFT SIDE */}
       <Box sx={{ width: 320 }}>
         <Stack sx={styles.saleLabels}>
-          <Box sx={styles.pickUpLabel}>
-            <AccessTimeIcon sx={styles.icon} />
-            Забрати за 60 хвилин
-          </Box>
+          {pickUpOffer && (
+            <Box sx={styles.pickUpLabel}>
+              <AccessTimeIcon sx={styles.icon} />
+              Забрати за 60 хвилин
+            </Box>
+          )}
 
           {specialOffer && (
             <Box sx={styles.specialOfferLabel}>
@@ -41,13 +45,15 @@ export function CarBlockCard({
 
         <Box component="img" src={imgCar} sx={styles.imgCar} />
 
-        <Typography color="green" sx={{ fontSize: '14px' }}>
-          В наявності
-        </Typography>
+        {availablCar && (
+          <Typography color="green" sx={{ fontSize: '14px' }}>
+            В наявності
+          </Typography>
+        )}
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '20px' }}>
           <LocationOnIcon sx={{ color: '#006A5D', fontSize: 20 }} />
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ fontSize: 14 }}>
             {bealerName}, {dealerSity}
           </Typography>
         </Box>

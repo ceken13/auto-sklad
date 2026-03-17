@@ -58,6 +58,8 @@ export function SortingCarBlock() {
           regularPrice={data.regularPrice}
           loanRepayment={data.loanRepayment}
           specialOffer={data.specialOffer}
+          pickUpOffer={data.pickUpOffer}
+          availablCar={data.availablCar}
         />
       ))}
     </>
