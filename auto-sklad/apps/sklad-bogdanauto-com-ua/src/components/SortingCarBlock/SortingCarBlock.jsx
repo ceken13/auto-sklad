@@ -6,6 +6,7 @@ import { getStyles } from './styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { CarBlockCard } from './CarBlockCard';
 import { carsMock } from './carsMock';
+import { Pagination } from '@mui/material';
 
 export function SortingCarBlock() {
   const styles = getStyles(theme);
@@ -17,6 +18,15 @@ export function SortingCarBlock() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const [page, setPage] = useState(1);
+  const carsPerPage = 8;
+  const startIndex = (page - 1) * carsPerPage;
+  const selectedCars = carsMock.slice(startIndex, startIndex + carsPerPage);
+
+  const handleChangePage = (event, value) => {
+    setPage(value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -45,7 +55,7 @@ export function SortingCarBlock() {
           </Menu>
         </Box>
       </Box>
-      {carsMock.map((data) => (
+      {selectedCars.map((data) => (
         <CarBlockCard
           carBrand={data.carBrand}
           model={data.model}
@@ -62,6 +72,29 @@ export function SortingCarBlock() {
           availablCar={data.availablCar}
         />
       ))}
+
+      {/* Пагінація */}
+      {carsMock.length > carsPerPage && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+          <Pagination
+            count={Math.ceil(carsMock.length / carsPerPage)}
+            page={page}
+            onChange={handleChangePage}
+            sx={{
+              mb: 1,
+              '& .MuiPaginationItem-root': {
+                color: '#999',
+                borderRadius: '8px',
+              },
+              '& .Mui-selected': {
+                backgroundColor: 'transparent',
+                color: '#000',
+                fontWeight: 'bold',
+              },
+            }}
+          />
+        </Box>
+      )}
     </>
   );
 }
