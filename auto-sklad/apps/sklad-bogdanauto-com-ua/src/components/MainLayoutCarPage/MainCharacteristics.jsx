@@ -3,31 +3,14 @@ import { getStyles } from './styles';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { useState } from 'react';
 
-export function MainCharacteristics({
-  model,
-  imgCar,
-  bealerName,
-  dealerSity,
-  carBrand,
-  engine,
-  year,
-  exteriorColor,
-  regularPrice,
-  loanRepayment,
-  specialOffer,
-  pickUpOffer,
-  availablCar,
-  trimLevel,
-  fuelType,
-  transmission,
-}) {
+export function MainCharacteristics({ car }) {
   const styles = getStyles(theme);
 
   return (
     <Box>
       <Box>
         {/* Статус */}
-        {availablCar && (
+        {car?.availablCar && (
           <Typography color="green" sx={{ fontSize: '24px' }}>
             В наявності
           </Typography>
@@ -43,32 +26,32 @@ export function MainCharacteristics({
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Модель:</Typography>
             <Typography sx={{ mb: 1, flex: 1 }}>
-              {carBrand} {model}
+              {car?.carBrand} {car?.model}
             </Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Колір кузова:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{exteriorColor}</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.exteriorColor}</Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Рік випуску:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{year}</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.year}</Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Комплектація:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{trimLevel}</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.trimLevel}</Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Двигун:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{engine}</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.engine}</Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Тип палива:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{fuelType}</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.fuelType}</Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>КПП:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{transmission}</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.transmission}</Typography>
           </Box>
         </Box>
 
@@ -76,11 +59,11 @@ export function MainCharacteristics({
         <Box sx={{ marginBottom: '40px' }}>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Регулярна ціна:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{regularPrice} грн</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.regularPrice} грн</Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Кредитний платіж:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{loanRepayment} грн/міс.*</Typography>
+            <Typography sx={{ mb: 1, flex: 1 }}>{car?.loanRepayment} грн/міс.*</Typography>
           </Box>
         </Box>
 

@@ -56,21 +56,7 @@ export function SortingCarBlock() {
         </Box>
       </Box>
       {selectedCars.map((data) => (
-        <CarBlockCard
-          carBrand={data.carBrand}
-          model={data.model}
-          imgCar={data.imgCar}
-          bealerName={data.bealerName}
-          dealerSity={data.dealerSity}
-          engine={data.engine}
-          year={data.year}
-          exteriorColor={data.exteriorColor}
-          regularPrice={data.regularPrice}
-          loanRepayment={data.loanRepayment}
-          specialOffer={data.specialOffer}
-          pickUpOffer={data.pickUpOffer}
-          availablCar={data.availablCar}
-        />
+        <CarBlockCard key={data.id} data={data} />
       ))}
 
       {/* Пагінація */}

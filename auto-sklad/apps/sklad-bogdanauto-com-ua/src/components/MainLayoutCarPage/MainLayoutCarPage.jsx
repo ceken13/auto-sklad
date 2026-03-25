@@ -11,9 +11,10 @@ import { CarDimensions } from './CarDimensions';
 import { OptionalEquipment } from './OptionalEquipment';
 import { carsMock } from '../SortingCarBlock/carsMock';
 
-export function MainLayoutCarPage() {
+export function MainLayoutCarPage({ id }) {
   const styles = getStyles(theme);
   const navigate = useNavigate();
+  const car = carsMock.find((item) => item?.id === Number(id));
 
   return (
     <Layout>
@@ -26,31 +27,12 @@ export function MainLayoutCarPage() {
           <SliderBlock />
         </Box>
         <Box sx={{ flex: 1 }}>
-          {carsMock.map((data) => (
-            <MainCharacteristics
-              carBrand={data.carBrand}
-              model={data.model}
-              imgCar={data.imgCar}
-              bealerName={data.bealerName}
-              dealerSity={data.dealerSity}
-              engine={data.engine}
-              year={data.year}
-              exteriorColor={data.exteriorColor}
-              regularPrice={data.regularPrice}
-              loanRepayment={data.loanRepayment}
-              specialOffer={data.specialOffer}
-              pickUpOffer={data.pickUpOffer}
-              availablCar={data.availablCar}
-              trimLevel={data.trimLevel}
-              fuelType={data.fuelType}
-              transmission={data.transmission}
-            />
-          ))}
+          <MainCharacteristics car={car} />
         </Box>
       </Box>
       <Box sx={styles.flexWrap}>
         <Box sx={{ flex: 1 }}>
-          <TechnicalPerformance />
+          <TechnicalPerformance car={car} />
         </Box>
         <Box sx={{ flex: 1 }}>
           <CarDimensions />

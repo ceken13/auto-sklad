@@ -6,7 +6,7 @@ export function App() {
     <div>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/car-details" element={<CarsDetails />} />
+        <Route path="/car-details/:id" element={<CarsDetails />} />
       </Routes>
     </div>
   );
