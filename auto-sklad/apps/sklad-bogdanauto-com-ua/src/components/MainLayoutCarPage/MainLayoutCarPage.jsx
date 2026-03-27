@@ -35,7 +35,7 @@ export function MainLayoutCarPage({ id }) {
           <TechnicalPerformance car={car} />
         </Box>
         <Box sx={{ flex: 1 }}>
-          <CarDimensions />
+          <CarDimensions car={car} />
         </Box>
       </Box>
       <OptionalEquipment />

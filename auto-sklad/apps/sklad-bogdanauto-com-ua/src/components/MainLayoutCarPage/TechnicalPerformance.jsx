@@ -1,6 +1,6 @@
 import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
-import { Box, Typography, Button, Stack } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 
 export function TechnicalPerformance({ car }) {
