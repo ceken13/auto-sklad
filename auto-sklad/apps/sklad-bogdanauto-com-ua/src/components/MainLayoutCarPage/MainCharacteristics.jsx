@@ -2,9 +2,11 @@ import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function MainCharacteristics({ car }) {
   const styles = getStyles(theme);
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -78,6 +80,7 @@ export function MainCharacteristics({ car }) {
             textTransform: 'none',
             width: '100%',
           }}
+          onClick={() => navigate(`/car-request/${car?.id}`)}
         >
           Подати запит на авто
         </Button>
