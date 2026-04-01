@@ -61,11 +61,13 @@ export function MainCharacteristics({ car }) {
         <Box sx={{ marginBottom: '40px' }}>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Регулярна ціна:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.regularPrice} грн</Typography>
+            <Typography sx={{ mb: 1, flex: 1, fontSize: '22px', fontWeight: '700' }}>
+              {car?.regularPrice} грн
+            </Typography>
           </Box>
           <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1 }}>Кредитний платіж:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.loanRepayment} грн/міс.*</Typography>
+            <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>Кредитний платіж:</Typography>
+            <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>{car?.loanRepayment} грн/міс.*</Typography>
           </Box>
         </Box>
 

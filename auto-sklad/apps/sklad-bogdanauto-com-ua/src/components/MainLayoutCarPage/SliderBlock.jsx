@@ -15,7 +15,7 @@ const slides = [
   'https://bogdanauto.com.ua/wp-content/themes/bah-theme/images/h5/img1.jpg',
 ];
 
-export function SliderBlock() {
+export function SliderBlock({ car }) {
   const styles = getStyles(theme);
   const [current, setCurrent] = useState(0);
 
@@ -30,8 +30,9 @@ export function SliderBlock() {
   return (
     <Box>
       <Box sx={styles.sliderWrap}>
-        <PickUpLabel />
-        <SpecialOfferLabel />
+        {car?.pickUpOffer && <PickUpLabel />}
+        {car?.specialOffer && <SpecialOfferLabel />}
+
         <Box sx={{ padding: '40px 50px 20px' }}>
           {/* Зображення */}
           <Box component="img" src={slides[current]} sx={styles.imgSlider} />

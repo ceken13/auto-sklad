@@ -31,6 +31,31 @@ export const carsMock = [
     wheelbaseMm: '2710',
     curbWeightKg: '1550',
     grossWeightKg: '2050',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: false },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 2,
@@ -64,6 +89,31 @@ export const carsMock = [
     wheelbaseMm: '2700',
     curbWeightKg: '1450',
     grossWeightKg: '2000',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 3,
@@ -97,7 +147,33 @@ export const carsMock = [
     wheelbaseMm: '2725',
     curbWeightKg: '1580',
     grossWeightKg: '2070',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
+
   {
     id: 4,
     carBrand: 'HAVAL',
@@ -130,6 +206,31 @@ export const carsMock = [
     wheelbaseMm: '2710',
     curbWeightKg: '1560',
     grossWeightKg: '2050',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 5,
@@ -163,6 +264,31 @@ export const carsMock = [
     wheelbaseMm: '2705',
     curbWeightKg: '1470',
     grossWeightKg: '2020',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 6,
@@ -196,6 +322,31 @@ export const carsMock = [
     wheelbaseMm: '2700',
     curbWeightKg: '1500',
     grossWeightKg: '2050',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 7,
@@ -229,6 +380,31 @@ export const carsMock = [
     wheelbaseMm: '2725',
     curbWeightKg: '1600',
     grossWeightKg: '2100',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 8,
@@ -262,6 +438,31 @@ export const carsMock = [
     wheelbaseMm: '2730',
     curbWeightKg: '1620',
     grossWeightKg: '2120',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 9,
@@ -295,6 +496,31 @@ export const carsMock = [
     wheelbaseMm: '2800',
     curbWeightKg: '1850',
     grossWeightKg: '2500',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
   {
     id: 10,
@@ -328,5 +554,30 @@ export const carsMock = [
     wheelbaseMm: '2720',
     curbWeightKg: '1600',
     grossWeightKg: '2100',
+    specs: [
+      {
+        title: 'Безпека',
+        items: [
+          { label: 'Шторки безпеки по всій довжині', value: true },
+          { label: 'ELK+SDF (Аварійне утримання в смузі руху)', value: true },
+          { label: 'LSA (Моніторинг оточення)', value: false },
+          { label: 'AEB (Екстрене гальмування)', value: true },
+        ],
+      },
+      {
+        title: 'Технології комфорту',
+        items: [
+          { label: 'Адаптивний круїз-контроль', value: true },
+          { label: 'Клімат-контроль', value: true },
+        ],
+      },
+      {
+        title: 'Інтер’єр',
+        items: [
+          { label: 'Шкіряні сидіння', value: true },
+          { label: 'Підігрів сидінь', value: true },
+        ],
+      },
+    ],
   },
 ];

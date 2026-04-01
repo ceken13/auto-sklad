@@ -24,7 +24,7 @@ export function MainLayoutCarPage({ id }) {
       </Typography>
       <Box sx={styles.flexWrap}>
         <Box sx={{ flex: 1 }}>
-          <SliderBlock />
+          <SliderBlock car={car} />
         </Box>
         <Box sx={{ flex: 1 }}>
           <MainCharacteristics car={car} />
@@ -38,7 +38,7 @@ export function MainLayoutCarPage({ id }) {
           <CarDimensions car={car} />
         </Box>
       </Box>
-      <OptionalEquipment />
+      <OptionalEquipment car={car} />
     </Layout>
   );
 }
