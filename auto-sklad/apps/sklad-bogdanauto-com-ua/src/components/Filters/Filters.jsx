@@ -14,9 +14,17 @@ import {
   Slider,
   TextField,
 } from '@mui/material';
+import { useFilters } from '../../context/FilterContext';
 
 export function Filters() {
+  const { filters, toggleFilter, clearFilters, setPrice, toggleUsedCars } = useFilters();
+  const brands = ['HYUNDAI', 'JAC', 'HAVAL', 'SUBARU', 'GREAT WALL'];
+  const models = ['M6', 'ORA O3', 'H5', 'H6', 'H6 HEV'];
+  const trimLevels = ['Standart', 'Luxury'];
+  const engines = ['2.0 D', '2.0 T', '1.5 T'];
+  const fuelTypes = ['Бензин', 'Дизель', 'Електро', 'Гібрид'];
   const styles = getStyles(theme);
+
   return (
     <Box>
       <Box sx={styles.layoutFilters}>
@@ -29,11 +37,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="HYUNDAI" />
-                <FormControlLabel control={<Checkbox />} label="JAC" />
-                <FormControlLabel control={<Checkbox defaultChecked />} label="HAVAL" />
-                <FormControlLabel control={<Checkbox />} label="SUBARU" />
-                <FormControlLabel control={<Checkbox />} label="GREAT WALL" />
+                {brands.map((brand) => (
+                  <FormControlLabel
+                    key={brand}
+                    control={
+                      <Checkbox
+                        checked={filters.brands.includes(brand)}
+                        onChange={() => toggleFilter('brands', brand)}
+                      />
+                    }
+                    label={brand}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -46,14 +61,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="M6" />
-                <FormControlLabel control={<Checkbox />} label="ORA O3" />
-                <FormControlLabel control={<Checkbox defaultChecked />} label="H5" />
-                <FormControlLabel control={<Checkbox />} label="H6" />
-                <FormControlLabel control={<Checkbox />} label="H6 HEV" />
-                <FormControlLabel control={<Checkbox />} label="H6 PHEV" />
-                <FormControlLabel control={<Checkbox />} label="JOLION" />
-                <FormControlLabel control={<Checkbox />} label="JOLION PRO" />
+                {models.map((model) => (
+                  <FormControlLabel
+                    key={model}
+                    control={
+                      <Checkbox
+                        checked={filters.models.includes(model)}
+                        onChange={() => toggleFilter('models', model)}
+                      />
+                    }
+                    label={model}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -66,8 +85,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="Standart" />
-                <FormControlLabel control={<Checkbox />} label="Luxury" />
+                {trimLevels.map((trimLevel) => (
+                  <FormControlLabel
+                    key={trimLevel}
+                    control={
+                      <Checkbox
+                        checked={filters.trimLevels.includes(trimLevel)}
+                        onChange={() => toggleFilter('trimLevels', trimLevel)}
+                      />
+                    }
+                    label={trimLevel}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -80,7 +109,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="2.0 D" />
+                {engines.map((engine) => (
+                  <FormControlLabel
+                    key={engine}
+                    control={
+                      <Checkbox
+                        checked={filters.engines.includes(engine)}
+                        onChange={() => toggleFilter('engines', engine)}
+                      />
+                    }
+                    label={engine}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -93,10 +133,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="Бензин" />
-                <FormControlLabel control={<Checkbox />} label="Дизель" />
-                <FormControlLabel control={<Checkbox />} label="Електро" />
-                <FormControlLabel control={<Checkbox />} label="Гібрид" />
+                {fuelTypes.map((fuelType) => (
+                  <FormControlLabel
+                    key={fuelType}
+                    control={
+                      <Checkbox
+                        checked={filters.fuelTypes.includes(fuelType)}
+                        onChange={() => toggleFilter('fuelTypes', fuelType)}
+                      />
+                    }
+                    label={fuelType}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -192,12 +240,31 @@ export function Filters() {
             <Typography sx={{ mb: 2 }}>Ціна, грн</Typography>
 
             <Stack spacing={2}>
-              <Slider value={[691600, 1500000]} min={0} max={2000000} />
+              <Slider
+                value={filters.regularPrice}
+                onChange={(e, newValue) => setPrice(newValue)}
+                min={0}
+                max={3000000}
+              />
 
               <Stack direction="row" spacing={2}>
-                <TextField size="small" label="Від" defaultValue={691600} fullWidth />
+                <TextField
+                  size="small"
+                  label="Від"
+                  type="number"
+                  value={filters.regularPrice[0]}
+                  onChange={(e) => setPrice([Number(e.target.value), filters.regularPrice[1]])}
+                  fullWidth
+                />
 
-                <TextField size="small" label="До" fullWidth />
+                <TextField
+                  size="small"
+                  label="До"
+                  type="number"
+                  value={filters.regularPrice[1]}
+                  onChange={(e) => setPrice([filters.regularPrice[0], Number(e.target.value)])}
+                  fullWidth
+                />
               </Stack>
             </Stack>
           </Box>
@@ -218,7 +285,12 @@ export function Filters() {
           <Stack>
             <FormControlLabel
               sx={{ padding: '0px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  checked={filters.usedCars}
+                  onChange={toggleUsedCars} // викликаємо окрему функцію
+                />
+              }
               label="Вживані авто"
             />
 
@@ -236,7 +308,7 @@ export function Filters() {
           </Stack>
         </Stack>
       </Box>
-      <Button variant="contained" color="primary">
+      <Button onClick={clearFilters} variant="contained" color="primary">
         Очистити всі фільтри
       </Button>
     </Box>

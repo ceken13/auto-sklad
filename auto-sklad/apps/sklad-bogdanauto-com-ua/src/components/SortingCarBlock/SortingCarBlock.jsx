@@ -5,10 +5,14 @@ import { theme } from '../../theme';
 import { getStyles } from './styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { CarBlockCard } from './CarBlockCard';
+import { useFilters } from '../../context/FilterContext';
 import { carsMock } from './carsMock';
 import { Pagination } from '@mui/material';
 
 export function SortingCarBlock() {
+  const { filters } = useFilters();
+  console.log(filters);
+
   const styles = getStyles(theme);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -22,7 +26,22 @@ export function SortingCarBlock() {
   const [page, setPage] = useState(1);
   const carsPerPage = 8;
   const startIndex = (page - 1) * carsPerPage;
-  const selectedCars = carsMock.slice(startIndex, startIndex + carsPerPage);
+
+  const selectedCars = carsMock
+    .filter((car) => {
+      const brandMatch = filters.brands.length === 0 || filters.brands.includes(car.carBrand);
+
+      const modelMatch = filters.models.length === 0 || filters.models.includes(car.model);
+      const trimLevelMatch = filters.trimLevels.length === 0 || filters.trimLevels.includes(car.trimLevel);
+      const enginesMatch = filters.engines.length === 0 || filters.engines.includes(car.engine);
+      const fuelTypesMatch = filters.fuelTypes.length === 0 || filters.fuelTypes.includes(car.fuelType);
+      const carPrice = Number(car.regularPrice.replace(/\s/g, ''));
+      const priceMatch = carPrice >= filters.regularPrice[0] && carPrice <= filters.regularPrice[1];
+      const usedMatch = !filters.usedCars || car.usedCars;
+
+      return brandMatch && modelMatch && trimLevelMatch && enginesMatch && fuelTypesMatch && priceMatch && usedMatch;
+    })
+    .slice(startIndex, startIndex + carsPerPage);
 
   const handleChangePage = (event, value) => {
     setPage(value);

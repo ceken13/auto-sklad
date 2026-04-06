@@ -34,7 +34,10 @@ export const getStyles = (theme) => ({
     textDecoration: 'none',
   },
   rightMenuLayout: {
-    width: '40vw',
+    width: {
+      xs: '100vw',
+      sm: '40vw',
+    },
     bgcolor: '#0d6b5c',
     height: '100%',
     color: '#fff',
