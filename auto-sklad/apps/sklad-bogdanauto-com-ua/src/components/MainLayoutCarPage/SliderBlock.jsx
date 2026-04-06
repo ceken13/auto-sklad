@@ -8,23 +8,16 @@ import { SpecialOfferLabel } from '../SortingCarBlock/SpecialOfferLabel';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const slides = [
-  'https://bogdanauto.com.ua/wp-content/uploads/2025/10/Frame-31945-3-2.jpg',
-  'https://bogdanauto.com.ua/wp-content/themes/bah-theme/images/h5/img5.jpg',
-  'https://bogdanauto.com.ua/wp-content/themes/bah-theme/images/h5/img2.jpg',
-  'https://bogdanauto.com.ua/wp-content/themes/bah-theme/images/h5/img1.jpg',
-];
-
 export function SliderBlock({ car }) {
   const styles = getStyles(theme);
   const [current, setCurrent] = useState(0);
 
   const handlePrev = () => {
-    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrent((prev) => (prev === 0 ? car?.sliderImages.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrent((prev) => (prev === car?.sliderImages.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -35,7 +28,7 @@ export function SliderBlock({ car }) {
 
         <Box sx={{ padding: '40px 50px 20px' }}>
           {/* Зображення */}
-          <Box component="img" src={slides[current]} sx={styles.imgSlider} />
+          <Box component="img" src={car?.sliderImages[current]} sx={styles.imgSlider} />
 
           {/* Ліва стрілка */}
           <IconButton
@@ -75,7 +68,7 @@ export function SliderBlock({ car }) {
               justifyContent: 'flex-start',
             }}
           >
-            {slides.map((_, index) => (
+            {car?.sliderImages.map((_, index) => (
               <Box
                 key={index}
                 onClick={() => setCurrent(index)}
