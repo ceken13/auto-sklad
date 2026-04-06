@@ -33,7 +33,7 @@ export function CarPreviewBlock({ car, onSubmit }) {
       </Box>
       {/* Кнопка */}
       <Button
-        onClick={onSubmit}
+        type="submit"
         fullWidth
         sx={{
           backgroundColor: '#0f6b5c',

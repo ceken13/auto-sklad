@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { SuccessModal } from '../SuccessModal/SuccessModal';
 
 export function CarsRequestPage({ id }) {
   const styles = getStyles(theme);
@@ -43,7 +44,7 @@ export function CarsRequestPage({ id }) {
 
       comment: yup.string(),
 
-      contactMethod: yup.string().required(),
+      contactMethod: yup.string().notRequired(),
     })
     .test('person-type', 'Оберіть тип особи', function (data) {
       if (!data.isIndividual && !data.isCompany) {
@@ -74,9 +75,16 @@ export function CarsRequestPage({ id }) {
     },
   });
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   const onSubmit = (data) => {
     console.log('Дані форми:', data);
-    alert('Форма відправлена!');
+    // тут можна відправляти дані на сервер, а після успіху відкривати модалку
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -96,6 +104,7 @@ export function CarsRequestPage({ id }) {
           </Box>
         </Box>
       </form>
+      <SuccessModal open={modalOpen} onClose={handleCloseModal} />
     </Layout>
   );
 }
