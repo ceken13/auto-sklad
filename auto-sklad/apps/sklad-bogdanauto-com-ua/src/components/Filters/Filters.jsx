@@ -17,12 +17,17 @@ import {
 import { useFilters } from '../../context/FilterContext';
 
 export function Filters() {
-  const { filters, toggleFilter, clearFilters, setPrice, toggleUsedCars } = useFilters();
+  const { filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter } = useFilters();
   const brands = ['HYUNDAI', 'JAC', 'HAVAL', 'SUBARU', 'GREAT WALL'];
   const models = ['M6', 'ORA O3', 'H5', 'H6', 'H6 HEV'];
   const trimLevels = ['Standart', 'Luxury'];
   const engines = ['2.0 D', '2.0 T', '1.5 T'];
   const fuelTypes = ['Бензин', 'Дизель', 'Електро', 'Гібрид'];
+  const transmissions = ['Автомат', 'Механіка', 'Робот'];
+  const driveTypes = ['Передній', 'Задній', 'Повний'];
+  const exteriorColors = ['Black', 'Red', 'Silver', 'Grey', 'Dark Green', 'White'];
+  const interiorColors = ['Black', 'White', 'Silver'];
+  const years = ['2023', '2024', '2025', '2026'];
   const styles = getStyles(theme);
 
   return (
@@ -156,9 +161,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="Автомат" />
-                <FormControlLabel control={<Checkbox />} label="Механіка" />
-                <FormControlLabel control={<Checkbox />} label="Робот" />
+                {transmissions.map((transmission) => (
+                  <FormControlLabel
+                    key={transmission}
+                    control={
+                      <Checkbox
+                        checked={filters.transmissions.includes(transmission)}
+                        onChange={() => toggleFilter('transmissions', transmission)}
+                      />
+                    }
+                    label={transmission}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -171,15 +185,24 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="Передній" />
-                <FormControlLabel control={<Checkbox />} label="Задній" />
-                <FormControlLabel control={<Checkbox />} label="Повний" />
+                {driveTypes.map((driveType) => (
+                  <FormControlLabel
+                    key={driveType}
+                    control={
+                      <Checkbox
+                        checked={filters.driveTypes.includes(driveType)}
+                        onChange={() => toggleFilter('driveTypes', driveType)}
+                      />
+                    }
+                    label={driveType}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
 
           {/* Потужність батареї */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
+          {/*<Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>Потужність батареї</Typography>
             </AccordionSummary>
@@ -191,7 +214,7 @@ export function Filters() {
                 <FormControlLabel control={<Checkbox />} label="64 кВт/год" />
               </Stack>
             </AccordionDetails>
-          </Accordion>
+          </Accordion>*/}
 
           {/* Колір кузова */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
@@ -201,8 +224,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="Black" />
-                <FormControlLabel control={<Checkbox />} label="COC Gray" />
+                {exteriorColors.map((exteriorColor) => (
+                  <FormControlLabel
+                    key={exteriorColor}
+                    control={
+                      <Checkbox
+                        checked={filters.exteriorColors.includes(exteriorColor)}
+                        onChange={() => toggleFilter('exteriorColors', exteriorColor)}
+                      />
+                    }
+                    label={exteriorColor}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -215,7 +248,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="Black" />
+                {interiorColors.map((interiorColor) => (
+                  <FormControlLabel
+                    key={interiorColor}
+                    control={
+                      <Checkbox
+                        checked={filters.interiorColors.includes(interiorColor)}
+                        onChange={() => toggleFilter('interiorColors', interiorColor)}
+                      />
+                    }
+                    label={interiorColor}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -228,9 +272,15 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="2026" />
-                <FormControlLabel control={<Checkbox />} label="2025" />
-                <FormControlLabel control={<Checkbox />} label="2024" />
+                {years.map((year) => (
+                  <FormControlLabel
+                    key={year}
+                    control={
+                      <Checkbox checked={filters.years.includes(year)} onChange={() => toggleFilter('years', year)} />
+                    }
+                    label={year}
+                  />
+                ))}
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -276,8 +326,18 @@ export function Filters() {
 
             <AccordionDetails>
               <Stack>
-                <FormControlLabel control={<Checkbox />} label="В наявності" />
-                <FormControlLabel control={<Checkbox />} label="В Україні" />
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={filters.availablCars} onChange={() => toggleBooleanFilter('availablCars')} />
+                  }
+                  label="В наявності"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={filters.inUkraineCars} onChange={() => toggleBooleanFilter('inUkraineCars')} />
+                  }
+                  label="В Україні"
+                />
               </Stack>
             </AccordionDetails>
           </Accordion>
@@ -285,24 +345,23 @@ export function Filters() {
           <Stack>
             <FormControlLabel
               sx={{ padding: '0px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={
-                <Checkbox
-                  checked={filters.usedCars}
-                  onChange={toggleUsedCars} // викликаємо окрему функцію
-                />
-              }
+              control={<Checkbox checked={filters.usedCars} onChange={() => toggleBooleanFilter('usedCars')} />}
               label="Вживані авто"
             />
 
             <FormControlLabel
               sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={<Checkbox />}
+              control={
+                <Checkbox checked={filters.specialOfferCars} onChange={() => toggleBooleanFilter('specialOfferCars')} />
+              }
               label="Спеціальна пропозиція"
             />
 
             <FormControlLabel
               sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={<Checkbox />}
+              control={
+                <Checkbox checked={filters.pickUpOfferCars} onChange={() => toggleBooleanFilter('pickUpOfferCars')} />
+              }
               label="Забрати за 60 хвилин"
             />
           </Stack>

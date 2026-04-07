@@ -11,6 +11,12 @@ export const getStyles = (theme) => ({
     borderRadius: '4px',
     color: '#FFFFFF',
     padding: '8px 10px',
+    '& .MuiChip-deleteIcon': {
+      color: '#fff',
+    },
+    '&:hover .MuiChip-deleteIcon': {
+      color: '#fff',
+    },
   },
   carItemWrap: {
     border: '1px solid #E0E0E0',
