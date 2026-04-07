@@ -26,15 +26,15 @@ export function MainLayoutCarPage({ id }) {
         <Box sx={{ flex: 1 }}>
           <SliderBlock car={car} />
         </Box>
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ flex: 1, width: { xs: '100%', sm: 'initial' } }}>
           <MainCharacteristics car={car} />
         </Box>
       </Box>
       <Box sx={styles.flexWrap}>
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ flex: 1, width: { xs: '100%', sm: 'initial' } }}>
           <TechnicalPerformance car={car} />
         </Box>
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ flex: 1, width: { xs: '100%', sm: 'initial' } }}>
           <CarDimensions car={car} />
         </Box>
       </Box>

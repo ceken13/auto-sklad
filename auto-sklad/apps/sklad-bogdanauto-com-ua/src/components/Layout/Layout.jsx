@@ -6,6 +6,7 @@ export function Layout({ children }) {
       sx={{
         maxWidth: '1240px',
         margin: '0 auto',
+        padding: { xs: '8px', sm: '0' },
       }}
     >
       {children}

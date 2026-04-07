@@ -18,6 +18,12 @@ export const theme = createTheme({
       lineHeight: '74px',
       color: '#1C1D1F',
       margin: '0.67em 0',
+      // Адаптивно для мобільних
+      '@media (max-width:600px)': {
+        fontSize: '30px',
+        lineHeight: '48px',
+        textAlign: 'center',
+      },
     },
     h2: {},
     h3: {},

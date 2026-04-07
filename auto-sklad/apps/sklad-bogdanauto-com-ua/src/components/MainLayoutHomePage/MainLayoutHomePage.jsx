@@ -22,11 +22,11 @@ export function MainLayoutHomePage() {
       <Box sx={styles.flexBetween}>
         {isMobile ? (
           <>
-            <Button variant="contained" onClick={toggleDrawer(true)}>
+            <Button variant="contained" onClick={toggleDrawer(true)} sx={styles.btnFiltersInMob}>
               Фільтр
             </Button>
             <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-              <Box sx={{ width: 250, p: 2 }}>
+              <Box sx={{ width: '80%', p: 2 }}>
                 <Filters />
               </Box>
             </Drawer>
@@ -34,7 +34,7 @@ export function MainLayoutHomePage() {
         ) : (
           <Filters />
         )}
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, mt: { xs: 12, sm: 0 } }}>
           <SortingCarBlock />
         </Box>
       </Box>

@@ -5,6 +5,8 @@ export const getStyles = (theme) => ({
     alignItems: 'center',
     mb: 3,
     borderRadius: 2,
+    flexDirection: { xs: 'column', sm: 'row' }, // xs — мобільні, sm+ — десктоп
+    gap: { xs: 5, sm: 0 }, // додає відстань між елементами в моб версії
   },
   chipSt: {
     backgroundColor: '#006A5D',
@@ -26,8 +28,9 @@ export const getStyles = (theme) => ({
     gap: '15%',
     alignItems: 'center',
     position: 'relative',
-    alignItems: 'flex-start',
+    alignItems: { xs: 'normal', sm: 'flex-start' },
     marginBottom: '30px',
+    flexDirection: { xs: 'column', sm: 'row' }, // xs — мобільні, sm+ — десктоп
   },
   pickUpLabel: {
     background: '#F47C20',
@@ -72,7 +75,7 @@ export const getStyles = (theme) => ({
   imgCar: {
     width: '100%',
     objectFit: 'contain',
-    maxWidth: '300px',
+    maxWidth: { xs: '100%', sm: '300px' },
     marginTop: '70px',
   },
 });

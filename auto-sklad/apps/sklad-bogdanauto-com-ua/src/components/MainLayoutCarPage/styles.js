@@ -5,6 +5,7 @@ export const getStyles = (theme) => ({
     alignItems: 'flex-start',
     margin: '30px 0',
     gap: '50px',
+    flexDirection: { xs: 'column', sm: 'row' }, // xs — мобільні, sm+ — десктоп
   },
   imgSlider: {
     maxWidth: '100%',

@@ -14,7 +14,7 @@ export function CarBlockCard({ data }) {
   return (
     <Box sx={styles.carItemWrap}>
       {/* LEFT SIDE */}
-      <Box sx={{ width: 320 }}>
+      <Box sx={{ maxWidth: { xs: '100%', sm: '320px' } }}>
         <Stack sx={styles.saleLabels}>
           {data?.pickUpOffer && <PickUpLabel />}
 

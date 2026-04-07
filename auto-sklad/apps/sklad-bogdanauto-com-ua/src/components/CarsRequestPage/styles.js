@@ -5,6 +5,7 @@ export const getStyles = (theme) => ({
     alignItems: 'flex-start',
     margin: '30px 0',
     gap: '50px',
+    flexDirection: { xs: 'column', sm: 'row' },
   },
   previewBlockWrap: {
     padding: '30px',
@@ -15,8 +16,10 @@ export const getStyles = (theme) => ({
   formTitle: {
     fontWeight: '100',
     margin: '50px auto 80px',
+    margin: { xs: '40px auto 40px', sm: '50px auto 80px' },
     textAlign: 'center',
     color: '#555555',
+    fontSize: { xs: '24px', sm: '34px' },
   },
   fieldWrapperStyle: {
     display: 'flex',
@@ -27,5 +30,6 @@ export const getStyles = (theme) => ({
     display: 'flex',
     gap: '30px',
     marginBottom: '20px',
+    flexDirection: { xs: 'column', sm: 'row' },
   },
 });
