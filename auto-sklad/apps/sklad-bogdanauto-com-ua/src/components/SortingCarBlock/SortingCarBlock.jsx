@@ -29,35 +29,37 @@ export function SortingCarBlock() {
   const selectedCars = carsMock
     .filter((car) => {
       const brandMatch =
-        filters.brands.length === 0 || filters.brands.map((c) => c.toLowerCase()).includes(car.brand.toLowerCase());
+        filters.brands.length === 0 ||
+        filters.brands.map((c) => c?.toLowerCase()).includes(car.carBrand?.toLowerCase());
 
       const modelMatch =
-        filters.models.length === 0 || filters.models.map((c) => c.toLowerCase()).includes(car.model.toLowerCase());
+        filters.models.length === 0 || filters.models.map((c) => c?.toLowerCase()).includes(car.model?.toLowerCase());
       const trimLevelMatch =
         filters.trimLevels.length === 0 ||
-        filters.trimLevels.map((c) => c.toLowerCase()).includes(car.trimLevel.toLowerCase());
+        filters.trimLevels.map((c) => c?.toLowerCase()).includes(car.trimLevel?.toLowerCase());
       const enginesMatch =
-        filters.engines.length === 0 || filters.engines.map((c) => c.toLowerCase()).includes(car.engine.toLowerCase());
+        filters.engines.length === 0 ||
+        filters.engines.map((c) => c?.toLowerCase()).includes(car.engine?.toLowerCase());
       const fuelTypesMatch =
         filters.fuelTypes.length === 0 ||
-        filters.fuelTypes.map((c) => c.toLowerCase()).includes(car.fuelType.toLowerCase());
+        filters.fuelTypes.map((c) => c?.toLowerCase()).includes(car.fuelType?.toLowerCase());
       const transmissionsMatch =
         filters.transmissions.length === 0 ||
-        filters.transmissions.map((c) => c.toLowerCase()).includes(car.transmission.toLowerCase());
+        filters.transmissions.map((c) => c?.toLowerCase()).includes(car.transmission?.toLowerCase());
       const driveTypesMatch =
         filters.driveTypes.length === 0 ||
-        filters.driveTypes.map((c) => c.toLowerCase()).includes(car.driveType.toLowerCase());
+        filters.driveTypes.map((c) => c?.toLowerCase()).includes(car.driveType?.toLowerCase());
 
       const exteriorColorsMatch =
         filters.exteriorColors.length === 0 ||
-        filters.interiorColors.map((c) => c.toLowerCase()).includes(car.exteriorColor.toLowerCase());
+        filters.interiorColors.map((c) => c?.toLowerCase()).includes(car.exteriorColor?.toLowerCase());
 
       const interiorColorsMatch =
         filters.interiorColors.length === 0 ||
-        filters.interiorColors.map((c) => c.toLowerCase()).includes(car.interiorColor.toLowerCase());
+        filters.interiorColors.map((c) => c?.toLowerCase()).includes(car.interiorColor?.toLowerCase());
 
       const yearsMatch =
-        filters.years.length === 0 || filters.years.map((c) => c.toLowerCase()).includes(car.year.toLowerCase());
+        filters.years.length === 0 || filters.years.map((c) => c?.toLowerCase()).includes(car.year?.toLowerCase());
 
       const carPrice = Number(car.regularPrice.replace(/\s/g, ''));
       const priceMatch = carPrice >= filters.regularPrice[0] && carPrice <= filters.regularPrice[1];
@@ -99,7 +101,7 @@ export function SortingCarBlock() {
         {/* Ліва частина */}
         <Box>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            25 автомобілів H5 доступні зараз
+            {selectedCars?.length} автомобілів доступно зараз
           </Typography>
 
           <Stack direction="row" spacing={1}>
