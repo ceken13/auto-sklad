@@ -23,6 +23,7 @@ export function UserAuthorization() {
   const handleLogin = () => {
     console.log(form.email, form.password);
     if (form.email === 'kate@gmail.com' && form.password === '123') {
+      localStorage.setItem('token', 'fake-token');
       navigate('/admin');
     }
   };

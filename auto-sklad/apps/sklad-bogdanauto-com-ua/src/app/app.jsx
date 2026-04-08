@@ -5,25 +5,28 @@ import { CarsRequest } from '../pages/CarsRequest';
 import { UserAuthorizationPage } from '../pages/UserAuthorizationPage';
 import { UserPage } from '../pages/UserPage';
 import { PrivateRoute } from '../components/PrivateRoute';
+import { AdminProvider } from '../context/AdminContext';
 
 export function App() {
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/car-details/:id" element={<CarsDetails />} />
-        <Route path="/car-request/:id" element={<CarsRequest />} />
-        <Route path="/login" element={<UserAuthorizationPage />} />
+      <AdminProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/car-details/:id" element={<CarsDetails />} />
+          <Route path="/car-request/:id" element={<CarsRequest />} />
+          <Route path="/login" element={<UserAuthorizationPage />} />
 
-        <Route
-          path="/admin"
-          element={
-            <PrivateRoute>
-              <UserPage />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
+                <UserPage />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </AdminProvider>
     </div>
   );
 }

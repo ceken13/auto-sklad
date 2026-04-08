@@ -16,6 +16,7 @@
     "react-input-mask": "^2.0.4",
     "react-is": "^19.0.0",
     "react-router-dom": "6.30.3",
+    "react-sortablejs": "^6.1.4",
     "styled-components": "5.3.6",
     "yup": "^1.7.1"
   },
