@@ -5,6 +5,9 @@
   "references": [
     {
       "path": "./apps/sklad-bogdanauto-com-ua"
+    },
+    {
+      "path": "./apps/sklad-hyundai-zp-com-ua"
     }
   ]
 }

@@ -1,0 +1,25 @@
+export const getStyles = (theme) => ({
+  layoutFilters: {
+    bgcolor: '#F5F5F5',
+    width: '295px',
+    borderRadius: '8px',
+    padding: '0px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: '20px',
+    mb: '10px',
+  },
+  accordionStyles: {
+    margin: '0px',
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    border: 'none',
+    '&:before': {
+      display: 'none',
+    },
+    borderBottom: '2px solid #fff',
+    padding: '5px',
+  },
+});
