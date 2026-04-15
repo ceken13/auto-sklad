@@ -1,13 +1,13 @@
 import { List, ListItemButton, ListItemText } from '@mui/material';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getStyles } from './styles';
 import { theme } from '../../theme';
 
 export function TopMenu() {
   const styles = getStyles(theme);
+
+  const [open, setOpen] = useState(false);
+  const [path, setPath] = useState([]);
 
   const menu = [
     {
@@ -16,9 +16,13 @@ export function TopMenu() {
       children: [
         {
           id: 'brand',
-          title: 'Про Бренд',
+          title: 'Про бренд',
           children: [
-            { id: 'history', title: 'Історія', link: 'https://hyundai-zp.com.ua/istoriya-kompanii-hyundai' },
+            {
+              id: 'history',
+              title: 'Історія',
+              link: 'https://hyundai-zp.com.ua/istoriya-kompanii-hyundai',
+            },
             {
               id: 'mission',
               title: 'Місія та цінності',
@@ -45,18 +49,42 @@ export function TopMenu() {
                 },
               ],
             },
-            { id: 'world', title: 'Hyundai у світі', link: 'https://www.hyundai.com/worldwide/en' },
+            {
+              id: 'world',
+              title: 'Hyundai у світі',
+              link: 'https://www.hyundai.com/worldwide/en',
+            },
           ],
         },
-        { id: 'news', title: 'Новини', link: 'https://hyundai-zp.com.ua/news_bogdanauto-zp' },
+        {
+          id: 'news',
+          title: 'Новини',
+          link: 'https://hyundai-zp.com.ua/news_bogdanauto-zp',
+        },
         {
           id: 'innovation',
           title: 'Інновації',
           children: [
-            { id: 'tech', title: 'Інтелектуальні технології', link: 'https://hyundai-zp.com.ua/smart-tech' },
-            { id: 'eco', title: 'ЕКО', link: 'https://hyundai-zp.com.ua/eco-technology' },
-            { id: 'performance', title: 'Продуктивність', link: 'https://hyundai-zp.com.ua/performance' },
-            { id: 'transmission', title: 'Трансмісія', link: 'https://hyundai-zp.com.ua/powertrain' },
+            {
+              id: 'tech',
+              title: 'Інтелектуальні технології',
+              link: 'https://hyundai-zp.com.ua/smart-tech',
+            },
+            {
+              id: 'eco',
+              title: 'ЕКО',
+              link: 'https://hyundai-zp.com.ua/eco-technology',
+            },
+            {
+              id: 'performance',
+              title: 'Продуктивність',
+              link: 'https://hyundai-zp.com.ua/performance',
+            },
+            {
+              id: 'transmission',
+              title: 'Трансмісія',
+              link: 'https://hyundai-zp.com.ua/powertrain',
+            },
           ],
         },
         {
@@ -68,54 +96,49 @@ export function TopMenu() {
               title: 'Переможець Чемпіонату світу з ралі-2019',
               link: 'https://hyundai-zp.com.ua/wrc-2019-winners',
             },
-            { id: 'wrc-main', title: 'Hyundai у WRC', link: 'https://hyundai-zp.com.ua/wrc' },
+            {
+              id: 'wrc-main',
+              title: 'Hyundai у WRC',
+              link: 'https://hyundai-zp.com.ua/wrc',
+            },
           ],
         },
       ],
     },
   ];
 
-  const [openItems, setOpenItems] = useState({});
+  const rootItems = menu[0].children;
 
-  const toggle = (key) => {
-    setOpenItems((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
+  const handleToggle = (e) => {
+    e.stopPropagation();
+    setOpen((prev) => !prev);
+    setPath([]);
   };
 
-  const renderMenu = (items, level = 0) => {
-    return items.map((item) => {
-      const hasChildren = !!item.children;
-      const isOpen = openItems[item.id];
-
-      return (
-        <div key={item.id}>
-          <ListItemButton
-            sx={styles.topMenuItem}
-            component={!hasChildren && item.link ? 'a' : 'div'}
-            href={!hasChildren ? item.link : undefined}
-            target={item.link && item.link.startsWith('http') ? '_blank' : '_self'}
-            onClick={() => hasChildren && toggle(item.id)}
-          >
-            <ListItemText primary={item.title} />
-
-            {hasChildren && (isOpen ? <ExpandLess /> : <ExpandMore />)}
-          </ListItemButton>
-
-          {hasChildren && (
-            <Collapse in={isOpen} timeout="auto" unmountOnExit>
-              <List disablePadding>{renderMenu(item.children, level + 1)}</List>
-            </Collapse>
-          )}
-        </div>
-      );
-    });
+  const handleItemClick = (item, level) => {
+    if (item.children) {
+      const newPath = path.slice(0, level);
+      newPath[level] = item;
+      setPath(newPath);
+    } else if (item.link) {
+      window.open(item.link, '_blank');
+    }
   };
+
+  useEffect(() => {
+    const close = () => setOpen(false);
+    if (open) document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [open]);
+
+  const levels = [rootItems];
+  path.forEach((p) => {
+    if (p?.children) levels.push(p.children);
+  });
 
   return (
     <List sx={styles.topMenuLayout}>
-      {/* статичні лінки */}
+      {/* статичні */}
       <ListItemButton
         sx={styles.topMenuItem}
         component="a"
@@ -152,8 +175,61 @@ export function TopMenu() {
         <ListItemText primary="Відеоогляд" />
       </ListItemButton>
 
-      {/* меню */}
-      {renderMenu(menu)}
+      {/* ПРО HYUNDAI */}
+      <div style={styles.topMenuWrapper} onClick={(e) => e.stopPropagation()}>
+        <ListItemButton sx={styles.topMenuItem} onClick={handleToggle}>
+          <ListItemText primary="Про Hyundai" />
+        </ListItemButton>
+
+        {open && (
+          <>
+            <div
+              style={styles.closeButton}
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpen(false);
+              }}
+            >
+              ✕
+            </div>
+            <div
+              style={{
+                ...styles.dropdown,
+
+                transition: 'transform 0.3s ease',
+              }}
+            >
+              {levels.map((items, levelIndex) => (
+                <div key={levelIndex} style={styles.dropdownColumn}>
+                  {items.map((item) => {
+                    const isActive = path[levelIndex]?.id === item.id;
+                    const hasChildren = !!item.children;
+
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => handleItemClick(item, levelIndex)}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                          fontWeight: isActive ? '400' : '400',
+                          color: isActive ? '#00a1c7' : '#666',
+                          marginBottom: '8px',
+                        }}
+                      >
+                        <span>{item.title}</span>
+                        {hasChildren && <span>›</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </List>
   );
 }

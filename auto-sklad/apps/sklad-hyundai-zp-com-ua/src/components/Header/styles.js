@@ -20,7 +20,7 @@ export const getStyles = (theme) => ({
   topMenuLayout: {
     display: 'flex',
     backgroundColor: '#e4dcd3',
-
+    position: 'initial',
     paddingTop: '0px',
     paddingBottom: '0px',
   },
@@ -47,5 +47,51 @@ export const getStyles = (theme) => ({
     fontSize: '14px',
     color: '#666',
     fontFamily: 'HyundaiSansHeadMedium, sans-serif',
+  },
+
+  dropdown: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    width: '100vw',
+    background: '#fff',
+    padding: '40px 80px',
+    display: 'flex',
+    gap: '80px',
+    zIndex: 1000,
+    borderTop: '1px solid #ddd',
+  },
+
+  dropdownColumn: {
+    minWidth: '200px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+  },
+
+  dropdownTitle: {
+    fontWeight: '100',
+    marginBottom: '10px',
+  },
+
+  dropdownLink: {
+    color: '#666',
+    textDecoration: 'none',
+    fontSize: '14px',
+    '&:hover': {
+      color: '#000',
+    },
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '130px',
+    right: '30px',
+    cursor: 'pointer',
+    fontSize: '18px',
+    color: '#999',
+    zIndex: '9999',
+    '&:hover': {
+      color: '#000',
+    },
   },
 });

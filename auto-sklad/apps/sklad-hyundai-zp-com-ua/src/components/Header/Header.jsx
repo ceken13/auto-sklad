@@ -18,7 +18,7 @@ export function Header() {
   return (
     <Box>
       <div>
-        <header style={styles.header}>
+        <header style={{ ...styles.header, position: 'relative' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <ContactBar />
             <TopMenu />
