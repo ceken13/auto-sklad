@@ -4,7 +4,7 @@ export const getStyles = (theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     mb: 3,
-    borderRadius: 2,
+    borderRadius: 1,
     flexDirection: { xs: 'column', sm: 'row' }, // xs — мобільні, sm+ — десктоп
     gap: { xs: 5, sm: 0 }, // додає відстань між елементами в моб версії
   },
@@ -22,7 +22,7 @@ export const getStyles = (theme) => ({
   },
   carItemWrap: {
     border: '1px solid #E0E0E0',
-    borderRadius: '8px',
+    borderRadius: '1px',
     padding: '30px',
     display: 'flex',
     gap: '15%',
@@ -33,14 +33,15 @@ export const getStyles = (theme) => ({
     flexDirection: { xs: 'column', sm: 'row' }, // xs — мобільні, sm+ — десктоп
   },
   pickUpLabel: {
-    background: '#F47C20',
+    background: '#E24124',
     color: '#fff',
-    borderRadius: '0 4px 4px 0',
+    borderRadius: '0',
     fontSize: 12,
     fontWeight: 700,
     padding: '6px 10px 6px 30px',
     width: '250px',
     textTransform: 'uppercase',
+    fontFamily: 'HyundaiSansHeadLight, sans-serif',
 
     display: 'flex',
     alignItems: 'center',
@@ -48,15 +49,16 @@ export const getStyles = (theme) => ({
   },
 
   specialOfferLabel: {
-    background: '#1FA9E1',
+    background: '#43B0D4',
     color: '#fff',
-    borderRadius: '0 4px 4px 0',
+    borderRadius: '0',
     fontSize: 12,
     fontWeight: 700,
     padding: '6px 10px 6px 30px',
     width: '250px',
     textTransform: 'uppercase',
     marginTop: '1px',
+    fontFamily: 'HyundaiSansHeadLight, sans-serif',
 
     display: 'flex',
     alignItems: 'center',

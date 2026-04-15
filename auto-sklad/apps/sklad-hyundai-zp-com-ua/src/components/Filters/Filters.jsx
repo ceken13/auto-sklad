@@ -34,7 +34,7 @@ export function Filters() {
     <Box>
       <Box sx={styles.layoutFilters}>
         <Stack>
-          {/* Марка */}
+          {/* Марка 
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>Марка</Typography>
@@ -57,11 +57,11 @@ export function Filters() {
               </Stack>
             </AccordionDetails>
           </Accordion>
-
+*/}
           {/* Модель */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Модель</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Модель</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -85,7 +85,7 @@ export function Filters() {
           {/* Комплектація */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Комплектація</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Комплектація</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -109,7 +109,7 @@ export function Filters() {
           {/* Двигун */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Двигун</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Двигун</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -133,7 +133,7 @@ export function Filters() {
           {/* Тип палива */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Тип палива</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Тип палива</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -156,7 +156,7 @@ export function Filters() {
           {/* Коробка передач */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Коробка передач</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Коробка передач</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -180,7 +180,7 @@ export function Filters() {
           {/* Привід */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Привід</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Привід</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -219,7 +219,7 @@ export function Filters() {
           {/* Колір кузова */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Колір кузова</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Колір кузова</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -243,7 +243,7 @@ export function Filters() {
           {/* Колір салону */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Колір салону</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Колір салону</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -267,7 +267,7 @@ export function Filters() {
           {/* Рік випуску */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Рік випуску</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Рік випуску</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -287,7 +287,7 @@ export function Filters() {
 
           {/* Ціна */}
           <Box sx={{ padding: '16px 20px' }}>
-            <Typography sx={{ mb: 2 }}>Ціна, грн</Typography>
+            <Typography sx={{ mb: 2, fontSize: '18px' }}>Ціна, грн</Typography>
 
             <Stack spacing={2}>
               <Slider
@@ -321,7 +321,7 @@ export function Filters() {
           {/* Місце розташування */}
           <Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Місце розташування</Typography>
+              <Typography sx={{ fontSize: '18px' }}>Місце розташування</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -347,6 +347,7 @@ export function Filters() {
               sx={{ padding: '0px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
               control={<Checkbox checked={filters.usedCars} onChange={() => toggleBooleanFilter('usedCars')} />}
               label="Вживані авто"
+              componentsProps={{ typography: { fontSize: '18px' } }}
             />
 
             <FormControlLabel
@@ -355,6 +356,7 @@ export function Filters() {
                 <Checkbox checked={filters.specialOfferCars} onChange={() => toggleBooleanFilter('specialOfferCars')} />
               }
               label="Спеціальна пропозиція"
+              componentsProps={{ typography: { fontSize: '18px' } }}
             />
 
             <FormControlLabel
@@ -363,6 +365,7 @@ export function Filters() {
                 <Checkbox checked={filters.pickUpOfferCars} onChange={() => toggleBooleanFilter('pickUpOfferCars')} />
               }
               label="Забрати за 60 хвилин"
+              componentsProps={{ typography: { fontSize: '18px' } }}
             />
           </Stack>
         </Stack>

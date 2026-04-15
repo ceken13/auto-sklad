@@ -8,7 +8,7 @@ export function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#0f0f0f',
+        backgroundColor: '#1c1b1b',
         color: '#fff',
         mt: 8,
         pt: 4,
@@ -19,21 +19,24 @@ export function Footer() {
         maxWidth="lg"
         sx={{
           display: 'flex',
-          alignItems: 'center',
-          gap: 3,
+          gap: { xs: 4, md: 10 },
+          flexDirection: { xs: 'column', md: 'row' },
         }}
       >
         {/* логотип */}
         <Box
           component="img"
-          src="https://bogdanauto.com.ua/wp-content/themes/bah-theme/images/icons/logo-white.svg"
-          alt="Bogdan"
+          src="https://hyundai.com.ua/sites/default/files/inline/images/white-logo.svg"
           sx={{ height: 32 }}
         />
 
         {/* текст */}
-        <Typography variant="body2" sx={{ color: 'rgba(255,255,255)', fontSize: '12px' }}>
-          © BOGDAN. All rights reserved.
+        <Typography sx={{ color: '#999', fontSize: '12px', textAlign: { xs: 'center', md: 'left' } }}>
+          © 2026 | Хюндай Мотор Україна | Усі права захищені <br />
+          Розміщена на цьому сайті інформація щодо наявності продукції, її характеристик, (орієнтовних) цін, інших умов
+          її продажу, а також умов надання будь-яких послуг не є пропозицією укласти договір (офертою). Така інформація
+          стосується наявних на складах Товариства автомобілів, щодо яких здійснене митне оформлення; вона може не бути
+          остаточною і підлягає уточненню у відповідного дилерського центру Hyundai.
         </Typography>
       </Container>
     </Box>

@@ -1,8 +1,8 @@
 export const getStyles = (theme) => ({
   layoutFilters: {
-    bgcolor: '#F5F5F5',
+    bgcolor: '#F6F3F2',
     width: '295px',
-    borderRadius: '8px',
+    borderRadius: '0px',
     padding: '0px',
     display: 'flex',
     flexDirection: 'column',
@@ -16,6 +16,7 @@ export const getStyles = (theme) => ({
     backgroundColor: 'transparent',
     boxShadow: 'none',
     border: 'none',
+    fontSize: '18px',
     '&:before': {
       display: 'none',
     },

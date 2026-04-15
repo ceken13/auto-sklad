@@ -101,9 +101,9 @@ export function SortingCarBlock() {
         {/* Ліва частина */}
         <Box>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            {selectedCars?.length} автомобілів доступно зараз
+            <strong>{selectedCars?.length}</strong> автомобілів доступно зараз
           </Typography>
-
+          {/*
           <Stack direction="row" spacing={1}>
             <Chip
               sx={styles.chipSt}
@@ -120,7 +120,9 @@ export function SortingCarBlock() {
               deleteIcon={<CloseIcon />}
             />
           </Stack>
+        */}
         </Box>
+
         {/* Права частина */}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button variant="filter" onClick={handleOpen} endIcon={<TuneIcon />}>
@@ -139,7 +141,7 @@ export function SortingCarBlock() {
 
       {/* Пагінація */}
       {carsMock.length > carsPerPage && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'end', mt: 4 }}>
           <Pagination
             count={Math.ceil(carsMock.length / carsPerPage)}
             page={page}
@@ -148,12 +150,12 @@ export function SortingCarBlock() {
               mb: 1,
               '& .MuiPaginationItem-root': {
                 color: '#999',
-                borderRadius: '8px',
+                borderRadius: '0px',
               },
-              '& .Mui-selected': {
-                backgroundColor: 'transparent',
-                color: '#000',
+              '& .MuiPaginationItem-root.Mui-selected': {
+                color: '#fff',
                 fontWeight: 'bold',
+                backgroundColor: '#002C5E',
               },
             }}
           />
