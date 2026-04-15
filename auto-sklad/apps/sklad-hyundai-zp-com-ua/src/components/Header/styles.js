@@ -26,6 +26,7 @@ export const getStyles = (theme) => ({
   },
   imgTel: {
     height: '20px',
+    display: { xs: 'none', md: 'initial' },
   },
   linkTel: {
     color: '#000',
@@ -39,14 +40,18 @@ export const getStyles = (theme) => ({
     padding: '5px 30px',
   },
   bottomMenuLayout: {
-    display: 'flex',
+    display: { xs: 'initial', md: 'flex' },
     paddingTop: '10px',
     paddingBottom: '8px',
   },
   bottomMenuItem: {
     fontSize: '14px',
-    color: '#666',
+    color: { xs: '#000', md: '#666' },
+    p: { xs: 2, md: 2 },
     fontFamily: 'HyundaiSansHeadMedium, sans-serif',
+    '&:hover': {
+      background: '#fff',
+    },
   },
 
   dropdown: {
@@ -70,7 +75,7 @@ export const getStyles = (theme) => ({
   },
 
   dropdownTitle: {
-    fontWeight: '100',
+    fontWeight: '600',
     marginBottom: '10px',
   },
 
@@ -93,5 +98,21 @@ export const getStyles = (theme) => ({
     '&:hover': {
       color: '#000',
     },
+  },
+  mobTopMenu: {
+    display: { xs: 'flex', md: 'none' },
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    px: 2,
+    py: 1,
+    position: 'sticky',
+    top: 0,
+    background: '#fff',
+    zIndex: 2000,
+  },
+  mobTopMenuItem: {
+    fontSize: '14px',
+    fontFamily: 'HyundaiSansHeadMedium, sans-serif',
+    boxShadow: 'none',
   },
 });

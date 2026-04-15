@@ -10,9 +10,11 @@ export function ContactBar() {
       sx={{
         backgroundColor: '#fcfcfc',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: { xs: 'initial', md: 'center' },
         gap: 1,
         paddingLeft: '20px',
+        justifyContent: { xs: 'end', md: 'initial' },
+        paddingRight: { xs: '20px', md: 'initial' },
       }}
     >
       <img
@@ -20,16 +22,16 @@ export function ContactBar() {
         src="https://hyundai.com.ua/sites/all/themes/responsive/img/if_aiga_telephone_134148.svg"
       />
 
-      <Typography sx={{ fontSize: '14px' }}>
+      <Typography sx={{ fontSize: { xs: '16px', md: '16px' } }}>
         <strong>Салон:</strong>{' '}
         <a style={styles.linkTel} href="tel:+380931432050">
           (093) 143 20 50
         </a>
-        , <strong>СТО:</strong>{' '}
+        ,<Box component="br" sx={{ display: { xs: 'block', md: 'none' } }} /> <strong>СТО:</strong>{' '}
         <a style={styles.linkTel} href="tel:+380732698305">
           (073) 269 83 05
         </a>
-        ,{' '}
+        ,<Box component="br" sx={{ display: { xs: 'block', md: 'none' } }} />{' '}
         <a style={styles.linkTel} href="tel:+380931702287">
           (093) 170 22 87
         </a>

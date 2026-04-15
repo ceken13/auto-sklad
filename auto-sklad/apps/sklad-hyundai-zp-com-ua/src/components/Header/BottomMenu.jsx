@@ -8,7 +8,12 @@ export function BottomMenu() {
   return (
     <List sx={styles.bottomMenuLayout}>
       {/* Моделі */}
-      <ListItemButton sx={styles.bottomMenuItem} component="a" href="https://bogdanauto.com.ua/models/" target="_blank">
+      <ListItemButton
+        sx={styles.bottomMenuItem}
+        component="a"
+        href="https://hyundai-zp.com.ua/all-models"
+        target="_blank"
+      >
         <ListItemText
           primaryTypographyProps={{
             fontSize: '14px',
@@ -22,7 +27,7 @@ export function BottomMenu() {
       <ListItemButton
         sx={styles.bottomMenuItem}
         component="a"
-        href="https://bogdanauto.com.ua/finansovi-poslugi/"
+        href="https://hyundai-zp.com.ua/service-zp"
         target="_blank"
       >
         <ListItemText
@@ -37,7 +42,7 @@ export function BottomMenu() {
       <ListItemButton
         sx={styles.bottomMenuItem}
         component="a"
-        href="https://bogdanauto.com.ua/category/promotions/"
+        href="https://hyundai-zp.com.ua/specialoffers_bogdanauto-zp"
         target="_blank"
       >
         <ListItemText
@@ -52,7 +57,7 @@ export function BottomMenu() {
       <ListItemButton
         sx={styles.bottomMenuItem}
         component="a"
-        href="https://bogdanauto.com.ua/category/news/"
+        href="https://hyundai-zp.com.ua/hyundai-finance"
         target="_blank"
       >
         <ListItemText
@@ -67,7 +72,7 @@ export function BottomMenu() {
       <ListItemButton
         sx={styles.bottomMenuItem}
         component="a"
-        href="https://bogdanauto.com.ua/kontakti/"
+        href="https://hyundai-zp.com.ua/corpjrate-sales-bogdanauto-zp"
         target="_blank"
       >
         <ListItemText
