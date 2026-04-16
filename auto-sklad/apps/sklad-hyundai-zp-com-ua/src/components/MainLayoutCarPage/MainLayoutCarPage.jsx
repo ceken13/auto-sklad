@@ -18,8 +18,11 @@ export function MainLayoutCarPage({ id }) {
 
   return (
     <Layout>
-      <Typography variant="h1">ОНЛАЙН СКЛАД</Typography>
-      <Typography onClick={() => navigate(-1)} sx={{ cursor: 'pointer', color: '#000' }}>
+      <Typography variant="h1">Онлайн склад Богдан Авто</Typography>
+      <Typography
+        onClick={() => navigate(-1)}
+        sx={{ cursor: 'pointer', color: '#000', fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}
+      >
         Повернутись назад
       </Typography>
       <Box sx={styles.flexWrap}>

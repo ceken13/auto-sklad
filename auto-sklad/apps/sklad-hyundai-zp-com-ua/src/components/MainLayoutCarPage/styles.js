@@ -16,7 +16,7 @@ export const getStyles = (theme) => ({
     margin: '0 auto',
     paddingTop: '20px',
     border: '1px solid #B8B3AD',
-    borderRadius: '8px',
+    borderRadius: '0px',
   },
   textUnderSlider: {
     color: '#999999',

@@ -10,7 +10,7 @@ export const getStyles = (theme) => ({
   previewBlockWrap: {
     padding: '30px',
     border: '1px solid #B8B3AD',
-    borderRadius: '8px',
+    borderRadius: '0px',
     marginBottom: '30px',
   },
   formTitle: {
@@ -20,6 +20,7 @@ export const getStyles = (theme) => ({
     textAlign: 'center',
     color: '#555555',
     fontSize: { xs: '24px', sm: '34px' },
+    fontFamily: 'HyundaiSansHeadRegular, sans-serif',
   },
   fieldWrapperStyle: {
     display: 'flex',

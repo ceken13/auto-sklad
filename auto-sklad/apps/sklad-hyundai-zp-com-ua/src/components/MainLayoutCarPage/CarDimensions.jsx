@@ -9,7 +9,15 @@ export function CarDimensions({ car }) {
     <Box>
       <Box>
         {/* Заголовок */}
-        <Typography variant="h6" sx={{ marginBottom: '30px', fontWeight: 600, fontSize: '24px' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            marginBottom: '30px',
+            fontWeight: 600,
+            fontSize: '24px',
+            fontFamily: 'HyundaiSansHeadRegular, sans-serif',
+          }}
+        >
           Габарити авто:
         </Typography>
 
@@ -18,7 +26,7 @@ export function CarDimensions({ car }) {
           {car?.lengthMm && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Довжина, мм:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.lengthMm}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.lengthMm}</Typography>
             </Box>
           )}
         </Box>
@@ -27,7 +35,7 @@ export function CarDimensions({ car }) {
           {car?.widthMm && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Ширина, мм:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.widthMm}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.widthMm}</Typography>
             </Box>
           )}
         </Box>
@@ -36,7 +44,7 @@ export function CarDimensions({ car }) {
           {car?.heightMm && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Висота, мм:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.heightMm}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.heightMm}</Typography>
             </Box>
           )}
         </Box>
@@ -45,7 +53,7 @@ export function CarDimensions({ car }) {
           {car?.wheelbaseMm && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Колісна база, мм:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.wheelbaseMm}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.wheelbaseMm}</Typography>
             </Box>
           )}
         </Box>
@@ -54,7 +62,7 @@ export function CarDimensions({ car }) {
           {car?.curbWeightKg && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Споряджена маса, кг:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.curbWeightKg}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.curbWeightKg}</Typography>
             </Box>
           )}
         </Box>
@@ -63,7 +71,7 @@ export function CarDimensions({ car }) {
           {car?.grossWeightKg && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Повна маса, кг:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.grossWeightKg}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.grossWeightKg}</Typography>
             </Box>
           )}
         </Box>

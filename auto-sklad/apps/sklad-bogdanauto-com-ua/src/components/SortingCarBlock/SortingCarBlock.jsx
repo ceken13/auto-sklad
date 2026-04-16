@@ -185,7 +185,7 @@ export function SortingCarBlock() {
               '& .MuiPaginationItem-root.Mui-selected': {
                 color: '#fff',
                 fontWeight: 'bold',
-                backgroundColor: '#002C5E',
+                backgroundColor: '#006a5c',
               },
             }}
           />

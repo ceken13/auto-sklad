@@ -10,7 +10,15 @@ export function TechnicalPerformance({ car }) {
     <Box>
       <Box>
         {/* Заголовок */}
-        <Typography variant="h6" sx={{ marginBottom: '30px', fontWeight: 600, fontSize: '24px' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            marginBottom: '30px',
+            fontWeight: 600,
+            fontSize: '24px',
+            fontFamily: 'HyundaiSansHeadRegular, sans-serif',
+          }}
+        >
           Технічні характеристики:
         </Typography>
 
@@ -19,7 +27,7 @@ export function TechnicalPerformance({ car }) {
           {car?.enginePowerHP && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Потужність (к.с./об.хв.):</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.enginePowerHP}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.enginePowerHP}</Typography>
             </Box>
           )}
         </Box>
@@ -27,7 +35,7 @@ export function TechnicalPerformance({ car }) {
           {car?.accel0to100 && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Розгін від 0 до 100 км/год, с:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.accel0to100}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.accel0to100}</Typography>
             </Box>
           )}
         </Box>
@@ -35,7 +43,7 @@ export function TechnicalPerformance({ car }) {
           {car?.maximumSpeed && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Максимальна швидкість, км/год:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.maximumSpeed}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.maximumSpeed}</Typography>
             </Box>
           )}
         </Box>
@@ -46,15 +54,15 @@ export function TechnicalPerformance({ car }) {
               <Typography sx={{ mb: 1 }}>Витрати пального:</Typography>
               <Box sx={{ display: 'flex' }}>
                 <Typography sx={{ mb: 1, flex: 1, pl: 2 }}> • Міський цикл</Typography>
-                <Typography sx={{ mb: 1, flex: 1 }}>{car?.cityFuelConsumption}</Typography>
+                <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.cityFuelConsumption}</Typography>
               </Box>
               <Box sx={{ display: 'flex' }}>
                 <Typography sx={{ mb: 1, flex: 1, pl: 2 }}> • Заміський цикл</Typography>
-                <Typography sx={{ mb: 1, flex: 1 }}>{car?.highwayFuelConsumption}</Typography>
+                <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.highwayFuelConsumption}</Typography>
               </Box>
               <Box sx={{ display: 'flex' }}>
                 <Typography sx={{ mb: 1, flex: 1, pl: 2 }}> • Комбінований цикл</Typography>
-                <Typography sx={{ mb: 1, flex: 1 }}>{car?.combinedFuelConsumption}</Typography>
+                <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.combinedFuelConsumption}</Typography>
               </Box>
             </Box>
           )}
@@ -64,7 +72,7 @@ export function TechnicalPerformance({ car }) {
           {car?.fuelTankCapacity && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Паливний бак, л:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.fuelTankCapacity}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.fuelTankCapacity}</Typography>
             </Box>
           )}
         </Box>
@@ -72,7 +80,7 @@ export function TechnicalPerformance({ car }) {
           {car?.driveType && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Привід:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.driveType}</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.driveType}</Typography>
             </Box>
           )}
         </Box>

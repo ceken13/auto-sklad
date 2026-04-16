@@ -15,14 +15,17 @@ export function OptionalEquipment({ car }) {
   };
 
   const renderValue = (value) => {
-    if (value === true) return '+';
+    if (value === true) return 'x';
     if (value === false) return '–';
     return value;
   };
 
   return (
     <Box sx={{ mt: 5 }}>
-      <Typography variant="h6" sx={{ mb: 3, fontWeight: 600, fontSize: '24px' }}>
+      <Typography
+        variant="h6"
+        sx={{ mb: 3, fontWeight: 600, fontSize: '24px', fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}
+      >
         Опції
       </Typography>
 
@@ -40,13 +43,13 @@ export function OptionalEquipment({ car }) {
                 alignItems: 'center',
                 cursor: 'pointer',
                 p: 2,
-                border: isOpen ? '1px solid #f5f5f5' : '1px solid #E0E0E0',
-                backgroundColor: isOpen ? '#f5f5f5' : '#fff',
+                border: isOpen ? '1px solid #F6F3F2' : '1px solid #E0E0E0',
+                backgroundColor: isOpen ? '#F6F3F2' : '#fff',
                 transition: 'background-color 0.2s ease',
 
                 '&:hover': {
-                  backgroundColor: isOpen ? '#f5f5f5' : '#fafafa',
-                  border: isOpen ? '1px solid #f5f5f5' : '1px solid #f5f5f5',
+                  backgroundColor: isOpen ? '#F6F3F2' : '#fafafa',
+                  border: isOpen ? '1px solid #F6F3F2' : '1px solid #F6F3F2',
                 },
               }}
             >

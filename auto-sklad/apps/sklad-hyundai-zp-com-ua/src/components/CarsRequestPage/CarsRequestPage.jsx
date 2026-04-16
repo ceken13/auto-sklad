@@ -96,9 +96,9 @@ export function CarsRequestPage({ id }) {
 
   return (
     <Layout>
-      <Typography variant="h1">ОНЛАЙН СКЛАД</Typography>
+      <Typography variant="h1">Онлайн склад Богдан Авто</Typography>
       <Typography variant="h4" sx={styles.formTitle}>
-        ЗАПИТ НА АВТОМОБІЛЬ
+        Запит на автомобіль
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={styles.flexWrap}>
