@@ -12,9 +12,12 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SuccessModal } from '../SuccessModal/SuccessModal';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export function CarsRequestPage({ id }) {
   const styles = getStyles(theme);
+  const [captchaValue, setCaptchaValue] = useState(null);
+  const isCaptchaValid = !!captchaValue;
   const schema = yup
     .object({
       firstName: yup
@@ -78,6 +81,10 @@ export function CarsRequestPage({ id }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const onSubmit = (data) => {
+    if (!captchaValue) {
+      alert('Підтвердіть капчу');
+      return;
+    }
     console.log('Дані форми:', data);
     // тут можна відправляти дані на сервер, а після успіху відкривати модалку
     setModalOpen(true);
@@ -100,7 +107,12 @@ export function CarsRequestPage({ id }) {
           </Box>
 
           <Box sx={{ flex: 1 }}>
-            <CarPreviewBlock car={car} onSubmit={handleSubmit(onSubmit)} />
+            <CarPreviewBlock
+              car={car}
+              onSubmit={handleSubmit(onSubmit)}
+              setCaptchaValue={setCaptchaValue}
+              isCaptchaValid={isCaptchaValid}
+            />
           </Box>
         </Box>
       </form>

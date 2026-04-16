@@ -1,19 +1,22 @@
-import { Box, Typography, Chip, Stack, MenuItem, Button, Menu } from '@mui/material';
+import { Box, Typography, Button, Menu, MenuItem, Pagination } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { theme } from '../../theme';
 import { getStyles } from './styles';
-import CloseIcon from '@mui/icons-material/Close';
 import { CarBlockCard } from './CarBlockCard';
 import { useFilters } from '../../context/FilterContext';
 import { carsMock } from './carsMock';
-import { Pagination } from '@mui/material';
 
 export function SortingCarBlock() {
   const { filters } = useFilters();
 
   const styles = getStyles(theme);
+
   const [anchorEl, setAnchorEl] = useState(null);
+  const [sortOrder, setSortOrder] = useState(null); // 'asc' | 'desc' | null
+  const [page, setPage] = useState(1);
+
+  const carsPerPage = 8;
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -22,73 +25,102 @@ export function SortingCarBlock() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [page, setPage] = useState(1);
-  const carsPerPage = 8;
-  const startIndex = (page - 1) * carsPerPage;
 
-  const selectedCars = carsMock
-    .filter((car) => {
+  // =========================
+  // 1. FILTER
+  // =========================
+  const filteredCars = useMemo(() => {
+    return carsMock.filter((car) => {
       const brandMatch =
         filters.brands.length === 0 ||
         filters.brands.map((c) => c?.toLowerCase()).includes(car.carBrand?.toLowerCase());
 
       const modelMatch =
         filters.models.length === 0 || filters.models.map((c) => c?.toLowerCase()).includes(car.model?.toLowerCase());
+
       const trimLevelMatch =
         filters.trimLevels.length === 0 ||
         filters.trimLevels.map((c) => c?.toLowerCase()).includes(car.trimLevel?.toLowerCase());
-      const enginesMatch =
+
+      const engineMatch =
         filters.engines.length === 0 ||
         filters.engines.map((c) => c?.toLowerCase()).includes(car.engine?.toLowerCase());
-      const fuelTypesMatch =
+
+      const fuelMatch =
         filters.fuelTypes.length === 0 ||
         filters.fuelTypes.map((c) => c?.toLowerCase()).includes(car.fuelType?.toLowerCase());
-      const transmissionsMatch =
+
+      const transmissionMatch =
         filters.transmissions.length === 0 ||
         filters.transmissions.map((c) => c?.toLowerCase()).includes(car.transmission?.toLowerCase());
-      const driveTypesMatch =
+
+      const driveMatch =
         filters.driveTypes.length === 0 ||
         filters.driveTypes.map((c) => c?.toLowerCase()).includes(car.driveType?.toLowerCase());
 
-      const exteriorColorsMatch =
+      const exteriorColorMatch =
         filters.exteriorColors.length === 0 ||
-        filters.interiorColors.map((c) => c?.toLowerCase()).includes(car.exteriorColor?.toLowerCase());
+        filters.exteriorColors.map((c) => c?.toLowerCase()).includes(car.exteriorColor?.toLowerCase());
 
-      const interiorColorsMatch =
+      const interiorColorMatch =
         filters.interiorColors.length === 0 ||
         filters.interiorColors.map((c) => c?.toLowerCase()).includes(car.interiorColor?.toLowerCase());
 
-      const yearsMatch =
+      const yearMatch =
         filters.years.length === 0 || filters.years.map((c) => c?.toLowerCase()).includes(car.year?.toLowerCase());
 
-      const carPrice = Number(car.regularPrice.replace(/\s/g, ''));
-      const priceMatch = carPrice >= filters.regularPrice[0] && carPrice <= filters.regularPrice[1];
+      const price = Number(car.regularPrice.replace(/\s/g, ''));
+
+      const priceMatch = price >= filters.regularPrice[0] && price <= filters.regularPrice[1];
+
       const usedMatch = !filters.usedCars || car.usedCars;
-      const availablCarsMatch = !filters.availablCars || car.availablCar;
+      const availableMatch = !filters.availablCars || car.availablCar;
       const inUkraineMatch = !filters.inUkraineCars || car.inUkraine;
-      const specialOfferCarsMatch = !filters.specialOfferCars || car.specialOffer;
-      const pickUpOfferCarsMatch = !filters.pickUpOfferCars || car.pickUpOffer;
+      const specialOfferMatch = !filters.specialOfferCars || car.specialOffer;
+      const pickUpMatch = !filters.pickUpOfferCars || car.pickUpOffer;
 
       return (
         brandMatch &&
         modelMatch &&
         trimLevelMatch &&
-        enginesMatch &&
-        fuelTypesMatch &&
+        engineMatch &&
+        fuelMatch &&
+        transmissionMatch &&
+        driveMatch &&
+        exteriorColorMatch &&
+        interiorColorMatch &&
+        yearMatch &&
         priceMatch &&
         usedMatch &&
-        transmissionsMatch &&
-        driveTypesMatch &&
-        exteriorColorsMatch &&
-        interiorColorsMatch &&
-        yearsMatch &&
-        availablCarsMatch &&
+        availableMatch &&
         inUkraineMatch &&
-        specialOfferCarsMatch &&
-        pickUpOfferCarsMatch
+        specialOfferMatch &&
+        pickUpMatch
       );
-    })
-    .slice(startIndex, startIndex + carsPerPage);
+    });
+  }, [filters]);
+
+  // =========================
+  // 2. SORT
+  // =========================
+  const sortedCars = useMemo(() => {
+    if (!sortOrder) return filteredCars;
+
+    return [...filteredCars].sort((a, b) => {
+      const priceA = Number(a.regularPrice.replace(/\s/g, ''));
+      const priceB = Number(b.regularPrice.replace(/\s/g, ''));
+
+      return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+    });
+  }, [filteredCars, sortOrder]);
+
+  // =========================
+  // 3. PAGINATION
+  // =========================
+  const paginatedCars = useMemo(() => {
+    const startIndex = (page - 1) * carsPerPage;
+    return sortedCars.slice(startIndex, startIndex + carsPerPage);
+  }, [sortedCars, page]);
 
   const handleChangePage = (event, value) => {
     setPage(value);
@@ -97,63 +129,63 @@ export function SortingCarBlock() {
 
   return (
     <>
+      {/* TOP BAR */}
       <Box sx={styles.topWrapper}>
-        {/* Ліва частина */}
-        <Box>
-          <Typography variant="body1" sx={{ mb: 1 }}>
-            {selectedCars?.length} автомобілів доступно зараз
-          </Typography>
+        <Typography variant="body1" sx={{ mb: 1 }}>
+          <strong>{sortedCars.length}</strong> автомобілів доступно зараз
+        </Typography>
 
-          <Stack direction="row" spacing={1}>
-            <Chip
-              sx={styles.chipSt}
-              label="HAVAL"
-              size="small"
-              onDelete={() => console.log('delete')}
-              deleteIcon={<CloseIcon />}
-            />
-            <Chip
-              sx={styles.chipSt}
-              label="H5"
-              size="small"
-              onDelete={() => console.log('delete')}
-              deleteIcon={<CloseIcon />}
-            />
-          </Stack>
-        </Box>
-        {/* Права частина */}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button variant="filter" onClick={handleOpen} endIcon={<TuneIcon />}>
             Сортувати за
           </Button>
 
           <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-            <MenuItem onClick={handleClose}>Ціна ↑</MenuItem>
-            <MenuItem onClick={handleClose}>Ціна ↓</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setSortOrder('asc');
+                setPage(1);
+                handleClose();
+              }}
+            >
+              Ціна ↑
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                setSortOrder('desc');
+                setPage(1);
+                handleClose();
+              }}
+            >
+              Ціна ↓
+            </MenuItem>
           </Menu>
         </Box>
       </Box>
-      {selectedCars.map((data) => (
-        <CarBlockCard key={data.id} data={data} />
+
+      {/* CAR LIST */}
+      {paginatedCars.map((car) => (
+        <CarBlockCard key={car.id} data={car} />
       ))}
 
-      {/* Пагінація */}
-      {carsMock.length > carsPerPage && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+      {/* PAGINATION */}
+      {sortedCars.length > carsPerPage && (
+        <Box sx={{ display: 'flex', justifyContent: 'end', mt: 4 }}>
           <Pagination
-            count={Math.ceil(carsMock.length / carsPerPage)}
+            count={Math.ceil(sortedCars.length / carsPerPage)}
             page={page}
             onChange={handleChangePage}
             sx={{
               mb: 1,
               '& .MuiPaginationItem-root': {
                 color: '#999',
-                borderRadius: '8px',
+                borderRadius: '0px',
               },
-              '& .Mui-selected': {
-                backgroundColor: 'transparent',
-                color: '#000',
+              '& .MuiPaginationItem-root.Mui-selected': {
+                color: '#fff',
                 fontWeight: 'bold',
+                backgroundColor: '#002C5E',
               },
             }}
           />

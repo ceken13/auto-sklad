@@ -2,8 +2,9 @@ import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
-export function CarPreviewBlock({ car, onSubmit }) {
+export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid }) {
   const styles = getStyles(theme);
 
   return (
@@ -32,9 +33,13 @@ export function CarPreviewBlock({ car, onSubmit }) {
         </Box>
       </Box>
       {/* Кнопка */}
+      {/* YOUR_SITE_KEY 6LfAQrosAAAAAH6ZKByBRXXM4kyJj3P7IkiQ0FSS*/}
+      {/* YOUR_SIcret_KEY 6LfAQrosAAAAAJJHq_-BxPmioDLbusTQJYtCAC5X*/}
+      <ReCAPTCHA sitekey="6LfAQrosAAAAAH6ZKByBRXXM4kyJj3P7IkiQ0FSS" onChange={(value) => setCaptchaValue(value)} />
       <Button
         type="submit"
         fullWidth
+        disabled={!isCaptchaValid}
         sx={{
           backgroundColor: '#0f6b5c',
           color: '#fff',
