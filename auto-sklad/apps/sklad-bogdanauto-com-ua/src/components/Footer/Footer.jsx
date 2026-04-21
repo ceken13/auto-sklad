@@ -15,15 +15,9 @@ export function Footer() {
         pb: 4,
       }}
     >
-      <Container
-        maxWidth="lg"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 3,
-        }}
-      >
+      <Container maxWidth="lg" sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
         {/* логотип */}
+
         <Box
           component="img"
           src="https://bogdanauto.com.ua/wp-content/themes/bah-theme/images/icons/logo-white.svg"
