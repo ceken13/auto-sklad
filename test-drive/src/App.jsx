@@ -1,12 +1,9 @@
 import './App.css';
 import { useState } from 'react';
-
 import CarSelect from './components/CarSelect';
 import CitySelect from './components/CitySelect';
 import DealerList from './components/DealerList';
-
 import { cars, dealers, cities } from './data/mockData';
-
 import {
   Stepper,
   Step,
@@ -19,12 +16,14 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@mui/material';
+import CustomStepper from './components/CustomStepper';
 
 export default function App() {
+  const steps = ['Вибір авто', 'Ввід даних', 'Відправка заявки'];
   const [step, setStep] = useState(0);
 
   const [selectedCar, setSelectedCar] = useState(null);
-  const [selectedCity, setSelectedCity] = useState('Будь-яке');
+  const [selectedCity, setSelectedCity] = useState(null);
   const [selectedDealer, setSelectedDealer] = useState(null);
 
   const [name, setName] = useState('');
@@ -32,8 +31,11 @@ export default function App() {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [consent, setConsent] = useState(false);
-
-  const steps = ['Вибір авто', 'Форма', 'Успіх'];
+  const [dealerEditMode, setDealerEditMode] = useState(true);
+  const handleSelectDealer = (dealer) => {
+    setSelectedDealer(dealer);
+    setDealerEditMode(false);
+  };
 
   const handleCarSelect = (car) => {
     setSelectedCar(car);
@@ -46,8 +48,7 @@ export default function App() {
   };
 
   const filteredDealers = dealers.filter((dealer) => {
-    const matchCity = selectedCity === 'Будь-яке' || dealer.city === selectedCity;
-
+    const matchCity = !selectedCity || selectedCity === 'ALL' || dealer.city === selectedCity;
     const matchCar = selectedCar && dealer.cars.includes(selectedCar.id);
 
     return matchCity && matchCar;
@@ -74,53 +75,91 @@ export default function App() {
   const isFormValid = name && phone && selectedDealer && date && time && consent;
 
   return (
-    <div style={{ padding: 40 }}>
-      {/* STEP INDICATOR */}
-      <Stepper activeStep={step} style={{ marginBottom: 40 }}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-
+    <div style={{}}>
+      <CustomStepper step={step} steps={steps} />
       {/* STEP 0 - CAR SELECT */}
       {step === 0 && <CarSelect cars={cars} onSelect={handleCarSelect} />}
 
       {/* STEP 1 - FULL FORM */}
       {step === 1 && (
         <>
-          <Typography variant="h5" gutterBottom>
-            {selectedCar?.name}
-          </Typography>
-
-          <Button variant="outlined" onClick={handleBackToCars} style={{ marginBottom: 20 }}>
+          <div style={{ textAlign: 'center', marginBottom: 20 }}>
+            <Typography style={{ color: '#000', fontSize: '44px', fontWeight: '700' }} variant="h5">
+              {selectedCar?.name}
+            </Typography>
+            <img
+              src={selectedCar?.image}
+              alt={selectedCar?.name}
+              style={{
+                objectFit: 'contain',
+                marginBottom: 10,
+                maxWidth: '100%',
+              }}
+            />
+          </div>
+          <button
+            onClick={handleBackToCars}
+            style={{
+              display: 'block',
+              width: '260px',
+              lineHeight: '50px',
+              height: '50px',
+              background: '#002c5f',
+              color: '#fff',
+              margin: '10px auto 50px',
+              padding: '0 10px',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontWeight: 500,
+            }}
+          >
             Обрати інший автомобіль
-          </Button>
+          </button>
 
           {/* ===================== */}
           {/* CONTACTS SECTION */}
           {/* ===================== */}
 
-          <Typography variant="h6" style={{ marginTop: 20 }}>
+          <Typography variant="h6" style={{ marginTop: 20, color: '#000', fontSize: '18px', textAlign: 'left' }}>
             Введіть, будь ласка, контактні дані:
           </Typography>
 
-          <Grid container spacing={2} style={{ marginTop: 10 }}>
-            <Grid item xs={6}>
+          <Grid container spacing={2} style={{ marginTop: 30 }}>
+            <Grid size={6}>
+              <Typography
+                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+              >
+                Ваше ім’я: <span style={{ color: '#00aad2' }}>*</span>
+              </Typography>
+
               <TextField
                 fullWidth
-                label="Ваше ім’я *"
                 placeholder="Введіть ім’я"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 0,
+                  },
+                }}
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid size={6}>
+              <Typography
+                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+              >
+                Номер телефона: <span style={{ color: '#00aad2' }}>*</span>
+              </Typography>
+
               <TextField
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 0,
+                  },
+                }}
                 fullWidth
-                label="Номер телефона *"
                 placeholder="+38 (___) ___-__-__"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -131,58 +170,139 @@ export default function App() {
           {/* ===================== */}
           {/* CITY + DEALER */}
           {/* ===================== */}
+          <Grid size={12} container spacing={2} style={{ marginTop: 60, alignItems: 'flex-start' }}>
+            {/* CITY */}
+            <Grid size={6}>
+              <Typography
+                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+              >
+                Місто: <span style={{ color: '#00aad2' }}>*</span>
+              </Typography>
 
-          <Typography variant="h6" style={{ marginTop: 30 }}>
-            Оберіть, будь-ласка, найближчого дилера:
-          </Typography>
+              <CitySelect value={selectedCity} onChange={setSelectedCity} cities={cities} />
+            </Grid>
 
-          <div style={{ marginTop: 10 }}>
-            <CitySelect value={selectedCity} onChange={setSelectedCity} cities={cities} />
+            {/* DEALER */}
+            <Grid size={6}>
+              <Typography
+                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+              >
+                Дилер: <span style={{ color: '#00aad2' }}>*</span>
+              </Typography>
 
-            {selectedCity === '' && <Typography color="error">Поле "Місто" є обов’язковим.</Typography>}
-          </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, position: 'relative' }}>
+                {/* INPUT (readonly) */}
+                <TextField
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 0,
+                    },
+                  }}
+                  fullWidth
+                  value={selectedDealer ? selectedDealer.name : ''}
+                  placeholder="Оберіть дилера"
+                  slotProps={{
+                    input: {
+                      readOnly: true,
+                    },
+                  }}
+                />
 
-          {filteredDealers.length === 0 ? (
-            <Typography color="error" style={{ marginTop: 10 }}>
-              На жаль, у вибраному місті немає доступного авто для тест-драйву
-            </Typography>
-          ) : (
-            <DealerList dealers={filteredDealers} onSelect={setSelectedDealer} />
-          )}
-
-          {selectedDealer && (
-            <Typography style={{ marginTop: 10 }}>
-              Дилер: <b>{selectedDealer.name}</b>
-            </Typography>
+                {/* BUTTON */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDealerEditMode(true);
+                    setSelectedCity(null);
+                    setSelectedDealer(null);
+                  }}
+                  style={{
+                    fontSize: '16px',
+                    color: '#00aad2',
+                    border: 'none',
+                    borderBottom: '1px dashed #00aad2',
+                    position: 'absolute',
+                    right: '10px',
+                    background: 'none',
+                    cursor: 'pointer',
+                    padding: '0',
+                  }}
+                >
+                  Змінити
+                </button>
+              </div>
+            </Grid>
+          </Grid>
+          {dealerEditMode && (
+            <>
+              {filteredDealers.length === 0 ? (
+                <Typography color="error" style={{ marginTop: 40 }}>
+                  На жаль, у вибраному місці автомобіля для тест-драйву немає
+                </Typography>
+              ) : (
+                <DealerList dealers={filteredDealers} onSelect={handleSelectDealer} />
+              )}
+            </>
           )}
 
           {/* ===================== */}
           {/* DATE + TIME */}
           {/* ===================== */}
 
-          <Typography variant="h6" style={{ marginTop: 30 }}>
+          <Typography
+            variant="h6"
+            style={{ marginTop: 20, color: '#000', fontSize: '18px', textAlign: 'left', marginBottom: 30 }}
+          >
             Оберіть, будь-ласка, зручний для Вас час:
           </Typography>
 
           <Grid container spacing={2} style={{ marginTop: 10 }}>
-            <Grid item xs={6}>
+            <Grid size={6}>
+              <Typography
+                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+              >
+                Дата тест-драйву: <span style={{ color: '#00aad2' }}>*</span>
+              </Typography>
               <TextField
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 0,
+                  },
+                }}
                 fullWidth
                 type="date"
-                label="Дата тест-драйву"
-                InputLabelProps={{ shrink: true }}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                slotProps={{
+                  inputLabel: { shrink: true },
+                }}
               />
             </Grid>
 
-            <Grid item xs={6}>
-              <TextField select fullWidth label="Час" value={time} onChange={(e) => setTime(e.target.value)}>
-                {['10:00', '12:00', '14:00', '16:00'].map((t) => (
-                  <MenuItem key={t} value={t}>
-                    {t}
-                  </MenuItem>
-                ))}
+            <Grid size={6}>
+              <Typography
+                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+              >
+                Час: <span style={{ color: '#00aad2' }}>*</span>
+              </Typography>
+              <TextField
+                select
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 0,
+                  },
+                }}
+                fullWidth
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+              >
+                {[' За домовленістю', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00'].map(
+                  (t) => (
+                    <MenuItem key={t} value={t}>
+                      {t}
+                    </MenuItem>
+                  ),
+                )}
               </TextField>
             </Grid>
           </Grid>
@@ -190,19 +310,81 @@ export default function App() {
           {/* ===================== */}
           {/* CONSENT */}
           {/* ===================== */}
-
-          <FormControlLabel
-            style={{ marginTop: 20 }}
-            control={<Checkbox checked={consent} onChange={(e) => setConsent(e.target.checked)} />}
-            label="Я даю згоду на передачу та обробку моїх персональних даних."
-          />
-
+          <p style={{ color: '#00aad2', textAlign: 'left', marginTop: 20, marginBottom: 20 }}>* Обов'язкове поле</p>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  disableRipple
+                  icon={
+                    <span
+                      style={{
+                        width: 20,
+                        height: 20,
+                        border: '1px solid #e4dcd3',
+                        background: '#fff',
+                        display: 'block',
+                        borderRadius: 0,
+                      }}
+                    />
+                  }
+                  checkedIcon={
+                    <span
+                      style={{
+                        width: 20,
+                        height: 20,
+                        background: '#002c5f',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 0,
+                        border: '1px solid #e4dcd3',
+                      }}
+                    >
+                      <img
+                        src="https://hyundai.com.ua/sites/all/themes/responsive/images/Vector22.png"
+                        alt="check"
+                        style={{
+                          width: 13,
+                          height: 9,
+                          display: 'block',
+                        }}
+                      />
+                    </span>
+                  }
+                />
+              }
+            />
+            <Typography style={{ fontWeight: 400, textAlign: 'left', fontSize: '18px', color: '#74716c' }}>
+              Я даю згоду на передачу та обробку моїх персональних даних. <span style={{ color: '#00aad2' }}>*</span>
+            </Typography>
+          </div>
           {/* ===================== */}
           {/* SUBMIT */}
           {/* ===================== */}
 
-          <Button variant="contained" style={{ marginTop: 20 }} disabled={!isFormValid} onClick={handleSubmit}>
-            Відправити заявку
+          <Button
+            style={{
+              display: 'block',
+              width: '260px',
+              lineHeight: '50px',
+              height: '50px',
+              background: '#002c5f',
+              color: '#fff',
+              margin: '50px auto 60px',
+              padding: '0 10px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              borderRadius: 0,
+              textTransform: 'none',
+              fontWeight: '400',
+            }}
+            disabled={!isFormValid}
+            onClick={handleSubmit}
+          >
+            Відправити
           </Button>
         </>
       )}
@@ -210,13 +392,21 @@ export default function App() {
       {/* STEP 2 - SUCCESS */}
       {step === 2 && (
         <div style={{ textAlign: 'center', marginTop: 100 }}>
-          <h2>Дякуємо! </h2>
-
-          <p>
-            Ви замовили тест-драйв <b>{selectedCar?.name}</b>
+          <h2 style={{ color: '#000', marginTop: 50, marginBottom: 50, fontSize: '44px' }}>Дякуємо! </h2>
+          <p style={{ color: '#000', marginTop: 50, marginBottom: 20, fontSize: '24px' }}>Ваша заявка надіслана.</p>
+          <p style={{ color: '#000', fontSize: '24px' }}>Найближчим часом наш дилер зв’яжеться з Вами.</p>
+          <p style={{ color: '#000', marginTop: 50, marginBottom: 50, fontSize: '44px' }}>
+            <b>{selectedCar?.name}</b>
           </p>
-
-          <p>З вами зв’яжеться наш менеджер найближчим часом</p>
+          <img
+            src={selectedCar?.image}
+            alt={selectedCar?.name}
+            style={{
+              objectFit: 'contain',
+              marginBottom: 10,
+              maxWidth: '100%',
+            }}
+          />
         </div>
       )}
     </div>
