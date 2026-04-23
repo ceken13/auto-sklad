@@ -15,7 +15,7 @@ const normalizePhone = (phone) => {
 const renderPhones = (phones = []) =>
   phones.map((phone, i) => (
     <span key={i}>
-      <a href={`tel:${normalizePhone(phone)}`} style={{ color: '#00aad2', textDecoration: 'none' }}>
+      <a href={`tel:${normalizePhone(phone)}`} style={{ color: '#000', textDecoration: 'none' }}>
         {phone}
       </a>
       {i < phones.length - 1 ? ', ' : ''}
@@ -24,10 +24,25 @@ const renderPhones = (phones = []) =>
 
 export default function DealerCard({ dealer, onSelect }) {
   return (
-    <Card sx={{ mb: 2 }}>
-      <CardContent>
+    <Card
+      sx={{
+        mb: 2,
+        textAlign: 'left',
+        borderRadius: '0',
+        padding: '40px 30px',
+        boxShadow: '0 0 10px 0 rgb(0 0 0 / 20%)',
+      }}
+    >
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          padding: '0',
+        }}
+      >
         {/* NAME */}
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>
+        <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '24px', color: '#002c5f' }}>
           {dealer.name}
         </Typography>
 
@@ -39,42 +54,49 @@ export default function DealerCard({ dealer, onSelect }) {
           style={{
             color: '#00aad2',
             display: 'inline-block',
-            marginBottom: 8,
-            textDecoration: 'underline',
+            margin: '20px 0',
+            textDecoration: 'none',
           }}
         >
           Показати на мапі
         </a>
 
         {/* ADDRESS */}
-        <Typography sx={{ mb: 1 }}>{dealer.fullAddress}</Typography>
+        <Typography sx={{ mb: 1, fontSize: '16px' }}>{dealer.fullAddress}</Typography>
 
         {/* SHOWROOM */}
         {dealer.phonesShowroom?.length > 0 && (
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ mb: 2, mt: 2 }}>
             <b>Автосалон:</b> {renderPhones(dealer.phonesShowroom)}
           </Typography>
         )}
 
         {/* SERVICE */}
         {dealer.phonesService?.length > 0 && (
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ mb: 2, mt: 2 }}>
             <b>СТО:</b> {renderPhones(dealer.phonesService)}
           </Typography>
         )}
 
         {/* SITE */}
         {dealer.site && (
-          <Typography sx={{ fontSize: 14, mt: 1 }}>
-            <span>Сайт: </span>
-            <a href={dealer.site} target="_blank" rel="noreferrer">
+          <Typography variant="body2" sx={{ mb: 4, mt: 2 }}>
+            <span>
+              <b>Сайт:</b>{' '}
+            </span>
+            <a
+              href={dealer.site}
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: '#002c5f', textDecoration: 'underline' }}
+            >
               {dealer.siteLabel}
             </a>
           </Typography>
         )}
 
         {/* BUTTON */}
-        <Button variant="contained" sx={{ mt: 2 }} onClick={() => onSelect(dealer)}>
+        <Button variant="contained" sx={{ mt: 1 }} onClick={() => onSelect(dealer)} sx={{ mt: 'auto' }}>
           Обрати
         </Button>
       </CardContent>
