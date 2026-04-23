@@ -1,4 +1,4 @@
-import { Stepper, Step, StepLabel } from '@mui/material';
+import { Stepper, Step, StepLabel, StepConnector } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 // ======================
@@ -17,6 +17,16 @@ const Circle = styled('div')(({ ownerState }) => ({
   backgroundColor: ownerState.active || ownerState.completed ? '#00aad2' : '#c1c1c1',
 
   color: '#fff',
+}));
+const ArrowConnector = styled(StepConnector)(() => ({
+  '& .MuiStepConnector-line': {
+    border: 'none',
+    height: 12,
+    backgroundImage: 'url("https://hyundai.com.ua/sites/all/themes/responsive/images/strl.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'contain',
+  },
 }));
 
 function StepIcon(props) {
@@ -42,6 +52,7 @@ export default function CustomStepper({ step, steps }) {
     >
       <Stepper
         activeStep={step}
+        connector={<ArrowConnector />}
         sx={{
           maxWidth: 1120,
           margin: '20px auto',

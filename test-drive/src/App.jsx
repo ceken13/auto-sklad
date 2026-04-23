@@ -4,6 +4,8 @@ import CarSelect from './components/CarSelect';
 import CitySelect from './components/CitySelect';
 import DealerList from './components/DealerList';
 import { cars, dealers, cities } from './data/mockData';
+import DateField from './components/DateField';
+import ContactFields from './components/ContactFields';
 import {
   Stepper,
   Step,
@@ -25,13 +27,14 @@ export default function App() {
   const [selectedCar, setSelectedCar] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedDealer, setSelectedDealer] = useState(null);
-
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [consent, setConsent] = useState(false);
   const [dealerEditMode, setDealerEditMode] = useState(true);
+  const consentError = submitAttempted && !consent;
   const handleSelectDealer = (dealer) => {
     setSelectedDealer(dealer);
     setDealerEditMode(false);
@@ -44,6 +47,9 @@ export default function App() {
 
   const handleBackToCars = () => {
     setSelectedCar(null);
+    setSelectedCity(null);
+    setSelectedDealer(null);
+    setDealerEditMode(true);
     setStep(0);
   };
 
@@ -55,6 +61,14 @@ export default function App() {
   });
 
   const handleSubmit = async () => {
+    setSubmitAttempted(true);
+
+    const phoneRegex = /^380\d{9}$/;
+
+    const isValid = name.trim() && phoneRegex.test(phone) && selectedDealer && consent;
+
+    if (!isValid) return;
+
     const payload = {
       car: selectedCar,
       dealer: selectedDealer,
@@ -88,7 +102,7 @@ export default function App() {
               {selectedCar?.name}
             </Typography>
             <img
-              src={selectedCar?.image}
+              src={selectedCar?.bigImage}
               alt={selectedCar?.name}
               style={{
                 objectFit: 'contain',
@@ -126,45 +140,13 @@ export default function App() {
           </Typography>
 
           <Grid container spacing={2} style={{ marginTop: 30 }}>
-            <Grid size={6}>
-              <Typography
-                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
-              >
-                Ваше ім’я: <span style={{ color: '#00aad2' }}>*</span>
-              </Typography>
-
-              <TextField
-                fullWidth
-                placeholder="Введіть ім’я"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: 0,
-                  },
-                }}
-              />
-            </Grid>
-
-            <Grid size={6}>
-              <Typography
-                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
-              >
-                Номер телефона: <span style={{ color: '#00aad2' }}>*</span>
-              </Typography>
-
-              <TextField
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: 0,
-                  },
-                }}
-                fullWidth
-                placeholder="+38 (___) ___-__-__"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-            </Grid>
+            <ContactFields
+              name={name}
+              setName={setName}
+              phone={phone}
+              setPhone={setPhone}
+              submitAttempted={submitAttempted}
+            />
           </Grid>
 
           {/* ===================== */}
@@ -233,7 +215,7 @@ export default function App() {
               </div>
             </Grid>
           </Grid>
-          {dealerEditMode && (
+          {dealerEditMode && selectedCity && (
             <>
               {filteredDealers.length === 0 ? (
                 <Typography color="error" style={{ marginTop: 40 }}>
@@ -261,29 +243,17 @@ export default function App() {
               <Typography
                 style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
               >
-                Дата тест-драйву: <span style={{ color: '#00aad2' }}>*</span>
+                Дата тест-драйву:
               </Typography>
-              <TextField
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: 0,
-                  },
-                }}
-                fullWidth
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                slotProps={{
-                  inputLabel: { shrink: true },
-                }}
-              />
+
+              <DateField value={date} onChange={setDate} />
             </Grid>
 
             <Grid size={6}>
               <Typography
                 style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
               >
-                Час: <span style={{ color: '#00aad2' }}>*</span>
+                Час:
               </Typography>
               <TextField
                 select
@@ -360,6 +330,9 @@ export default function App() {
             <Typography style={{ fontWeight: 400, textAlign: 'left', fontSize: '18px', color: '#74716c' }}>
               Я даю згоду на передачу та обробку моїх персональних даних. <span style={{ color: '#00aad2' }}>*</span>
             </Typography>
+            {consentError && (
+              <Typography style={{ color: 'red', fontSize: '14px', marginLeft: 14 }}>Потрібно надати згоду</Typography>
+            )}
           </div>
           {/* ===================== */}
           {/* SUBMIT */}
@@ -381,7 +354,6 @@ export default function App() {
               textTransform: 'none',
               fontWeight: '400',
             }}
-            disabled={!isFormValid}
             onClick={handleSubmit}
           >
             Відправити
@@ -399,7 +371,7 @@ export default function App() {
             <b>{selectedCar?.name}</b>
           </p>
           <img
-            src={selectedCar?.image}
+            src={selectedCar?.bigImage}
             alt={selectedCar?.name}
             style={{
               objectFit: 'contain',

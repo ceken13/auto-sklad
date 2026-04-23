@@ -96,7 +96,25 @@ export default function DealerCard({ dealer, onSelect }) {
         )}
 
         {/* BUTTON */}
-        <Button variant="contained" sx={{ mt: 1 }} onClick={() => onSelect(dealer)} sx={{ mt: 'auto' }}>
+        <Button
+          variant="contained"
+          sx={{ mt: 1 }}
+          onClick={() => onSelect(dealer)}
+          sx={{
+            mt: 'auto',
+            display: 'block',
+
+            lineHeight: '50px',
+            height: '50px',
+            background: '#002c5f',
+            color: '#fff',
+            padding: '0 10px',
+            fontSize: '16px',
+            borderRadius: 0,
+            textTransform: 'none',
+            fontWeight: '400',
+          }}
+        >
           Обрати
         </Button>
       </CardContent>
