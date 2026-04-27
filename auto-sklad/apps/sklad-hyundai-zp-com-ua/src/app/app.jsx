@@ -6,6 +6,7 @@ import { UserAuthorizationPage } from '../pages/UserAuthorizationPage';
 import { UserPage } from '../pages/UserPage';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { AdminProvider } from '../context/AdminContext';
+import { NotFound } from '../pages/NotFound';
 
 export function App() {
   return (
@@ -25,6 +26,7 @@ export function App() {
               </PrivateRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AdminProvider>
     </div>
