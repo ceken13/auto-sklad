@@ -8,7 +8,7 @@ export function ImgLogo() {
   return (
     <Box sx={{ paddingLeft: '20px' }}>
       <div>
-        <a href="https://https://hyundai-zp.com.ua/" style={styles.logo} target="_blank">
+        <a href="https://hyundai-zp.com.ua/" style={styles.logo} target="_blank">
           <img src="https://hyundai.com.ua/sites/all/themes/responsive/img/dealerLogoNew.png" style={styles.imgLogo} />
         </a>
       </div>
