@@ -1,12 +1,15 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material';
 
 export default function CarSelect({ cars, onSelect }) {
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 20,
+        gridTemplateColumns: {
+          xs: 'repeat(1, 1fr)',
+          md: 'repeat(4, 1fr)',
+        },
+        gap: 2,
       }}
     >
       {cars
@@ -38,6 +41,6 @@ export default function CarSelect({ cars, onSelect }) {
             </CardContent>
           </Card>
         ))}
-    </div>
+    </Box>
   );
 }

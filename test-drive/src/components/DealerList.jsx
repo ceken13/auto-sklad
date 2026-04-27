@@ -5,10 +5,13 @@ export default function DealerList({ dealers, onSelect }) {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: 20,
-        marginTop: '30px',
-        marginBottom: '30px',
+        gridTemplateColumns: {
+          xs: 'repeat(1, 1fr)',
+          md: 'repeat(3, 1fr)',
+        },
+        gap: 10,
+        marginTop: '10px',
+        marginBottom: '10px',
       }}
     >
       {dealers.map((dealer) => (

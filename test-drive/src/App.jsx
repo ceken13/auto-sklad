@@ -34,6 +34,8 @@ export default function App() {
   const [time, setTime] = useState('');
   const [consent, setConsent] = useState(false);
   const [dealerEditMode, setDealerEditMode] = useState(true);
+  const cityError = submitAttempted && !selectedCity;
+  const dealerError = submitAttempted && !selectedDealer;
   const consentError = submitAttempted && !consent;
   const handleSelectDealer = (dealer) => {
     setSelectedDealer(dealer);
@@ -59,13 +61,12 @@ export default function App() {
 
     return matchCity && matchCar;
   });
-
+  const phoneRegex = /^\d{9}$/;
   const handleSubmit = async () => {
     setSubmitAttempted(true);
 
-    const phoneRegex = /^380\d{9}$/;
-
-    const isValid = name.trim() && phoneRegex.test(phone) && selectedDealer && consent;
+    const isValid =
+      name.trim() && phoneRegex.test(phone) && selectedCity && selectedCity !== '' && selectedDealer && consent;
 
     if (!isValid) return;
 
@@ -86,10 +87,8 @@ export default function App() {
     setStep(2);
   };
 
-  const isFormValid = name && phone && selectedDealer && date && time && consent;
-
   return (
-    <div style={{}}>
+    <div>
       <CustomStepper step={step} steps={steps} />
       {/* STEP 0 - CAR SELECT */}
       {step === 0 && <CarSelect cars={cars} onSelect={handleCarSelect} />}
@@ -154,18 +153,23 @@ export default function App() {
           {/* ===================== */}
           <Grid size={12} container spacing={2} style={{ marginTop: 60, alignItems: 'flex-start' }}>
             {/* CITY */}
-            <Grid size={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
               >
                 Місто: <span style={{ color: '#00aad2' }}>*</span>
               </Typography>
 
-              <CitySelect value={selectedCity} onChange={setSelectedCity} cities={cities} />
+              <CitySelect
+                value={selectedCity}
+                onChange={setSelectedCity}
+                cities={cities}
+                submitAttempted={submitAttempted}
+              />
             </Grid>
 
             {/* DEALER */}
-            <Grid size={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
               >
@@ -178,6 +182,9 @@ export default function App() {
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 0,
+                      '& fieldset': {
+                        borderColor: dealerError ? 'red' : undefined,
+                      },
                     },
                   }}
                   fullWidth
@@ -213,6 +220,13 @@ export default function App() {
                   Змінити
                 </button>
               </div>
+              {dealerError && (
+                <Typography
+                  style={{ color: 'red', fontSize: 14, marginTop: 5, textAlign: 'left', paddingLeft: '10px' }}
+                >
+                  Оберіть дилера
+                </Typography>
+              )}
             </Grid>
           </Grid>
           {dealerEditMode && selectedCity && (
@@ -239,7 +253,7 @@ export default function App() {
           </Typography>
 
           <Grid container spacing={2} style={{ marginTop: 10 }}>
-            <Grid size={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
               >
@@ -249,7 +263,7 @@ export default function App() {
               <DateField value={date} onChange={setDate} />
             </Grid>
 
-            <Grid size={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
               >
