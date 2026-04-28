@@ -1,22 +1,23 @@
 import DealerCard from './DealerCard';
+import { Box } from '@mui/material';
 
 export default function DealerList({ dealers, onSelect }) {
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'grid',
         gridTemplateColumns: {
           xs: 'repeat(1, 1fr)',
           md: 'repeat(3, 1fr)',
         },
-        gap: 10,
-        marginTop: '10px',
-        marginBottom: '10px',
+        gap: 2,
+        mt: 2,
+        mb: 1,
       }}
     >
       {dealers.map((dealer) => (
         <DealerCard key={dealer.id} dealer={dealer} onSelect={onSelect} />
       ))}
-    </div>
+    </Box>
   );
 }

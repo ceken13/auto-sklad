@@ -134,7 +134,16 @@ export default function App() {
           {/* CONTACTS SECTION */}
           {/* ===================== */}
 
-          <Typography variant="h6" style={{ marginTop: 20, color: '#000', fontSize: '18px', textAlign: 'left' }}>
+          <Typography
+            variant="h6"
+            style={{
+              marginTop: 20,
+              color: '#000',
+              fontSize: '18px',
+              textAlign: 'left',
+              fontFamily: 'HyundaiSansHeadMedium',
+            }}
+          >
             Введіть, будь ласка, контактні дані:
           </Typography>
 
@@ -155,7 +164,14 @@ export default function App() {
             {/* CITY */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
-                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+                style={{
+                  marginBottom: 6,
+                  fontWeight: 500,
+                  textAlign: 'left',
+                  fontSize: '16px',
+                  color: '#000',
+                  fontFamily: 'HyundaiSansHeadMedium',
+                }}
               >
                 Місто: <span style={{ color: '#00aad2' }}>*</span>
               </Typography>
@@ -171,7 +187,14 @@ export default function App() {
             {/* DEALER */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
-                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+                style={{
+                  marginBottom: 6,
+                  fontWeight: 500,
+                  textAlign: 'left',
+                  fontSize: '16px',
+                  color: '#000',
+                  fontFamily: 'HyundaiSansHeadMedium',
+                }}
               >
                 Дилер: <span style={{ color: '#00aad2' }}>*</span>
               </Typography>
@@ -255,7 +278,14 @@ export default function App() {
           <Grid container spacing={2} style={{ marginTop: 10 }}>
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
-                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+                style={{
+                  marginBottom: 6,
+                  fontWeight: 500,
+                  textAlign: 'left',
+                  fontSize: '16px',
+                  color: '#000',
+                  fontFamily: 'HyundaiSansHeadMedium',
+                }}
               >
                 Дата тест-драйву:
               </Typography>
@@ -265,7 +295,14 @@ export default function App() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
-                style={{ marginBottom: 6, fontWeight: 500, textAlign: 'left', fontSize: '16px', color: '#000' }}
+                style={{
+                  marginBottom: 6,
+                  fontWeight: 500,
+                  textAlign: 'left',
+                  fontSize: '16px',
+                  color: '#000',
+                  fontFamily: 'HyundaiSansHeadMedium',
+                }}
               >
                 Час:
               </Typography>
@@ -367,6 +404,7 @@ export default function App() {
               borderRadius: 0,
               textTransform: 'none',
               fontWeight: '400',
+              fontFamily: 'HyundaiSansHeadMedium',
             }}
             onClick={handleSubmit}
           >
@@ -381,7 +419,15 @@ export default function App() {
           <h2 style={{ color: '#000', marginTop: 50, marginBottom: 50, fontSize: '44px' }}>Дякуємо! </h2>
           <p style={{ color: '#000', marginTop: 50, marginBottom: 20, fontSize: '24px' }}>Ваша заявка надіслана.</p>
           <p style={{ color: '#000', fontSize: '24px' }}>Найближчим часом наш дилер зв’яжеться з Вами.</p>
-          <p style={{ color: '#000', marginTop: 50, marginBottom: 50, fontSize: '44px' }}>
+          <p
+            style={{
+              color: '#000',
+              marginTop: 50,
+              marginBottom: 50,
+              fontSize: '44px',
+              fontFamily: 'HyundaiSansHeadMedium',
+            }}
+          >
             <b>{selectedCar?.name}</b>
           </p>
           <img

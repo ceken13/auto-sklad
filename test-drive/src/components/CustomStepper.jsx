@@ -68,14 +68,17 @@ export default function CustomStepper({ step, steps }) {
                 '& .MuiStepLabel-label': {
                   color: '#c1c1c1',
                   fontWeight: 500,
+                  fontFamily: 'HyundaiSansHeadMedium',
                 },
                 '& .MuiStepLabel-label.Mui-active': {
                   color: '#00aad2',
-                  fontWeight: 600,
+                  fontWeight: 500,
+                  fontFamily: 'HyundaiSansHeadMedium',
                 },
                 '& .MuiStepLabel-label.Mui-completed': {
                   color: '#00aad2',
-                  fontWeight: 600,
+                  fontWeight: 500,
+                  fontFamily: 'HyundaiSansHeadMedium',
                 },
               }}
             >

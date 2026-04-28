@@ -42,7 +42,10 @@ export default function DealerCard({ dealer, onSelect }) {
         }}
       >
         {/* NAME */}
-        <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '24px', color: '#002c5f' }}>
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: 600, fontSize: '24px', color: '#002c5f', fontFamily: 'HyundaiSansHeadMedium' }}
+        >
           {dealer.name}
         </Typography>
 
@@ -62,25 +65,27 @@ export default function DealerCard({ dealer, onSelect }) {
         </a>
 
         {/* ADDRESS */}
-        <Typography sx={{ mb: 1, fontSize: '16px' }}>{dealer.fullAddress}</Typography>
+        <Typography sx={{ mb: 1, fontSize: '16px', fontFamily: 'HyundaiSansTextRegular' }}>
+          {dealer.fullAddress}
+        </Typography>
 
         {/* SHOWROOM */}
         {dealer.phonesShowroom?.length > 0 && (
-          <Typography variant="body2" sx={{ mb: 2, mt: 2 }}>
+          <Typography variant="body2" sx={{ mb: 2, mt: 2, fontFamily: 'HyundaiSansTextRegular' }}>
             <b>Автосалон:</b> {renderPhones(dealer.phonesShowroom)}
           </Typography>
         )}
 
         {/* SERVICE */}
         {dealer.phonesService?.length > 0 && (
-          <Typography variant="body2" sx={{ mb: 2, mt: 2 }}>
+          <Typography variant="body2" sx={{ mb: 2, mt: 2, fontFamily: 'HyundaiSansTextRegular' }}>
             <b>СТО:</b> {renderPhones(dealer.phonesService)}
           </Typography>
         )}
 
         {/* SITE */}
         {dealer.site && (
-          <Typography variant="body2" sx={{ mb: 4, mt: 2 }}>
+          <Typography variant="body2" sx={{ mb: 4, mt: 2, fontFamily: 'HyundaiSansTextRegular' }}>
             <span>
               <b>Сайт:</b>{' '}
             </span>
@@ -113,6 +118,7 @@ export default function DealerCard({ dealer, onSelect }) {
             borderRadius: 0,
             textTransform: 'none',
             fontWeight: '400',
+            fontFamily: 'HyundaiSansHeadMedium',
           }}
         >
           Обрати

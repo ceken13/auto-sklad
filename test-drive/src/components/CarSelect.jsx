@@ -37,7 +37,7 @@ export default function CarSelect({ cars, onSelect }) {
             />
 
             <CardContent>
-              <Typography style={{ fontWeight: '700' }}>{car.name}</Typography>
+              <Typography style={{ fontWeight: '700', fontFamily: 'HyundaiSansTextRegular' }}>{car.name}</Typography>
             </CardContent>
           </Card>
         ))}

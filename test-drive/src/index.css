@@ -50,6 +50,7 @@
 
 body {
   margin: 0;
+  font-family: HyundaiSansTextRegular;
 }
 
 #testdrive-root {
@@ -62,6 +63,7 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  font-family: HyundaiSansTextRegular;
 }
 
 h1,
