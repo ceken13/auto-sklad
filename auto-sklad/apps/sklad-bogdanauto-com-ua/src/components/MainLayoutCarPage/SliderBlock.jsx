@@ -13,12 +13,13 @@ export function SliderBlock({ car }) {
   const [current, setCurrent] = useState(0);
 
   const handlePrev = () => {
-    setCurrent((prev) => (prev === 0 ? car?.sliderImages.length - 1 : prev - 1));
+    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrent((prev) => (prev === car?.sliderImages.length - 1 ? 0 : prev + 1));
+    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
+  const images = [car?.imgCar || '/images/car-placeholder.jpg', ...(car?.sliderImages || [])];
 
   return (
     <Box>
@@ -28,8 +29,14 @@ export function SliderBlock({ car }) {
 
         <Box sx={{ padding: '40px 50px 20px' }}>
           {/* Зображення */}
-          <Box component="img" src={car?.sliderImages[current]} sx={styles.imgSlider} />
-
+          <Box
+            component="img"
+            src={images[current]}
+            onError={(e) => {
+              e.currentTarget.src = '/images/car-placeholder.jpg';
+            }}
+            sx={styles.imgSlider}
+          />
           {/* Ліва стрілка */}
           <IconButton
             onClick={handlePrev}
@@ -68,7 +75,7 @@ export function SliderBlock({ car }) {
               justifyContent: 'flex-start',
             }}
           >
-            {car?.sliderImages.map((_, index) => (
+            {images.map((_, index) => (
               <Box
                 key={index}
                 onClick={() => setCurrent(index)}

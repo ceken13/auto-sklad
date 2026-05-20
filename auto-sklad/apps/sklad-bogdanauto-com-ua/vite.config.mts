@@ -6,8 +6,15 @@ export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: '../../node_modules/.vite/apps/sklad-bogdanauto-com-ua',
   server: {
-    port: 4200,
-    host: 'localhost',
+    //port: 4200,
+    //host: 'localhost',
+    proxy: {
+      '/api': {
+        target: 'https://api-os.bogdanauto.com.ua',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   preview: {
     port: 4300,

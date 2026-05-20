@@ -27,8 +27,8 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
     model: '',
     imgCar: '',
     sliderImages: [],
-    bealerName: '',
-    dealerSity: '',
+    dealerName: '',
+    dealerCity: '',
     engine: '',
     enginePowerHP: '',
     year: '',
@@ -40,7 +40,7 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
     pickUpOffer: false,
     usedCars: false,
     inUkraine: true,
-    availablCar: true,
+    availableCar: true,
     trimLevel: '',
     fuelType: '',
     accel0to100: '',
@@ -197,8 +197,8 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
           ))}
         </Stack>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
-          <TextField label="Назва дилера" name="bealerName" value={form.bealerName} onChange={handleChange} />
-          <TextField label="Місто" name="dealerSity" value={form.dealerSity} onChange={handleChange} />
+          <TextField label="Назва дилера" name="dealerName" value={form.dealerName} onChange={handleChange} />
+          <TextField label="Місто" name="dealerCity" value={form.dealerCity} onChange={handleChange} />
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Комплектація" name="trimLevel" value={form.trimLevel} onChange={handleChange} />
@@ -228,7 +228,7 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
             label="В Україні"
           />
           <FormControlLabel
-            control={<Checkbox name="availablCar" checked={form.availablCar} onChange={handleChange} />}
+            control={<Checkbox name="availableCar" checked={form.availableCar} onChange={handleChange} />}
             label="В наявності"
           />
         </Box>

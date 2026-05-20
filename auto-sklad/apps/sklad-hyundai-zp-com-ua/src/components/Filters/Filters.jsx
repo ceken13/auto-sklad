@@ -328,7 +328,7 @@ export function Filters() {
               <Stack>
                 <FormControlLabel
                   control={
-                    <Checkbox checked={filters.availablCars} onChange={() => toggleBooleanFilter('availablCars')} />
+                    <Checkbox checked={filters.availableCars} onChange={() => toggleBooleanFilter('availableCars')} />
                   }
                   label="В наявності"
                 />

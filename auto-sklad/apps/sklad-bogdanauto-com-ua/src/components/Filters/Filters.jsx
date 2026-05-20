@@ -15,19 +15,39 @@ import {
   TextField,
 } from '@mui/material';
 import { useFilters } from '../../context/FilterContext';
+import { useEffect, useState } from 'react';
+import { getFilters } from '../../api/filters.api';
 
 export function Filters() {
+  const [filterOptions, setFilterOptions] = useState(null);
+  useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        const res = await getFilters();
+
+        console.log('FILTERS API:', res);
+
+        setFilterOptions(res);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchFilters();
+  }, []);
+
   const { filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter } = useFilters();
-  const brands = ['HYUNDAI', 'JAC', 'HAVAL', 'SUBARU', 'GREAT WALL'];
-  const models = ['M6', 'ORA O3', 'H5', 'H6', 'H6 HEV'];
-  const trimLevels = ['Standart', 'Luxury'];
-  const engines = ['2.0 D', '2.0 T', '1.5 T'];
-  const fuelTypes = ['Бензин', 'Дизель', 'Електро', 'Гібрид'];
-  const transmissions = ['Автомат', 'Механіка', 'Робот'];
-  const driveTypes = ['Передній', 'Задній', 'Повний'];
-  const exteriorColors = ['Black', 'Red', 'Silver', 'Grey', 'Dark Green', 'White'];
-  const interiorColors = ['Black', 'White', 'Silver'];
-  const years = ['2023', '2024', '2025', '2026'];
+
+  const brands = filterOptions?.brands ?? [];
+  const models = filterOptions?.models ?? [];
+  const trimLevels = filterOptions?.trimLevels ?? [];
+  const engines = filterOptions?.engines ?? [];
+  const fuelTypes = filterOptions?.fuelTypes ?? [];
+  const transmissions = filterOptions?.transmissions ?? [];
+  const driveTypes = filterOptions?.driveTypes ?? [];
+  const exteriorColors = filterOptions?.exteriorColors ?? [];
+  const interiorColors = filterOptions?.interiorColors ?? [];
+  const years = filterOptions?.years ?? [];
   const styles = getStyles(theme);
 
   return (
@@ -35,172 +55,180 @@ export function Filters() {
       <Box sx={styles.layoutFilters}>
         <Stack>
           {/* Марка */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Марка</Typography>
-            </AccordionSummary>
+          {brands?.length > 0 && (
+            <Accordion defaultExpanded sx={styles.accordionStyles}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Марка</Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Stack>
-                {brands.map((brand) => (
-                  <FormControlLabel
-                    key={brand}
-                    control={
-                      <Checkbox
-                        checked={filters.brands.includes(brand)}
-                        onChange={() => toggleFilter('brands', brand)}
-                      />
-                    }
-                    label={brand}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
+              <AccordionDetails>
+                <Stack>
+                  {brands.map((brand) => (
+                    <FormControlLabel
+                      key={brand}
+                      control={
+                        <Checkbox
+                          checked={filters.brands.includes(brand)}
+                          onChange={() => toggleFilter('brands', brand)}
+                        />
+                      }
+                      label={brand}
+                    />
+                  ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          )}
           {/* Модель */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Модель</Typography>
-            </AccordionSummary>
+          {models?.length > 0 && (
+            <Accordion defaultExpanded sx={styles.accordionStyles}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Модель</Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Stack>
-                {models.map((model) => (
-                  <FormControlLabel
-                    key={model}
-                    control={
-                      <Checkbox
-                        checked={filters.models.includes(model)}
-                        onChange={() => toggleFilter('models', model)}
-                      />
-                    }
-                    label={model}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
+              <AccordionDetails>
+                <Stack>
+                  {models.map((model) => (
+                    <FormControlLabel
+                      key={model}
+                      control={
+                        <Checkbox
+                          checked={filters.models.includes(model)}
+                          onChange={() => toggleFilter('models', model)}
+                        />
+                      }
+                      label={model}
+                    />
+                  ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          )}
           {/* Комплектація */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Комплектація</Typography>
-            </AccordionSummary>
+          {trimLevels?.length > 0 && (
+            <Accordion defaultExpanded sx={styles.accordionStyles}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Комплектація</Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Stack>
-                {trimLevels.map((trimLevel) => (
-                  <FormControlLabel
-                    key={trimLevel}
-                    control={
-                      <Checkbox
-                        checked={filters.trimLevels.includes(trimLevel)}
-                        onChange={() => toggleFilter('trimLevels', trimLevel)}
-                      />
-                    }
-                    label={trimLevel}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
+              <AccordionDetails>
+                <Stack>
+                  {trimLevels.map((trimLevel) => (
+                    <FormControlLabel
+                      key={trimLevel}
+                      control={
+                        <Checkbox
+                          checked={filters.trimLevels.includes(trimLevel)}
+                          onChange={() => toggleFilter('trimLevels', trimLevel)}
+                        />
+                      }
+                      label={trimLevel}
+                    />
+                  ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          )}
           {/* Двигун */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Двигун</Typography>
-            </AccordionSummary>
+          {engines?.length > 0 && (
+            <Accordion defaultExpanded sx={styles.accordionStyles}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Двигун</Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Stack>
-                {engines.map((engine) => (
-                  <FormControlLabel
-                    key={engine}
-                    control={
-                      <Checkbox
-                        checked={filters.engines.includes(engine)}
-                        onChange={() => toggleFilter('engines', engine)}
-                      />
-                    }
-                    label={engine}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
+              <AccordionDetails>
+                <Stack>
+                  {engines.map((engine) => (
+                    <FormControlLabel
+                      key={engine}
+                      control={
+                        <Checkbox
+                          checked={filters.engines.includes(engine)}
+                          onChange={() => toggleFilter('engines', engine)}
+                        />
+                      }
+                      label={engine}
+                    />
+                  ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          )}
           {/* Тип палива */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Тип палива</Typography>
-            </AccordionSummary>
+          {fuelTypes?.length > 0 && (
+            <Accordion defaultExpanded sx={styles.accordionStyles}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Тип палива</Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Stack>
-                {fuelTypes.map((fuelType) => (
-                  <FormControlLabel
-                    key={fuelType}
-                    control={
-                      <Checkbox
-                        checked={filters.fuelTypes.includes(fuelType)}
-                        onChange={() => toggleFilter('fuelTypes', fuelType)}
-                      />
-                    }
-                    label={fuelType}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
+              <AccordionDetails>
+                <Stack>
+                  {fuelTypes.map((fuelType) => (
+                    <FormControlLabel
+                      key={fuelType}
+                      control={
+                        <Checkbox
+                          checked={filters.fuelTypes.includes(fuelType)}
+                          onChange={() => toggleFilter('fuelTypes', fuelType)}
+                        />
+                      }
+                      label={fuelType}
+                    />
+                  ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          )}
           {/* Коробка передач */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Коробка передач</Typography>
-            </AccordionSummary>
+          {transmissions?.length > 0 && (
+            <Accordion defaultExpanded sx={styles.accordionStyles}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Коробка передач</Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Stack>
-                {transmissions.map((transmission) => (
-                  <FormControlLabel
-                    key={transmission}
-                    control={
-                      <Checkbox
-                        checked={filters.transmissions.includes(transmission)}
-                        onChange={() => toggleFilter('transmissions', transmission)}
-                      />
-                    }
-                    label={transmission}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
+              <AccordionDetails>
+                <Stack>
+                  {transmissions.map((transmission) => (
+                    <FormControlLabel
+                      key={transmission}
+                      control={
+                        <Checkbox
+                          checked={filters.transmissions.includes(transmission)}
+                          onChange={() => toggleFilter('transmissions', transmission)}
+                        />
+                      }
+                      label={transmission}
+                    />
+                  ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          )}
           {/* Привід */}
-          <Accordion defaultExpanded sx={styles.accordionStyles}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Привід</Typography>
-            </AccordionSummary>
+          {driveTypes?.length > 0 && (
+            <Accordion defaultExpanded sx={styles.accordionStyles}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Привід</Typography>
+              </AccordionSummary>
 
-            <AccordionDetails>
-              <Stack>
-                {driveTypes.map((driveType) => (
-                  <FormControlLabel
-                    key={driveType}
-                    control={
-                      <Checkbox
-                        checked={filters.driveTypes.includes(driveType)}
-                        onChange={() => toggleFilter('driveTypes', driveType)}
-                      />
-                    }
-                    label={driveType}
-                  />
-                ))}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-
+              <AccordionDetails>
+                <Stack>
+                  {driveTypes.map((driveType) => (
+                    <FormControlLabel
+                      key={driveType}
+                      control={
+                        <Checkbox
+                          checked={filters.driveTypes.includes(driveType)}
+                          onChange={() => toggleFilter('driveTypes', driveType)}
+                        />
+                      }
+                      label={driveType}
+                    />
+                  ))}
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+          )}
           {/* Потужність батареї */}
           {/*<Accordion defaultExpanded sx={styles.accordionStyles}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -328,7 +356,7 @@ export function Filters() {
               <Stack>
                 <FormControlLabel
                   control={
-                    <Checkbox checked={filters.availablCars} onChange={() => toggleBooleanFilter('availablCars')} />
+                    <Checkbox checked={filters.availableCars} onChange={() => toggleBooleanFilter('availableCars')} />
                   }
                   label="В наявності"
                 />

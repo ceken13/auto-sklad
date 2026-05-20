@@ -11,7 +11,7 @@ export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid
     <Box>
       <Box sx={styles.previewBlockWrap}>
         {/* Статус */}
-        {car?.availablCar && (
+        {car?.availableCar && (
           <Typography color="green" sx={{ fontSize: '20px', fontFamily: 'HyundaiSansHeadLight, sans-serif' }}>
             В наявності
           </Typography>

@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { Layout } from '../Layout/Layout';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
-import { carsMock } from '../SortingCarBlock/carsMock';
+//import { carsMock } from '../SortingCarBlock/carsMock';
 import { CarPreviewBlock } from './CarPreviewBlock';
 import { CarForm } from './CarForm';
 import React, { useState } from 'react';
@@ -14,7 +14,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SuccessModal } from '../SuccessModal/SuccessModal';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-export function CarsRequestPage({ id }) {
+import { useParams } from 'react-router-dom';
+import { useCar } from '../../hooks/useCar';
+
+import { Loader } from '../ui/Loader';
+import { CarRequestSkeleton } from '../ui/CarRequestSkeleton';
+import { sendCarRequest } from '../../api/request.api';
+
+export function CarsRequestPage() {
   const styles = getStyles(theme);
   const [captchaValue, setCaptchaValue] = useState(null);
   const isCaptchaValid = !!captchaValue;
@@ -56,7 +63,7 @@ export function CarsRequestPage({ id }) {
       return true;
     });
 
-  const car = carsMock.find((item) => item?.id === Number(id));
+  //const car = carsMock.find((item) => item?.id === Number(id));
 
   const {
     control,
@@ -80,19 +87,41 @@ export function CarsRequestPage({ id }) {
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (!captchaValue) {
       alert('Підтвердіть капчу');
       return;
     }
-    console.log('Дані форми:', data);
-    // тут можна відправляти дані на сервер, а після успіху відкривати модалку
-    setModalOpen(true);
+
+    try {
+      await sendCarRequest({
+        ...data,
+        vinCode: car?.vinCode,
+        dealerCity: car?.dealerCity,
+        dealerName: car?.dealerName,
+      });
+
+      setModalOpen(true);
+    } catch (error) {
+      console.error(error);
+      alert('Помилка відправки заявки');
+    }
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
   };
+
+  const { id } = useParams();
+  const { car, loading } = useCar(id);
+
+  if (loading || !car) {
+    return (
+      <Layout>
+        <CarRequestSkeleton />
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

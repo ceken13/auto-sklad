@@ -74,7 +74,7 @@ export function SortingCarBlock() {
       const priceMatch = price >= filters.regularPrice[0] && price <= filters.regularPrice[1];
 
       const usedMatch = !filters.usedCars || car.usedCars;
-      const availableMatch = !filters.availablCars || car.availablCar;
+      const availableMatch = !filters.availableCars || car.availableCar;
       const inUkraineMatch = !filters.inUkraineCars || car.inUkraine;
       const specialOfferMatch = !filters.specialOfferCars || car.specialOffer;
       const pickUpMatch = !filters.pickUpOfferCars || car.pickUpOffer;

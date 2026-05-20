@@ -11,13 +11,21 @@ export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid
     <Box>
       <Box sx={styles.previewBlockWrap}>
         {/* Статус */}
-        {car?.availablCar && (
+        {car?.availableCar && (
           <Typography color="green" sx={{ fontSize: '20px' }}>
             В наявності
           </Typography>
         )}
 
-        <Box component="img" src={car?.imgCar} sx={{ maxWidth: '100%' }} />
+        <Box
+          component="img"
+          src={car?.imgCar || '/images/car-placeholder.jpg'}
+          onError={(e) => {
+            e.currentTarget.src = '/images/car-placeholder.jpg';
+          }}
+          sx={{ maxWidth: '100%' }}
+        />
+
         <Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '20px', fontWeight: '600' }}>
@@ -27,7 +35,7 @@ export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '18px' }}>Регулярна ціна:</Typography>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '18px', fontWeight: '900' }}>
-              {car?.regularPrice} грн
+              {car?.regularPrice?.toLocaleString('uk-UA')} грн
             </Typography>
           </Box>
         </Box>

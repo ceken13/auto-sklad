@@ -11,8 +11,9 @@ export function MainCharacteristics({ car }) {
   return (
     <Box>
       <Box>
+        <Typography> id = {car?.id} </Typography>
         {/* Статус */}
-        {car?.availablCar && (
+        {car?.availableCar && (
           <Typography color="green" sx={{ fontSize: '24px' }}>
             В наявності
           </Typography>
@@ -39,22 +40,31 @@ export function MainCharacteristics({ car }) {
             <Typography sx={{ mb: 1, flex: 1 }}>Рік випуску:</Typography>
             <Typography sx={{ mb: 1, flex: 1 }}>{car?.year}</Typography>
           </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1 }}>Комплектація:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.trimLevel}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1 }}>Двигун:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.engine}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1 }}>Тип палива:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.fuelType}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1 }}>КПП:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.transmission}</Typography>
-          </Box>
+
+          {car?.trimLevel && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Комплектація:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.trimLevel}</Typography>
+            </Box>
+          )}
+          {car?.engine && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Двигун:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.engine}</Typography>
+            </Box>
+          )}
+          {car?.fuelType && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Тип палива:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.fuelType}</Typography>
+            </Box>
+          )}
+          {car?.fuelType && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>КПП:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.transmission}</Typography>
+            </Box>
+          )}
         </Box>
 
         {/* Ціна */}
@@ -62,13 +72,15 @@ export function MainCharacteristics({ car }) {
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Регулярна ціна:</Typography>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '22px', fontWeight: '700' }}>
-              {car?.regularPrice} грн
+              {car?.regularPrice?.toLocaleString('uk-UA')} грн
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>Кредитний платіж:</Typography>
-            <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>{car?.loanRepayment} грн/міс.*</Typography>
-          </Box>
+          {car?.loanRepayment && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>Кредитний платіж:</Typography>
+              <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>{car?.loanRepayment} грн/міс.*</Typography>
+            </Box>
+          )}
         </Box>
 
         {/* Кнопка */}

@@ -4,12 +4,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Layout } from '../Layout/Layout';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { adminLogin } from '../../api/admin.api';
 
 export function UserAuthorization() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -20,11 +21,22 @@ export function UserAuthorization() {
     });
   };
 
-  const handleLogin = () => {
-    console.log(form.email, form.password);
-    if (form.email === 'kate@gmail.com' && form.password === '123') {
-      localStorage.setItem('token', 'fake-token');
+  const handleLogin = async () => {
+    try {
+      const data = await adminLogin({
+        username: form.username,
+        password: form.password,
+      });
+
+      console.log(data);
+
+      localStorage.setItem('token', data.accessToken);
+
       navigate('/admin');
+    } catch (error) {
+      console.error(error);
+
+      alert('Невірний логін або пароль');
     }
   };
 
@@ -34,10 +46,17 @@ export function UserAuthorization() {
         Вхід
       </Typography>
 
-      <TextField label="Email" name="email" value={form.email} onChange={handleChange} fullWidth margin="normal" />
+      <TextField
+        label="Username"
+        name="username"
+        value={form.username}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
 
       <TextField
-        label="Пароль"
+        label="Password"
         name="password"
         type="password"
         value={form.password}

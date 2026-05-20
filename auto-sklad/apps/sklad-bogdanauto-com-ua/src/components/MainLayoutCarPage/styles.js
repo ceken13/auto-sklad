@@ -10,6 +10,8 @@ export const getStyles = (theme) => ({
   imgSlider: {
     maxWidth: '100%',
     width: '450px',
+    margin: '0 auto',
+    display: 'block',
   },
   sliderWrap: {
     position: 'relative',

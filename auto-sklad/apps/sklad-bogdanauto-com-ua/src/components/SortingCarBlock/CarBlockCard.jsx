@@ -21,24 +21,36 @@ export function CarBlockCard({ data }) {
           {data?.specialOffer && <SpecialOfferLabel />}
         </Stack>
 
-        <Box component="img" src={data?.imgCar} sx={styles.imgCar} />
+        <Box
+          component="img"
+          src={data?.imgCar || '/images/car-placeholder.jpg'}
+          onError={(e) => {
+            e.currentTarget.src = '/images/car-placeholder.jpg';
+          }}
+          sx={styles.imgCar}
+        />
 
-        {data?.availablCar && (
+        {data?.availableCar && (
           <Typography color="green" sx={{ fontSize: '14px' }}>
             В наявності
           </Typography>
         )}
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '20px' }}>
-          <LocationOnIcon sx={{ color: '#006A5D', fontSize: 20 }} />
-          <Typography variant="body2" sx={{ fontSize: 14 }}>
-            {data?.bealerName}, {data?.dealerSity}
-          </Typography>
-        </Box>
+        {(data?.dealerName || data?.dealerCity) && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '20px' }}>
+            <LocationOnIcon sx={{ color: '#006A5D', fontSize: 20 }} />
+            <Typography variant="body2" sx={{ fontSize: 14 }}>
+              {data?.dealerName}
+              {data?.dealerName && data?.dealerCity ? ', ' : ''}
+              {data?.dealerCity}
+            </Typography>
+          </Box>
+        )}
       </Box>
 
       {/* RIGHT SIDE */}
       <Box sx={{ flex: 1 }}>
+        <Typography> id = {data?.id} </Typography>
         <Typography variant="h6" sx={{ mb: 1 }}>
           {data?.model} {data?.carBrand}
         </Typography>
@@ -62,13 +74,16 @@ export function CarBlockCard({ data }) {
 
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
           Регулярна ціна:
-          <span style={{ fontSize: '18px', fontWeight: 700, marginLeft: '10px' }}>{data?.regularPrice} грн</span>
+          <span style={{ fontSize: '18px', fontWeight: 700, marginLeft: '10px' }}>
+            {data?.regularPrice?.toLocaleString('uk-UA')} грн
+          </span>
         </Typography>
 
-        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '14px', margin: '8px 0' }}>
-          Кредитний платіж: <strong>{data?.loanRepayment} грн/міс.*</strong>
-        </Typography>
-
+        {data?.loanRepayment != null && (
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: '14px', margin: '8px 0' }}>
+            Кредитний платіж: <strong>{data?.loanRepayment} грн/міс.*</strong>
+          </Typography>
+        )}
         <Button
           variant="contained"
           sx={{ mt: 2, width: '100%', marginTop: '60px' }}

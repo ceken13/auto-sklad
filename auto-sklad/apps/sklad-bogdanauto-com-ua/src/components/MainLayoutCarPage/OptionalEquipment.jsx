@@ -22,10 +22,11 @@ export function OptionalEquipment({ car }) {
 
   return (
     <Box sx={{ mt: 5 }}>
-      <Typography variant="h6" sx={{ mb: 3, fontWeight: 600, fontSize: '24px' }}>
-        Опції
-      </Typography>
-
+      {car?.specs?.length > 0 && (
+        <Typography variant="h6" sx={{ mb: 3, fontWeight: 600, fontSize: '24px' }}>
+          Опції
+        </Typography>
+      )}
       {car?.specs?.map((section, index) => {
         const isOpen = openIndex === index;
 

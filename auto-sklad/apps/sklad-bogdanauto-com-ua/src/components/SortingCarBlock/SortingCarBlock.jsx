@@ -5,16 +5,22 @@ import { theme } from '../../theme';
 import { getStyles } from './styles';
 import { CarBlockCard } from './CarBlockCard';
 import { useFilters } from '../../context/FilterContext';
-import { carsMock } from './carsMock';
+// import { carsMock } from './carsMock';
+import { useEffect } from 'react';
+import { getCars } from '../../api/cars.api';
+import { useCars } from '../../hooks/useCars';
+
+import { Loader } from '../ui/Loader';
+import { CarListSkeleton } from '../ui/CarListSkeleton';
 
 export function SortingCarBlock() {
   const { filters } = useFilters();
-
   const styles = getStyles(theme);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [sortOrder, setSortOrder] = useState(null); // 'asc' | 'desc' | null
   const [page, setPage] = useState(1);
+
+  const { cars, loading, error } = useCars();
 
   const carsPerPage = 8;
 
@@ -30,7 +36,8 @@ export function SortingCarBlock() {
   // 1. FILTER
   // =========================
   const filteredCars = useMemo(() => {
-    return carsMock.filter((car) => {
+    if (!Array.isArray(cars)) return [];
+    return cars.filter((car) => {
       const brandMatch =
         filters.brands.length === 0 ||
         filters.brands.map((c) => c?.toLowerCase()).includes(car.carBrand?.toLowerCase());
@@ -69,12 +76,12 @@ export function SortingCarBlock() {
       const yearMatch =
         filters.years.length === 0 || filters.years.map((c) => c?.toLowerCase()).includes(car.year?.toLowerCase());
 
-      const price = Number(car.regularPrice.replace(/\s/g, ''));
+      const price = Number(String(car.regularPrice).replace(/\s/g, ''));
 
       const priceMatch = price >= filters.regularPrice[0] && price <= filters.regularPrice[1];
 
       const usedMatch = !filters.usedCars || car.usedCars;
-      const availableMatch = !filters.availablCars || car.availablCar;
+      const availableMatch = !filters.availableCars || car.availableCar;
       const inUkraineMatch = !filters.inUkraineCars || car.inUkraine;
       const specialOfferMatch = !filters.specialOfferCars || car.specialOffer;
       const pickUpMatch = !filters.pickUpOfferCars || car.pickUpOffer;
@@ -98,7 +105,9 @@ export function SortingCarBlock() {
         pickUpMatch
       );
     });
-  }, [filters]);
+  }, [filters, cars]);
+
+  const parsePrice = (price) => Number(String(price).replace(/\s/g, '').replace(/[^\d]/g, ''));
 
   // =========================
   // 2. SORT
@@ -107,8 +116,8 @@ export function SortingCarBlock() {
     if (!sortOrder) return filteredCars;
 
     return [...filteredCars].sort((a, b) => {
-      const priceA = Number(a.regularPrice.replace(/\s/g, ''));
-      const priceB = Number(b.regularPrice.replace(/\s/g, ''));
+      const priceA = parsePrice(a.regularPrice);
+      const priceB = parsePrice(b.regularPrice);
 
       return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
     });
@@ -126,7 +135,13 @@ export function SortingCarBlock() {
     setPage(value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  if (loading) {
+    return <CarListSkeleton />;
+  }
 
+  if (error) {
+    return <Typography color="error">Помилка завантаження авто</Typography>;
+  }
   return (
     <>
       {/* TOP BAR */}

@@ -9,10 +9,16 @@ export function CarDimensions({ car }) {
     <Box>
       <Box>
         {/* Заголовок */}
-        <Typography variant="h6" sx={{ marginBottom: '30px', fontWeight: 600, fontSize: '24px' }}>
-          Габарити авто:
-        </Typography>
-
+        {car?.lengthMm &&
+          car?.widthMm &&
+          car?.heightMm &&
+          car?.wheelbaseMm &&
+          car?.curbWeightKg &&
+          car?.grossWeightKg && (
+            <Typography variant="h6" sx={{ marginBottom: '30px', fontWeight: 600, fontSize: '24px' }}>
+              Габарити авто:
+            </Typography>
+          )}
         {/* Довжина, мм */}
         <Box>
           {car?.lengthMm && (

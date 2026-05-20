@@ -12,7 +12,7 @@ export function MainCharacteristics({ car }) {
     <Box>
       <Box>
         {/* Статус */}
-        {car?.availablCar && (
+        {car?.availableCar && (
           <Typography color="green" sx={{ fontSize: '24px', fontFamily: 'HyundaiSansHeadLight, sans-serif' }}>
             В наявності
           </Typography>

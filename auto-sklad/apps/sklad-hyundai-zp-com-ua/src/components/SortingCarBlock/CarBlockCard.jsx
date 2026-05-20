@@ -23,7 +23,7 @@ export function CarBlockCard({ data }) {
 
         <Box component="img" src={data?.imgCar} sx={styles.imgCar} />
 
-        {data?.availablCar && (
+        {data?.availableCar && (
           <Typography color="green" sx={{ fontSize: '14px' }}>
             В наявності
           </Typography>
@@ -32,7 +32,7 @@ export function CarBlockCard({ data }) {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '20px' }}>
           <LocationOnIcon sx={{ color: '#002C5E', fontSize: 20 }} />
           <Typography variant="body2" sx={{ fontSize: 14 }}>
-            {data?.bealerName}, {data?.dealerSity}
+            {data?.dealerName}, {data?.dealerCity}
           </Typography>
         </Box>
       </Box>
