@@ -15,7 +15,7 @@ export default function AdminCarsList({ cars = [], onEdit, onDelete }) {
           {cars.map((car) => (
             <Box key={car.id} sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
               <Typography>
-                {car.carBrand} {car.model} ({car.year})
+                {car.carBrand} {car.model} ({car.vinCode})
               </Typography>
 
               <Stack direction="row" spacing={1} mt={1}>

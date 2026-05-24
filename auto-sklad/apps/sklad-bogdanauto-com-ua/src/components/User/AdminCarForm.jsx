@@ -23,6 +23,7 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
   const emptySpec = { title: '', items: [] };
 
   const [form, setForm] = useState({
+    vinCode: '',
     carBrand: '',
     model: '',
     imgCar: '',
@@ -154,10 +155,53 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
   };
 
   // -----------------------------------------------------------------
-
+  const toNumber = (v) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(form);
+
+    const payload = {
+      vinCode: form.vinCode?.trim(),
+      carBrand: form.carBrand,
+      model: form.model,
+      imgCar: form.imgCar,
+      sliderImages: form.sliderImages || [],
+      dealerName: form.dealerName,
+      dealerCity: form.dealerCity,
+      engine: form.engine,
+
+      enginePowerHP: toNumber(form.enginePowerHP),
+      year: toNumber(form.year),
+      regularPrice: toNumber(form.regularPrice),
+      loanRepayment: toNumber(form.loanRepayment),
+
+      specialOffer: !!form.specialOffer,
+      pickUpOffer: !!form.pickUpOffer,
+      usedCars: !!form.usedCars,
+
+      inUkraine: true,
+      availableCar: true,
+
+      specs: form.specs
+        .filter((s) => s.title?.trim() && s.items?.length > 0)
+        .map((s) => ({
+          title: s.title.trim(),
+          items: s.items
+            .filter((i) => i.label?.trim())
+            .map((i) => ({
+              label: i.label.trim(),
+              value: !!i.value,
+            })),
+        })),
+    };
+    console.log('FINAL PAYLOAD:', payload);
+    console.log('VIN:', payload.vinCode);
+    console.log('enginePowerHP:', payload.enginePowerHP);
+    console.log('year:', payload.year);
+    console.log('sliderImages:', payload.sliderImages);
+    onSubmit(payload);
   };
 
   return (
@@ -172,6 +216,7 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Марка" name="carBrand" value={form.carBrand} onChange={handleChange} />
           <TextField label="Модель" name="model" value={form.model} onChange={handleChange} />
+          <TextField label="VIN код" name="vinCode" value={form.vinCode} onChange={handleChange} />
         </Box>
         <Button variant="outlined" component="label">
           Головне зображення
