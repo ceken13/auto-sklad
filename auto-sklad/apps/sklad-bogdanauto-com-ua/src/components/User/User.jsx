@@ -6,6 +6,7 @@ import { Layout } from '../Layout/Layout';
 
 import AdminCarForm from './AdminCarForm';
 import AdminCarsList from './AdminCarsList';
+import { Link } from 'react-router-dom';
 
 import { getAdminCars, createAdminCar, updateAdminCar, deleteAdminCar, getAdminMe } from '../../api/admin.api';
 
@@ -137,8 +138,11 @@ export function User() {
           Адмін панель
         </Typography>
 
-        <Button variant="contained" sx={{ mb: 2 }} onClick={handleAddNew}>
+        <Button variant="contained" sx={{ m: 2 }} onClick={handleAddNew}>
           Додати авто
+        </Button>
+        <Button component={Link} to="/admin/configuration-enrichments" variant="contained" sx={{ m: 2, width: 'auto' }}>
+          Додати шаблон (Configuration Enrichments)
         </Button>
 
         {showForm && <AdminCarForm onSubmit={addCar} editingCar={editingCar} />}

@@ -1,0 +1,411 @@
+import { useEffect, useState } from 'react';
+import { Box, TextField, Button, Stack, Typography, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
+
+export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
+  const isEditMode = Boolean(initialData);
+  const emptySpec = {
+    title: '',
+    items: [],
+  };
+  useEffect(() => {
+    if (!initialData) return;
+
+    setForm({
+      ...initialData,
+      sliderImages: initialData.sliderImages ? initialData.sliderImages.join(',') : '',
+    });
+  }, [initialData]);
+
+  const [form, setForm] = useState({
+    carBrand: '',
+    model: '',
+    configuration: '',
+
+    brandId: '',
+    modelId: '',
+    configurationId: '',
+
+    imgCar: '',
+    sliderImages: '', // через кому
+
+    engine: '',
+    enginePowerHP: '',
+
+    trimLevel: '',
+    fuelType: '',
+
+    accel0to100: '',
+    maximumSpeed: '',
+
+    transmission: '',
+    driveType: '',
+
+    cityFuelConsumption: '',
+    highwayFuelConsumption: '',
+    combinedFuelConsumption: '',
+
+    fuelTankCapacity: '',
+
+    lengthMm: '',
+    widthMm: '',
+    heightMm: '',
+    wheelbaseMm: '',
+
+    curbWeightKg: '',
+    grossWeightKg: '',
+
+    specs: [emptySpec],
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // ---------------- FILE UPLOAD ----------------
+
+  const isValidImageFile = (file) =>
+    ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type) && file.size <= 500 * 1024;
+
+  const handleMainImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!isValidImageFile(file)) {
+      alert('Файл має бути PNG/JPG і ≤500KB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setForm((prev) => ({
+        ...prev,
+        imgCar: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSliderUpload = (e) => {
+    const files = Array.from(e.target.files);
+
+    files.forEach((file) => {
+      if (!isValidImageFile(file)) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setForm((prev) => ({
+          ...prev,
+          sliderImages: prev.sliderImages + (prev.sliderImages ? ',' : '') + reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeSliderImage = (img) => {
+    setForm((prev) => ({
+      ...prev,
+      sliderImages: prev.sliderImages
+        .split(',')
+        .filter((x) => x !== img)
+        .join(','),
+    }));
+  };
+
+  // ---------------- SPECS ----------------
+
+  const addSpecSection = () => {
+    setForm((prev) => ({
+      ...prev,
+      specs: [...prev.specs, { title: '', items: [] }],
+    }));
+  };
+
+  const removeSpecSection = (index) => {
+    setForm((prev) => ({
+      ...prev,
+      specs: prev.specs.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateSpecTitle = (index, value) => {
+    setForm((prev) => {
+      const specs = [...prev.specs];
+      specs[index].title = value;
+      return { ...prev, specs };
+    });
+  };
+
+  const addSpecItem = (specIndex) => {
+    setForm((prev) => {
+      const specs = [...prev.specs];
+      specs[specIndex].items.push({ label: '', value: false });
+      return { ...prev, specs };
+    });
+  };
+
+  const updateSpecItem = (si, ii, key, value) => {
+    setForm((prev) => {
+      const specs = [...prev.specs];
+      specs[si].items[ii][key] = value;
+      return { ...prev, specs };
+    });
+  };
+
+  const removeSpecItem = (si, ii) => {
+    setForm((prev) => {
+      const specs = [...prev.specs];
+      specs[si].items = specs[si].items.filter((_, i) => i !== ii);
+      return { ...prev, specs };
+    });
+  };
+
+  // ---------------- SUBMIT ----------------
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const cleanedSpecs = form.specs
+      .filter((s) => s.title && s.title.trim() !== '')
+      .map((s) => ({
+        title: s.title,
+        items: (s.items || [])
+          .filter((i) => i.label && i.label.trim() !== '')
+          .map((i) => ({
+            label: i.label,
+            value: Boolean(i.value),
+          })),
+      }))
+      .filter((s) => s.items.length > 0);
+
+    const payload = {
+      carBrand: form.carBrand || null,
+      model: form.model || null,
+      configuration: form.configuration || null,
+
+      brandId: form.brandId || null,
+      modelId: form.modelId || null,
+      configurationId: form.configurationId || null,
+
+      imgCar: form.imgCar || null,
+      sliderImages: form.sliderImages ? form.sliderImages.split(',').filter(Boolean) : [],
+
+      engine: form.engine || null,
+      enginePowerHP: form.enginePowerHP ? Number(form.enginePowerHP) : null,
+
+      trimLevel: form.trimLevel || null,
+      fuelType: form.fuelType || null,
+
+      accel0to100: form.accel0to100 || null,
+      maximumSpeed: form.maximumSpeed || null,
+
+      transmission: form.transmission || null,
+      driveType: form.driveType || null,
+
+      cityFuelConsumption: form.cityFuelConsumption || null,
+      highwayFuelConsumption: form.highwayFuelConsumption || null,
+      combinedFuelConsumption: form.combinedFuelConsumption || null,
+
+      fuelTankCapacity: form.fuelTankCapacity || null,
+
+      lengthMm: form.lengthMm || null,
+      widthMm: form.widthMm || null,
+      heightMm: form.heightMm || null,
+      wheelbaseMm: form.wheelbaseMm || null,
+
+      curbWeightKg: form.curbWeightKg || null,
+      grossWeightKg: form.grossWeightKg || null,
+
+      specs: cleanedSpecs,
+    };
+
+    onSubmit(payload);
+  };
+
+  return (
+    <Box component="form" onSubmit={handleSubmit}>
+      <Stack spacing={2}>
+        <Typography variant="h5">Створення комплектації (enrichment)</Typography>
+
+        {/* БАЗА */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField name="carBrand" label="Марка*" value={form.carBrand} onChange={handleChange} fullWidth />
+          <TextField name="model" label="Модель*" value={form.model} onChange={handleChange} fullWidth />
+        </Box>
+
+        <TextField
+          name="configuration"
+          label="Конфігурація*"
+          value={form.configuration}
+          onChange={handleChange}
+          fullWidth
+        />
+
+        <TextField
+          name="configurationId"
+          label="ID конфігурації"
+          value={form.configurationId}
+          onChange={handleChange}
+          fullWidth
+        />
+
+        {/* ID */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField name="brandId" label="Brand ID" value={form.brandId} onChange={handleChange} fullWidth />
+          <TextField name="modelId" label="Model ID" value={form.modelId} onChange={handleChange} fullWidth />
+        </Box>
+
+        {/* ---------------- ФОТО (URL + UPLOAD) ---------------- */}
+
+        <TextField name="imgCar" label="Головне фото (URL)" value={form.imgCar} onChange={handleChange} fullWidth />
+
+        <Button variant="outlined" component="label">
+          Завантажити головне фото
+          <input hidden type="file" accept="image/*" onChange={handleMainImageUpload} />
+        </Button>
+
+        {form.imgCar && <img src={form.imgCar} alt="main" width={120} />}
+
+        <TextField
+          name="sliderImages"
+          label="Фото для слайдера (через кому)"
+          value={form.sliderImages}
+          onChange={handleChange}
+          fullWidth
+        />
+
+        <Button variant="outlined" component="label">
+          Завантажити слайдер фото
+          <input hidden type="file" multiple accept="image/*" onChange={handleSliderUpload} />
+        </Button>
+
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+          {form.sliderImages &&
+            form.sliderImages
+              .split(',')
+              .filter(Boolean)
+              .map((img, i) => (
+                <Box key={i} sx={{ position: 'relative' }}>
+                  <img src={img} width={100} />
+                  <Button
+                    size="small"
+                    onClick={() => removeSliderImage(img)}
+                    sx={{ position: 'absolute', top: 0, right: 0 }}
+                  >
+                    x
+                  </Button>
+                </Box>
+              ))}
+        </Box>
+
+        {/* ДВИГУН */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField name="engine" label="Двигун" value={form.engine} onChange={handleChange} fullWidth />
+          <TextField
+            name="enginePowerHP"
+            label="Потужність (к.с.)"
+            value={form.enginePowerHP}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Box>
+
+        <TextField name="trimLevel" label="Комплектація" value={form.trimLevel} onChange={handleChange} fullWidth />
+
+        {/* SELECTS */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField select name="fuelType" value={form.fuelType} label="Тип палива" onChange={handleChange} fullWidth>
+            <MenuItem value="Бензин">Бензин</MenuItem>
+            <MenuItem value="Дизель">Дизель</MenuItem>
+            <MenuItem value="Гібрид">Гібрид</MenuItem>
+            <MenuItem value="Електро">Електро</MenuItem>
+          </TextField>
+
+          <TextField
+            select
+            name="transmission"
+            value={form.transmission}
+            label="Коробка"
+            onChange={handleChange}
+            fullWidth
+          >
+            <MenuItem value="Автомат">Автомат</MenuItem>
+            <MenuItem value="Механіка">Механіка</MenuItem>
+            <MenuItem value="Робот">Робот</MenuItem>
+            <MenuItem value="Варіатор">Варіатор</MenuItem>
+          </TextField>
+
+          <TextField select name="driveType" value={form.driveType} label="Привід" onChange={handleChange} fullWidth>
+            <MenuItem value="Передній">Передній</MenuItem>
+            <MenuItem value="Задній">Задній</MenuItem>
+            <MenuItem value="Повний">Повний</MenuItem>
+          </TextField>
+        </Box>
+
+        {/* РОЗМІРИ (НЕ ТРОГАВ) */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField name="lengthMm" label="Габарити авто Довжина, мм" onChange={handleChange} />
+          <TextField name="widthMm" label="Габарити авто Ширина, мм" onChange={handleChange} />
+          <TextField name="heightMm" label="Габарити авто Висота, мм" onChange={handleChange} />
+          <TextField name="wheelbaseMm" label="Колісна база, мм" onChange={handleChange} />
+        </Box>
+
+        {/* ПАЛИВО (НЕ ТРОГАВ) */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField name="cityFuelConsumption" label="Місто" onChange={handleChange} />
+          <TextField name="highwayFuelConsumption" label="Траса" onChange={handleChange} />
+          <TextField name="combinedFuelConsumption" label="Комбінований" onChange={handleChange} />
+        </Box>
+
+        <TextField name="fuelTankCapacity" label="Паливний бак (л)" onChange={handleChange} fullWidth />
+
+        {/* SPECS (НЕ ТРОГАВ) */}
+        <Typography variant="h6">Опції</Typography>
+
+        {form.specs.map((spec, si) => (
+          <Box key={si} sx={{ border: '1px solid #ccc', p: 2 }}>
+            <TextField value={spec.title} onChange={(e) => updateSpecTitle(si, e.target.value)} fullWidth />
+
+            {spec.items.map((item, ii) => (
+              <Box key={ii} sx={{ display: 'flex', gap: 2, mt: 1 }}>
+                <TextField
+                  value={item.label}
+                  onChange={(e) => updateSpecItem(si, ii, 'label', e.target.value)}
+                  fullWidth
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={item.value}
+                      onChange={(e) => updateSpecItem(si, ii, 'value', e.target.checked)}
+                    />
+                  }
+                  label="є"
+                />
+
+                <Button onClick={() => removeSpecItem(si, ii)}>X</Button>
+              </Box>
+            ))}
+
+            <Button onClick={() => addSpecItem(si)}>Додати</Button>
+            <Button onClick={() => removeSpecSection(si)} color="error">
+              Видалити
+            </Button>
+          </Box>
+        ))}
+
+        <Button onClick={addSpecSection}>Додати категорію</Button>
+
+        <Button type="submit" variant="contained">
+          {isEditMode ? 'Оновити' : 'Створити'}
+        </Button>
+      </Stack>
+    </Box>
+  );
+}

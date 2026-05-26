@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Sortable from 'sortablejs';
+import { useConfigurationEnrichments } from '../../hooks/useConfigurationEnrichments';
 
 export default function AdminCarForm({ onSubmit, editingCar }) {
   const MAX_FILE_SIZE = 500 * 1024;
@@ -159,6 +160,9 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
     const n = Number(v);
     return Number.isFinite(n) ? n : 0;
   };
+
+  const { enrichments } = useConfigurationEnrichments();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -212,6 +216,45 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
 
       <Stack spacing={2}>
         {/* Основні поля */}
+
+        <TextField
+          select
+          label="Комплектація (з шаблону)"
+          fullWidth
+          onChange={(e) => {
+            const selected = enrichments.find((x) => x.configurationId === e.target.value);
+
+            if (selected) {
+              setForm((prev) => ({
+                ...prev,
+                carBrand: selected.carBrand || '',
+                model: selected.model || '',
+                engine: selected.engine || '',
+                enginePowerHP: selected.enginePowerHP || '',
+                fuelType: selected.fuelType || '',
+                transmission: selected.transmission || '',
+                driveType: selected.driveType || '',
+                accel0to100: selected.accel0to100 || '',
+                maximumSpeed: selected.maximumSpeed || '',
+                cityFuelConsumption: selected.cityFuelConsumption || '',
+                highwayFuelConsumption: selected.highwayFuelConsumption || '',
+                combinedFuelConsumption: selected.combinedFuelConsumption || '',
+                fuelTankCapacity: selected.fuelTankCapacity || '',
+                lengthMm: selected.lengthMm || '',
+                widthMm: selected.widthMm || '',
+                heightMm: selected.heightMm || '',
+                wheelbaseMm: selected.wheelbaseMm || '',
+                specs: selected.specs || [],
+              }));
+            }
+          }}
+        >
+          {enrichments.map((item) => (
+            <MenuItem key={item.id} value={item.configurationId}>
+              {item.carBrand} — {item.model} — {item.configuration}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Марка" name="carBrand" value={form.carBrand} onChange={handleChange} />

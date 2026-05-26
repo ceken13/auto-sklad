@@ -10,18 +10,25 @@ export function TechnicalPerformance({ car }) {
     <Box>
       <Box>
         {/* Заголовок */}
-        {car?.cityFuelConsumption &&
-          car?.highwayFuelConsumption &&
-          car?.combinedFuelConsumption &&
-          car?.enginePowerHP &&
-          car?.accel0to100 &&
-          car?.maximumSpeed &&
-          car?.fuelTankCapacity &&
-          car?.driveType && (
-            <Typography variant="h6" sx={{ marginBottom: '30px', fontWeight: 600, fontSize: '24px' }}>
-              Технічні характеристики:
-            </Typography>
-          )}
+        {(car?.cityFuelConsumption ||
+          car?.highwayFuelConsumption ||
+          car?.combinedFuelConsumption ||
+          car?.enginePowerHP ||
+          car?.accel0to100 ||
+          car?.maximumSpeed ||
+          car?.fuelTankCapacity ||
+          car?.driveType) && (
+          <Typography
+            variant="h6"
+            sx={{
+              marginBottom: '30px',
+              fontWeight: 600,
+              fontSize: '24px',
+            }}
+          >
+            Технічні характеристики:
+          </Typography>
+        )}
         {/* Характеристики */}
         <Box>
           {car?.enginePowerHP && (

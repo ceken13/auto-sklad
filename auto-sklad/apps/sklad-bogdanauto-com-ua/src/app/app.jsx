@@ -7,6 +7,7 @@ import { UserPage } from '../pages/UserPage';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { AdminProvider } from '../context/AdminContext';
 import { NotFound } from '../pages/NotFound';
+import { AdminConfigurationEnrichments } from '../pages/AdminConfigurationEnrichments';
 
 export function App() {
   return (
@@ -26,6 +27,7 @@ export function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/admin/configuration-enrichments" element={<AdminConfigurationEnrichments />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AdminProvider>
