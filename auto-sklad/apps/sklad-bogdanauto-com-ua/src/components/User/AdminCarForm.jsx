@@ -15,7 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Sortable from 'sortablejs';
 import { useConfigurationEnrichments } from '../../hooks/useConfigurationEnrichments';
 
-export default function AdminCarForm({ onSubmit, editingCar }) {
+export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
   const MAX_FILE_SIZE = 500 * 1024;
   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
@@ -66,7 +66,12 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
   const sortableInstance = useRef(null);
 
   useEffect(() => {
-    if (editingCar) setForm(editingCar);
+    if (editingCar) {
+      setForm((prev) => ({
+        ...prev,
+        ...editingCar,
+      }));
+    }
   }, [editingCar]);
 
   useEffect(() => {
@@ -120,6 +125,12 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
   const removeSliderImage = (img) => {
     setForm((prev) => ({ ...prev, sliderImages: prev.sliderImages.filter((i) => i !== img) }));
   };
+  const removeMainImage = () => {
+    setForm((prev) => ({
+      ...prev,
+      imgCar: '',
+    }));
+  };
 
   // -------------------- DYNAMIC SPECS HANDLERS --------------------
   const addSpecSection = () => setForm((prev) => ({ ...prev, specs: [...prev.specs, { title: '', items: [] }] }));
@@ -168,25 +179,56 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
 
     const payload = {
       vinCode: form.vinCode?.trim(),
+
       carBrand: form.carBrand,
       model: form.model,
+
       imgCar: form.imgCar,
       sliderImages: form.sliderImages || [],
+
       dealerName: form.dealerName,
       dealerCity: form.dealerCity,
-      engine: form.engine,
 
+      engine: form.engine,
       enginePowerHP: toNumber(form.enginePowerHP),
+
       year: toNumber(form.year),
+
+      interiorColor: form.interiorColor,
+      exteriorColor: form.exteriorColor,
+
       regularPrice: toNumber(form.regularPrice),
       loanRepayment: toNumber(form.loanRepayment),
+
+      trimLevel: form.trimLevel,
+
+      fuelType: form.fuelType,
+      transmission: form.transmission,
+      driveType: form.driveType,
+
+      accel0to100: form.accel0to100,
+      maximumSpeed: form.maximumSpeed,
+
+      cityFuelConsumption: form.cityFuelConsumption,
+      highwayFuelConsumption: form.highwayFuelConsumption,
+      combinedFuelConsumption: form.combinedFuelConsumption,
+
+      fuelTankCapacity: form.fuelTankCapacity,
+
+      lengthMm: form.lengthMm,
+      widthMm: form.widthMm,
+      heightMm: form.heightMm,
+      wheelbaseMm: form.wheelbaseMm,
+
+      curbWeightKg: form.curbWeightKg,
+      grossWeightKg: form.grossWeightKg,
 
       specialOffer: !!form.specialOffer,
       pickUpOffer: !!form.pickUpOffer,
       usedCars: !!form.usedCars,
 
-      inUkraine: true,
-      availableCar: true,
+      inUkraine: !!form.inUkraine,
+      availableCar: !!form.availableCar,
 
       specs: form.specs
         .filter((s) => s.title?.trim() && s.items?.length > 0)
@@ -217,7 +259,7 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
       <Stack spacing={2}>
         {/* Основні поля */}
 
-        <TextField
+        {/*<TextField
           select
           label="Комплектація (з шаблону)"
           fullWidth
@@ -254,18 +296,32 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
               {item.carBrand} — {item.model} — {item.configuration}
             </MenuItem>
           ))}
-        </TextField>
+        </TextField>*/}
 
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
-          <TextField label="Марка" name="carBrand" value={form.carBrand} onChange={handleChange} />
-          <TextField label="Модель" name="model" value={form.model} onChange={handleChange} />
-          <TextField label="VIN код" name="vinCode" value={form.vinCode} onChange={handleChange} />
+          <TextField label="Марка" required name="carBrand" value={form.carBrand} onChange={handleChange} />
+          <TextField label="Модель" required name="model" value={form.model} onChange={handleChange} />
+          <TextField label="VIN код" required name="vinCode" value={form.vinCode} onChange={handleChange} />
         </Box>
         <Button variant="outlined" component="label">
           Головне зображення
           <input type="file" hidden accept="image/png,image/jpeg" onChange={handleMainImage} />
         </Button>
-        {form.imgCar && <img src={form.imgCar} width={150} alt="Головне фото" />}
+
+        {form.imgCar && (
+          <Box sx={{ position: 'relative', width: 120 }}>
+            <img src={form.imgCar} alt="main" width={120} />
+
+            <IconButton
+              size="small"
+              sx={{ position: 'absolute', top: 0, right: 0, bgcolor: 'white' }}
+              onClick={removeMainImage}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
+        )}
+
         <Button variant="outlined" component="label">
           Зображення для слайдера
           <input type="file" hidden accept="image/png,image/jpeg" multiple onChange={handleSliderImages} />
@@ -475,10 +531,14 @@ export default function AdminCarForm({ onSubmit, editingCar }) {
         <Button variant="outlined" onClick={addSpecSection}>
           Додати секцію
         </Button>
-
-        <Button type="submit" variant="contained" sx={{ alignSelf: 'center' }}>
-          Зберегти авто
-        </Button>
+        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 2 }}>
+          <Button type="submit" variant="contained" sx={{ alignSelf: 'center' }}>
+            Зберегти авто
+          </Button>
+          <Button variant="outlined" color="error" onClick={onClose}>
+            Закрити
+          </Button>
+        </Box>
       </Stack>
     </Box>
   );

@@ -20,9 +20,9 @@ export const deleteConfigurationEnrichment = async (id) => {
 
   return response.data;
 };
-// UPDATE
-export const updateConfigurationEnrichment = async (id, payload) => {
-  const response = await apiClient.put(`/admin/configuration-enrichments/${id}`, payload);
+// UPDATE (POST)
+export const updateConfigurationEnrichment = async (payload) => {
+  const response = await apiClient.post('/admin/configuration-enrichments', payload);
 
   return response.data;
 };

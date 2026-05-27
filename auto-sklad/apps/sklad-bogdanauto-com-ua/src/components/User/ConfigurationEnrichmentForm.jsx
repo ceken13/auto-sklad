@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Box, TextField, Button, Stack, Typography, Checkbox, FormControlLabel, MenuItem } from '@mui/material';
-
+import {
+  Box,
+  TextField,
+  Button,
+  Stack,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+  IconButton,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
   const isEditMode = Boolean(initialData);
   const emptySpec = {
@@ -11,8 +21,44 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
     if (!initialData) return;
 
     setForm({
-      ...initialData,
-      sliderImages: initialData.sliderImages ? initialData.sliderImages.join(',') : '',
+      carBrand: initialData.carBrand ?? '',
+      model: initialData.model ?? '',
+      configuration: initialData.configuration ?? '',
+
+      brandId: initialData.brandId ?? '',
+      modelId: initialData.modelId ?? '',
+      configurationId: initialData.configurationId ?? '',
+
+      imgCar: initialData.imgCar ?? '',
+      sliderImages: initialData.sliderImages ?? [],
+
+      engine: initialData.engine ?? '',
+      enginePowerHP: initialData.enginePowerHP ?? '',
+
+      trimLevel: initialData.trimLevel ?? '',
+      fuelType: initialData.fuelType ?? '',
+
+      accel0to100: initialData.accel0to100 ?? '',
+      maximumSpeed: initialData.maximumSpeed ?? '',
+
+      transmission: initialData.transmission ?? '',
+      driveType: initialData.driveType ?? '',
+
+      cityFuelConsumption: initialData.cityFuelConsumption ?? '',
+      highwayFuelConsumption: initialData.highwayFuelConsumption ?? '',
+      combinedFuelConsumption: initialData.combinedFuelConsumption ?? '',
+
+      fuelTankCapacity: initialData.fuelTankCapacity ?? '',
+
+      lengthMm: initialData.lengthMm ?? '',
+      widthMm: initialData.widthMm ?? '',
+      heightMm: initialData.heightMm ?? '',
+      wheelbaseMm: initialData.wheelbaseMm ?? '',
+
+      curbWeightKg: initialData.curbWeightKg ?? '',
+      grossWeightKg: initialData.grossWeightKg ?? '',
+
+      specs: initialData.specs?.length ? initialData.specs : [{ title: '', items: [] }],
     });
   }, [initialData]);
 
@@ -26,7 +72,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
     configurationId: '',
 
     imgCar: '',
-    sliderImages: '', // через кому
+    sliderImages: [], // через кому
 
     engine: '',
     enginePowerHP: '',
@@ -94,15 +140,20 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
     const files = Array.from(e.target.files);
 
     files.forEach((file) => {
-      if (!isValidImageFile(file)) return;
+      if (!isValidImageFile(file)) {
+        alert(`Файл ${file.name} не підходить`);
+        return;
+      }
 
       const reader = new FileReader();
+
       reader.onload = () => {
         setForm((prev) => ({
           ...prev,
-          sliderImages: prev.sliderImages + (prev.sliderImages ? ',' : '') + reader.result,
+          sliderImages: [...prev.sliderImages, reader.result],
         }));
       };
+
       reader.readAsDataURL(file);
     });
   };
@@ -110,10 +161,13 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
   const removeSliderImage = (img) => {
     setForm((prev) => ({
       ...prev,
-      sliderImages: prev.sliderImages
-        .split(',')
-        .filter((x) => x !== img)
-        .join(','),
+      sliderImages: prev.sliderImages.filter((x) => x !== img),
+    }));
+  };
+  const removeMainImage = () => {
+    setForm((prev) => ({
+      ...prev,
+      imgCar: '',
     }));
   };
 
@@ -182,7 +236,10 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
           })),
       }))
       .filter((s) => s.items.length > 0);
-
+    if (!form.carBrand.trim() || !form.model.trim() || !form.configuration.trim() || !form.configurationId.trim()) {
+      alert('Заповни обовʼязкові поля: Марка, Модель, Конфігурація, ID конфігурації');
+      return;
+    }
     const payload = {
       carBrand: form.carBrand || null,
       model: form.model || null,
@@ -193,7 +250,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
       configurationId: form.configurationId || null,
 
       imgCar: form.imgCar || null,
-      sliderImages: form.sliderImages ? form.sliderImages.split(',').filter(Boolean) : [],
+      sliderImages: form.sliderImages || [],
 
       engine: form.engine || null,
       enginePowerHP: form.enginePowerHP ? Number(form.enginePowerHP) : null,
@@ -234,13 +291,14 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
 
         {/* БАЗА */}
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <TextField name="carBrand" label="Марка*" value={form.carBrand} onChange={handleChange} fullWidth />
-          <TextField name="model" label="Модель*" value={form.model} onChange={handleChange} fullWidth />
+          <TextField name="carBrand" label="Марка" required value={form.carBrand} onChange={handleChange} fullWidth />
+          <TextField name="model" label="Модель" required value={form.model} onChange={handleChange} fullWidth />
         </Box>
 
         <TextField
           name="configuration"
-          label="Конфігурація*"
+          label="Конфігурація"
+          required
           value={form.configuration}
           onChange={handleChange}
           fullWidth
@@ -249,6 +307,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
         <TextField
           name="configurationId"
           label="ID конфігурації"
+          required
           value={form.configurationId}
           onChange={handleChange}
           fullWidth
@@ -269,15 +328,19 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
           <input hidden type="file" accept="image/*" onChange={handleMainImageUpload} />
         </Button>
 
-        {form.imgCar && <img src={form.imgCar} alt="main" width={120} />}
+        {form.imgCar && (
+          <Box sx={{ position: 'relative', width: 120 }}>
+            <img src={form.imgCar} alt="main" width={120} />
 
-        <TextField
-          name="sliderImages"
-          label="Фото для слайдера (через кому)"
-          value={form.sliderImages}
-          onChange={handleChange}
-          fullWidth
-        />
+            <IconButton
+              size="small"
+              sx={{ position: 'absolute', top: 0, right: 0, bgcolor: 'white' }}
+              onClick={removeMainImage}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
+        )}
 
         <Button variant="outlined" component="label">
           Завантажити слайдер фото
@@ -285,22 +348,19 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
         </Button>
 
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          {form.sliderImages &&
-            form.sliderImages
-              .split(',')
-              .filter(Boolean)
-              .map((img, i) => (
-                <Box key={i} sx={{ position: 'relative' }}>
-                  <img src={img} width={100} />
-                  <Button
-                    size="small"
-                    onClick={() => removeSliderImage(img)}
-                    sx={{ position: 'absolute', top: 0, right: 0 }}
-                  >
-                    x
-                  </Button>
-                </Box>
-              ))}
+          {form.sliderImages.map((img, i) => (
+            <Box key={i} sx={{ position: 'relative' }}>
+              <img src={img} width={100} alt="" />
+
+              <IconButton
+                size="small"
+                sx={{ position: 'absolute', top: 0, right: 0, bgcolor: 'white' }}
+                onClick={() => removeSliderImage(img)}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          ))}
         </Box>
 
         {/* ДВИГУН */}
@@ -347,24 +407,52 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
           </TextField>
         </Box>
 
-        {/* РОЗМІРИ (НЕ ТРОГАВ) */}
+        {/* РОЗМІРИ  */}
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <TextField name="lengthMm" label="Габарити авто Довжина, мм" onChange={handleChange} />
-          <TextField name="widthMm" label="Габарити авто Ширина, мм" onChange={handleChange} />
-          <TextField name="heightMm" label="Габарити авто Висота, мм" onChange={handleChange} />
-          <TextField name="wheelbaseMm" label="Колісна база, мм" onChange={handleChange} />
+          <TextField name="lengthMm" value={form.lengthMm} label="Габарити авто Довжина, мм" onChange={handleChange} />
+          <TextField name="widthMm" value={form.widthMm} label="Габарити авто Ширина, мм" onChange={handleChange} />
+          <TextField name="heightMm" value={form.heightMm} label="Габарити авто Висота, мм" onChange={handleChange} />
+          <TextField name="wheelbaseMm" value={form.wheelbaseMm} label="Колісна база, мм" onChange={handleChange} />
         </Box>
 
-        {/* ПАЛИВО (НЕ ТРОГАВ) */}
+        {/* ПАЛИВО  */}
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <TextField name="cityFuelConsumption" label="Місто" onChange={handleChange} />
-          <TextField name="highwayFuelConsumption" label="Траса" onChange={handleChange} />
-          <TextField name="combinedFuelConsumption" label="Комбінований" onChange={handleChange} />
+          <TextField
+            name="cityFuelConsumption"
+            value={form.cityFuelConsumption}
+            label="Місто"
+            onChange={handleChange}
+          />
+          <TextField
+            name="highwayFuelConsumption"
+            value={form.highwayFuelConsumption}
+            label="Траса"
+            onChange={handleChange}
+          />
+          <TextField
+            name="combinedFuelConsumption"
+            value={form.combinedFuelConsumption}
+            label="Комбінований"
+            onChange={handleChange}
+          />
         </Box>
-
-        <TextField name="fuelTankCapacity" label="Паливний бак (л)" onChange={handleChange} fullWidth />
-
-        {/* SPECS (НЕ ТРОГАВ) */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField
+            name="fuelTankCapacity"
+            value={form.fuelTankCapacity}
+            label="Паливний бак (л)"
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            name="accel0to100"
+            value={form.accel0to100}
+            label="Розгін від 0 до 100 км/год, с:"
+            onChange={handleChange}
+            fullWidth
+          />
+        </Box>
+        {/* SPECS ) */}
         <Typography variant="h6">Опції</Typography>
 
         {form.specs.map((spec, si) => (

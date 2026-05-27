@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { Box, Typography, Button } from '@mui/material';
 
@@ -11,6 +11,15 @@ import { Link } from 'react-router-dom';
 import { getAdminCars, createAdminCar, updateAdminCar, deleteAdminCar, getAdminMe } from '../../api/admin.api';
 
 export function User() {
+  const formRef = useRef(null);
+  const scrollToForm = () => {
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }, 100);
+  };
   const [cars, setCars] = useState([]);
   const [editingCar, setEditingCar] = useState(null);
 
@@ -123,12 +132,14 @@ export function User() {
     setEditingCar(car);
 
     setShowForm(true);
+    scrollToForm();
   };
 
   const handleAddNew = () => {
     setEditingCar(null);
 
     setShowForm(true);
+    scrollToForm();
   };
 
   return (
@@ -145,8 +156,15 @@ export function User() {
           Додати шаблон (Configuration Enrichments)
         </Button>
 
-        {showForm && <AdminCarForm onSubmit={addCar} editingCar={editingCar} />}
-
+        {showForm && (
+          <div ref={formRef}>
+            <AdminCarForm
+              onSubmit={editingCar ? updateCar : addCar}
+              editingCar={editingCar}
+              onClose={() => setShowForm(false)}
+            />
+          </div>
+        )}
         {loading ? (
           <Typography>Завантаження...</Typography>
         ) : (

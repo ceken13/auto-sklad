@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Box, Button, Card, CardContent, Container, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Pagination } from '@mui/material';
 
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -20,6 +21,13 @@ export function AdminConfigurationEnrichments() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const navigate = useNavigate();
+  const formRef = useRef(null);
+
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 10;
+  const pageCount = Math.ceil(items.length / itemsPerPage);
+
+  const paginatedItems = items.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -32,6 +40,7 @@ export function AdminConfigurationEnrichments() {
     try {
       const data = await getConfigurationEnrichments();
       setItems(data || []);
+      setPage(1);
     } catch (error) {
       console.error('GET enrichments error:', error);
     }
@@ -54,6 +63,12 @@ export function AdminConfigurationEnrichments() {
       setShowCreateForm(false);
     } catch (error) {
       console.error('CREATE enrichment error:', error);
+
+      if (error.response?.status === 422) {
+        alert('Форма заповнена некоректно');
+        return;
+      }
+
       alert('Помилка створення enrichment');
     }
   };
@@ -72,17 +87,30 @@ export function AdminConfigurationEnrichments() {
   const handleEditClick = (item) => {
     setEditingItem(item);
     setShowCreateForm(true);
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }, 100);
   };
   // ---------------- Update ----------------
   const handleUpdate = async (payload) => {
     try {
-      await updateConfigurationEnrichment(editingItem.id, payload);
+      await updateConfigurationEnrichment(payload);
 
       await fetchData();
       setEditingItem(null);
       setShowCreateForm(false);
     } catch (error) {
       console.error('UPDATE error:', error);
+
+      if (error.response?.status === 422) {
+        alert('Некоректні дані у формі');
+        return;
+      }
+
+      alert('Помилка оновлення enrichment');
     }
   };
   // ---------------- UI ----------------
@@ -101,7 +129,9 @@ export function AdminConfigurationEnrichments() {
             <Typography variant="h4" fontWeight={700}>
               Configuration Enrichments
             </Typography>
-
+            <Typography variant="body1" fontWeight={600}>
+              Кількість Configuration Enrichments: {items.length}
+            </Typography>
             {/* BUTTON */}
             <Box>
               <Button
@@ -117,7 +147,7 @@ export function AdminConfigurationEnrichments() {
 
             {/* FORM */}
             {showCreateForm && (
-              <Card>
+              <Card ref={formRef}>
                 <CardContent>
                   <ConfigurationEnrichmentForm
                     key={editingItem?.id || 'create'}
@@ -130,41 +160,56 @@ export function AdminConfigurationEnrichments() {
 
             {/* LIST */}
             <Stack spacing={2}>
-              {items.map((item) => (
-                <Card key={item.id}>
-                  <CardContent>
-                    <Stack spacing={1}>
-                      <Typography>
-                        <b>Brand:</b> {item.carBrand}
-                      </Typography>
+              {paginatedItems.map((item, index) => {
+                const globalIndex = (page - 1) * itemsPerPage + index + 1;
 
-                      <Typography>
-                        <b>Model:</b> {item.model}
-                      </Typography>
+                return (
+                  <Card key={item.id} sx={{ padding: '0 0 20px 20px' }}>
+                    <CardContent>
+                      <Stack spacing={1}>
+                        <Typography fontWeight={700}>#{globalIndex}</Typography>
 
-                      <Typography>
-                        <b>Configuration:</b> {item.configuration}
-                      </Typography>
+                        <Typography>
+                          <b>configurationId:</b> {item.configurationId}
+                        </Typography>
 
-                      <Typography>
-                        <b>Engine:</b> {item.engine}
-                      </Typography>
+                        <Typography>
+                          <b>Brand:</b> {item.carBrand}
+                        </Typography>
 
-                      <Typography>
-                        <b>Power:</b> {item.enginePowerHP}
-                      </Typography>
-                    </Stack>
-                  </CardContent>
-                  <Button color="error" variant="outlined" onClick={() => handleDelete(item.id)}>
-                    Видалити
-                  </Button>
-                  <Button variant="outlined" onClick={() => handleEditClick(item)}>
-                    Редагувати
-                  </Button>
-                </Card>
-              ))}
+                        <Typography>
+                          <b>Model:</b> {item.model}
+                        </Typography>
+
+                        <Typography>
+                          <b>Configuration:</b> {item.configuration}
+                        </Typography>
+
+                        <Typography>
+                          <b>Engine:</b> {item.engine}
+                        </Typography>
+
+                        <Typography>
+                          <b>trimLevel:</b> {item.trimLevel}
+                        </Typography>
+                      </Stack>
+                    </CardContent>
+
+                    <Button color="error" variant="outlined" onClick={() => handleDelete(item.id)}>
+                      Видалити
+                    </Button>
+
+                    <Button variant="outlined" onClick={() => handleEditClick(item)}>
+                      Редагувати
+                    </Button>
+                  </Card>
+                );
+              })}
             </Stack>
           </Stack>
+          <Box mt={3} display="flex" justifyContent="center">
+            <Pagination count={pageCount} page={page} onChange={(event, value) => setPage(value)} color="primary" />
+          </Box>
         </Container>
       </Layout>
 
