@@ -21,6 +21,9 @@ export function UserPage() {
       <Button color="error" onClick={handleLogout}>
         Вийти
       </Button>
+      <Button variant="outlined" onClick={() => navigate('/admin')}>
+        Адмін панель
+      </Button>
 
       <User />
       <Footer />

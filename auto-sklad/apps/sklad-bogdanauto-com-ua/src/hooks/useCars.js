@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCars } from '../api/cars.api';
+import { getOrganizationSlug } from '../utils/getOrganizationSlug';
 
 export function useCars() {
   const [cars, setCars] = useState([]);
@@ -9,10 +10,11 @@ export function useCars() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
+        const organizationSlug = getOrganizationSlug();
         setLoading(true);
 
-        const data = await getCars();
-
+        const data = await getCars(organizationSlug);
+        console.log('CARS FROM HOMEPAGE+organizationSlug:', data);
         setCars(Array.isArray(data) ? data : []);
       } catch (err) {
         setError(err);

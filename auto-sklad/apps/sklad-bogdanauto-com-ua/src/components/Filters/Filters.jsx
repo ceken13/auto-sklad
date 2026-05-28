@@ -17,13 +17,16 @@ import {
 import { useFilters } from '../../context/FilterContext';
 import { useEffect, useState } from 'react';
 import { getFilters } from '../../api/filters.api';
+import { getOrganizationSlug } from '../../utils/getOrganizationSlug';
 
 export function Filters() {
   const [filterOptions, setFilterOptions] = useState(null);
   useEffect(() => {
     const fetchFilters = async () => {
       try {
-        const res = await getFilters();
+        const organizationSlug = getOrganizationSlug();
+
+        const res = await getFilters(organizationSlug);
 
         console.log('FILTERS API:', res);
 

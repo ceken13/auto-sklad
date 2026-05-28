@@ -19,7 +19,12 @@ export const getAdminCars = async (organizationSlug) => {
 
 // CREATE
 export const createAdminCar = async (payload, organizationSlug) => {
-  const response = await apiClient.post(`/admin/cars?organizationSlug=${organizationSlug}`, payload);
+  const response = await apiClient.post(`/admin/cars`, payload, {
+    params: {
+      organizationSlug,
+    },
+  });
+
   return response.data;
 };
 

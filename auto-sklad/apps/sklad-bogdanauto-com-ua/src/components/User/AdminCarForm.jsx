@@ -14,6 +14,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import Sortable from 'sortablejs';
 import { useConfigurationEnrichments } from '../../hooks/useConfigurationEnrichments';
+import { getOrganizationSlug } from '../../utils/getOrganizationSlug';
 
 export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
   const MAX_FILE_SIZE = 500 * 1024;
@@ -29,6 +30,8 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
     model: '',
     imgCar: '',
     sliderImages: [],
+    store: '',
+    storeId: '',
     dealerName: '',
     dealerCity: '',
     engine: '',
@@ -40,7 +43,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
     loanRepayment: '',
     specialOffer: false,
     pickUpOffer: false,
-    usedCars: false,
+    usedCars: true,
     inUkraine: true,
     availableCar: true,
     trimLevel: '',
@@ -59,7 +62,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
     wheelbaseMm: '',
     curbWeightKg: '',
     grossWeightKg: '',
-    specs: [emptySpec], // одна порожня секція спочатку
+    specs: [emptySpec],
   });
 
   const sortableRef = useRef(null);
@@ -98,7 +101,18 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+
+    let finalValue = type === 'checkbox' ? checked : value;
+
+    // поля які мають бути CAPSLOCK
+    if (['carBrand', 'vinCode'].includes(name)) {
+      finalValue = value.toUpperCase();
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: finalValue,
+    }));
   };
 
   const handleMainImage = (e) => {
@@ -178,8 +192,10 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
     e.preventDefault();
 
     const payload = {
+      organizationSlug: getOrganizationSlug(),
       vinCode: form.vinCode?.trim(),
-
+      store: form.store || 'Default Store',
+      storeId: form.storeId || '0000000001',
       carBrand: form.carBrand,
       model: form.model,
 

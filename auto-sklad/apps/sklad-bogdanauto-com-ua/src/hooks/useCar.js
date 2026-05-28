@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCarByVin } from '../api/cars.api';
+import { getOrganizationSlug } from '../utils/getOrganizationSlug';
 
 export function useCar(vinCode) {
   const [car, setCar] = useState(null);
@@ -12,7 +13,8 @@ export function useCar(vinCode) {
     const fetchCar = async () => {
       try {
         setLoading(true);
-        const data = await getCarByVin(vinCode);
+        const organizationSlug = getOrganizationSlug();
+        const data = await getCarByVin(vinCode, organizationSlug);
         setCar(data);
       } catch (err) {
         setError(err);
