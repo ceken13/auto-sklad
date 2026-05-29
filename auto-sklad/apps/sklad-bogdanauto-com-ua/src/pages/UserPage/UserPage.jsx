@@ -16,7 +16,6 @@ export function UserPage() {
   return (
     <>
       <Header />
-
       {/* Кнопка logout (додай) */}
       <Button color="error" onClick={handleLogout}>
         Вийти

@@ -149,11 +149,20 @@ export function User() {
           Адмін панель
         </Typography>
 
-        <Button variant="contained" sx={{ m: 2 }} onClick={handleAddNew}>
+        <Button variant="contained" sx={{ m: 2, width: 'auto' }} onClick={handleAddNew}>
           Додати авто
         </Button>
         <Button component={Link} to="/admin/configuration-enrichments" variant="contained" sx={{ m: 2, width: 'auto' }}>
           Додати шаблон (Configuration Enrichments)
+        </Button>
+        <Button component={Link} to="/admin/organizations" variant="contained" sx={{ m: 2, width: 'auto' }}>
+          Додати організацію
+        </Button>
+        <Button component={Link} to="/admin/users-list" variant="contained" sx={{ m: 2, width: 'auto' }}>
+          Додати Admin Users
+        </Button>
+        <Button component={Link} to="/admin/store-rules" variant="contained" sx={{ m: 2, width: 'auto' }}>
+          Store Rules
         </Button>
 
         {showForm && (
