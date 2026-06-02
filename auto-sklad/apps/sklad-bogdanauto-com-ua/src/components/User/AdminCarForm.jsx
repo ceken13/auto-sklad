@@ -10,13 +10,15 @@ import {
   IconButton,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Sortable from 'sortablejs';
 import { useConfigurationEnrichments } from '../../hooks/useConfigurationEnrichments';
 import { getOrganizationSlug } from '../../utils/getOrganizationSlug';
 
-export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
+export default function AdminCarForm({ onSubmit, editingCar, onClose, user, organizations }) {
   const MAX_FILE_SIZE = 500 * 1024;
   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
@@ -62,6 +64,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
     wheelbaseMm: '',
     curbWeightKg: '',
     grossWeightKg: '',
+    organizationSlug: '',
     specs: [emptySpec],
   });
 
@@ -73,6 +76,11 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
       setForm((prev) => ({
         ...prev,
         ...editingCar,
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        organizationSlug: getOrganizationSlug(), // або localStorage
       }));
     }
   }, [editingCar]);
@@ -192,7 +200,6 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
     e.preventDefault();
 
     const payload = {
-      organizationSlug: getOrganizationSlug(),
       vinCode: form.vinCode?.trim(),
       store: form.store || 'Default Store',
       storeId: form.storeId || '0000000001',
@@ -238,6 +245,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
 
       curbWeightKg: form.curbWeightKg,
       grossWeightKg: form.grossWeightKg,
+      organizationSlug: form.organizationSlug,
 
       specialOffer: !!form.specialOffer,
       pickUpOffer: !!form.pickUpOffer,
@@ -265,7 +273,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
     console.log('sliderImages:', payload.sliderImages);
     onSubmit(payload);
   };
-
+  const isSuperAdmin = user?.role === 'superadmin';
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4 }}>
       <Typography variant="h6" mb={2}>
@@ -319,6 +327,32 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose }) {
           <TextField label="Модель" required name="model" value={form.model} onChange={handleChange} />
           <TextField label="VIN код" required name="vinCode" value={form.vinCode} onChange={handleChange} />
         </Box>
+
+        {isSuperAdmin && (
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel id="org-select-label">Організація (organizationSlug)</InputLabel>
+
+            <Select
+              labelId="org-select-label"
+              name="organizationSlug"
+              value={form.organizationSlug || ''}
+              label="Організація (organizationSlug)"
+              onChange={(e) =>
+                setForm((prev) => ({
+                  ...prev,
+                  organizationSlug: e.target.value,
+                }))
+              }
+            >
+              {organizations?.map((org) => (
+                <MenuItem key={org.slug} value={org.slug}>
+                  {org.name} ({org.slug})
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+
         <Button variant="outlined" component="label">
           Головне зображення
           <input type="file" hidden accept="image/png,image/jpeg" onChange={handleMainImage} />

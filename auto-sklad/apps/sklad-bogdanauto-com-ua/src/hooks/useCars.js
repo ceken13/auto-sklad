@@ -13,7 +13,10 @@ export function useCars() {
         const organizationSlug = getOrganizationSlug();
         setLoading(true);
 
-        const data = await getCars(organizationSlug);
+        {
+          /*  const data = await getCars(organizationSlug); якщо виводити + додані через адмінку*/
+        }
+        const data = await getCars();
         console.log('CARS FROM HOMEPAGE+organizationSlug:', data);
         setCars(Array.isArray(data) ? data : []);
       } catch (err) {

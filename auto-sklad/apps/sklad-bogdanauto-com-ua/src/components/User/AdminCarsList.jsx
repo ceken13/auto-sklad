@@ -38,6 +38,7 @@ export default function AdminCarsList({ cars = [], onEdit, onDelete }) {
                   <Typography>
                     #{globalIndex} — {car.carBrand} {car.model} (vin: {car.vinCode})
                   </Typography>
+                  <Typography>organizationSlug = {car.organizationSlug}</Typography>
 
                   <Stack direction="row" spacing={1} mt={1}>
                     <Button variant="outlined" size="small" onClick={() => onEdit(car)}>

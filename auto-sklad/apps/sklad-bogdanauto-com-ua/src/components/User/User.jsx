@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { Box, Typography, Button } from '@mui/material';
-
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Layout } from '../Layout/Layout';
 
 import AdminCarForm from './AdminCarForm';
@@ -9,6 +9,7 @@ import AdminCarsList from './AdminCarsList';
 import { Link } from 'react-router-dom';
 
 import { getAdminCars, createAdminCar, updateAdminCar, deleteAdminCar, getAdminMe } from '../../api/admin.api';
+import { getOrganizations } from '../../api/organizations.api';
 
 export function User() {
   const formRef = useRef(null);
@@ -26,6 +27,9 @@ export function User() {
   const [showForm, setShowForm] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [organizations, setOrganizations] = useState([]);
+  const [selectedOrg, setSelectedOrg] = useState(null);
 
   // ---------------- FETCH CARS ----------------
 
@@ -33,13 +37,13 @@ export function User() {
     try {
       setLoading(true);
 
-      const slug = localStorage.getItem('organizationSlug');
+      const localSlug = localStorage.getItem('organizationSlug');
 
-      console.log('CURRENT ORGANIZATION:', slug);
+      const orgSlug = user?.role === 'superadmin' ? selectedOrg : localSlug;
 
-      const data = await getAdminCars(slug);
+      console.log('CURRENT ORGANIZATION:', orgSlug);
 
-      console.log('CARS:', data);
+      const data = await getAdminCars(orgSlug);
 
       setCars(data || []);
     } catch (error) {
@@ -52,41 +56,50 @@ export function User() {
   // ---------------- ADMIN ME ----------------
 
   useEffect(() => {
-    const test = async () => {
-      const data = await getAdminMe();
+    const loadMe = async () => {
+      try {
+        const data = await getAdminMe();
 
-      console.log('ADMIN ME:', data);
+        console.log('ADMIN ME:', data);
+
+        setUser(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    test();
+    loadMe();
   }, []);
+  // ---------------- LOAD Organizations ----------------
+  useEffect(() => {
+    if (user?.role === 'superadmin') {
+      const loadOrgs = async () => {
+        const data = await getOrganizations();
+        setOrganizations(data);
+      };
+
+      loadOrgs();
+    }
+  }, [user]);
 
   // ---------------- LOAD CARS ----------------
-
   useEffect(() => {
     fetchCars();
-  }, []);
+  }, [selectedOrg, user]);
 
   // ---------------- CREATE ----------------
 
   const addCar = async (form) => {
     try {
-      const slug = localStorage.getItem('organizationSlug');
-
-      // 👇 ОЦЕ ДОДАЙ
+      const slug = form.organizationSlug;
       console.log('CREATE PAYLOAD:', form);
-      console.log('VIN:', form.vinCode);
-      console.log('enginePowerHP:', form.enginePowerHP);
-      console.log('year:', form.year);
-      console.log('sliderImages:', form.sliderImages);
 
       await createAdminCar(form, slug);
 
       await fetchCars();
       setShowForm(false);
     } catch (error) {
-      console.error('CREATE error:', error);
-      alert('Помилка створення авто');
+      console.error(error);
     }
   };
 
@@ -94,29 +107,23 @@ export function User() {
 
   const updateCar = async (form) => {
     try {
-      const slug = localStorage.getItem('organizationSlug');
-
-      await updateAdminCar(form.vinCode, slug, form);
+      await updateAdminCar(form.vinCode, form.organizationSlug, form);
 
       await fetchCars();
 
       setEditingCar(null);
-
       setShowForm(false);
     } catch (error) {
       console.error('UPDATE error:', error);
-
       alert('Помилка оновлення авто');
     }
   };
 
   // ---------------- DELETE ----------------
 
-  const handleDelete = async (vinCode) => {
+  const handleDelete = async (car) => {
     try {
-      const slug = localStorage.getItem('organizationSlug');
-
-      await deleteAdminCar(vinCode, slug);
+      await deleteAdminCar(car.vinCode, car.organizationSlug);
 
       await fetchCars();
     } catch (error) {
@@ -141,6 +148,7 @@ export function User() {
     setShowForm(true);
     scrollToForm();
   };
+  const isSuperAdmin = user?.role === 'superadmin';
 
   return (
     <Layout>
@@ -152,18 +160,52 @@ export function User() {
         <Button variant="contained" sx={{ m: 2, width: 'auto' }} onClick={handleAddNew}>
           Додати авто
         </Button>
-        <Button component={Link} to="/admin/configuration-enrichments" variant="contained" sx={{ m: 2, width: 'auto' }}>
-          Додати шаблон (Configuration Enrichments)
-        </Button>
-        <Button component={Link} to="/admin/organizations" variant="contained" sx={{ m: 2, width: 'auto' }}>
-          Додати організацію
-        </Button>
-        <Button component={Link} to="/admin/users-list" variant="contained" sx={{ m: 2, width: 'auto' }}>
-          Додати Admin Users
-        </Button>
-        <Button component={Link} to="/admin/store-rules" variant="contained" sx={{ m: 2, width: 'auto' }}>
-          Store Rules
-        </Button>
+        {isSuperAdmin && (
+          <>
+            <Button
+              component={Link}
+              to="/admin/configuration-enrichments"
+              variant="contained"
+              sx={{ m: 2, width: 'auto' }}
+            >
+              Додати шаблон (Configuration Enrichments)
+            </Button>
+            <Button component={Link} to="/admin/organizations" variant="contained" sx={{ m: 2, width: 'auto' }}>
+              Додати організацію
+            </Button>
+            <Button component={Link} to="/admin/users-list" variant="contained" sx={{ m: 2, width: 'auto' }}>
+              Додати Admin Users
+            </Button>
+            <Button component={Link} to="/admin/store-rules" variant="contained" sx={{ m: 2, width: 'auto' }}>
+              Store Rules
+            </Button>
+          </>
+        )}
+
+        {isSuperAdmin && (
+          <Box sx={{ m: 2, minWidth: 250, width: 'auto' }}>
+            <Typography sx={{ mb: 1 }}>Організація</Typography>
+
+            <FormControl fullWidth>
+              <InputLabel id="org-select-label">Організація</InputLabel>
+
+              <Select
+                labelId="org-select-label"
+                value={selectedOrg || ''}
+                label="Організація"
+                onChange={(e) => setSelectedOrg(e.target.value)}
+              >
+                <MenuItem value="">Всі організації</MenuItem>
+
+                {organizations.map((org) => (
+                  <MenuItem key={org.slug} value={org.slug}>
+                    {org.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        )}
 
         {showForm && (
           <div ref={formRef}>
@@ -171,6 +213,8 @@ export function User() {
               onSubmit={editingCar ? updateCar : addCar}
               editingCar={editingCar}
               onClose={() => setShowForm(false)}
+              user={user}
+              organizations={organizations}
             />
           </div>
         )}

@@ -28,6 +28,9 @@ export function UserAuthorization() {
       const data = await adminLogin({
         username: form.username,
         password: form.password,
+        ...(form.organizationSlug && {
+          organizationSlug: form.organizationSlug,
+        }),
       });
 
       console.log(data);
@@ -38,6 +41,8 @@ export function UserAuthorization() {
       navigate('/admin');
     } catch (error) {
       console.error(error);
+      console.log(error.response?.data);
+      console.log(error.response?.status);
 
       alert('Невірний логін або пароль');
     }
