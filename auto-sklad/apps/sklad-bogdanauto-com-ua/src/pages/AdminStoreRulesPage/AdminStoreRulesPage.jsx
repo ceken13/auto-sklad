@@ -1,15 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { Box, Button, Card, CardContent, Container, Pagination, Stack, Typography } from '@mui/material';
-
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Pagination,
+  Stack,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { Layout } from '../../components/Layout/Layout';
+import { getOrganizations } from '../../api/organizations.api';
 
 import { getStoreRules, upsertStoreRule, deleteStoreRule } from '../../api/storeRules.api';
-
+import { getAdminMe } from '../../api/admin.api';
 import StoreRuleForm from '../../components/User/StoreRuleForm';
 
 export function AdminStoreRulesPage() {
@@ -18,6 +31,11 @@ export function AdminStoreRulesPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const [editingItem, setEditingItem] = useState(null);
+  const [user, setUser] = useState(null);
+  const [organizations, setOrganizations] = useState([]);
+  const [selectedOrg, setSelectedOrg] = useState(null);
+
+  const activeOrg = user?.role === 'superadmin' ? selectedOrg : localStorage.getItem('organizationSlug');
 
   const navigate = useNavigate();
 
@@ -39,14 +57,40 @@ export function AdminStoreRulesPage() {
     navigate('/login');
   };
 
+  useEffect(() => {
+    const loadMe = async () => {
+      try {
+        const data = await getAdminMe();
+        setUser(data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadMe();
+  }, []);
+  useEffect(() => {
+    if (user?.role === 'superadmin') {
+      const loadOrgs = async () => {
+        const data = await getOrganizations();
+
+        setOrganizations(data);
+
+        if (data?.length > 0) {
+          setSelectedOrg(data[0].slug);
+        }
+      };
+
+      loadOrgs();
+    }
+  }, [user]);
   // ---------------- LOAD ----------------
 
   const fetchData = async () => {
     try {
-      const data = await getStoreRules();
+      const data = await getStoreRules(activeOrg);
 
       setItems(data || []);
-
       setPage(1);
     } catch (error) {
       console.error('GET store rules error:', error);
@@ -54,14 +98,18 @@ export function AdminStoreRulesPage() {
   };
 
   useEffect(() => {
+    if (!user) return;
+
+    if (user.role === 'superadmin' && !selectedOrg) return;
+
     fetchData();
-  }, []);
+  }, [user, selectedOrg]);
 
   // ---------------- CREATE ----------------
 
   const handleCreate = async (payload) => {
     try {
-      await upsertStoreRule(payload.storeId, payload);
+      await upsertStoreRule(payload.storeId, payload, activeOrg);
 
       await fetchData();
 
@@ -79,7 +127,7 @@ export function AdminStoreRulesPage() {
 
   const handleUpdate = async (payload) => {
     try {
-      await upsertStoreRule(editingItem.storeId, payload);
+      await upsertStoreRule(editingItem.storeId, payload, activeOrg);
 
       await fetchData();
 
@@ -99,11 +147,11 @@ export function AdminStoreRulesPage() {
     if (!confirm('Видалити правило?')) return;
 
     try {
-      await deleteStoreRule(storeId);
+      await deleteStoreRule(storeId, activeOrg);
 
       await fetchData();
     } catch (error) {
-      console.error('DELETE store rule error:', error);
+      console.error('DELETE store rule error:', error, selectedOrg);
 
       alert('Помилка видалення');
     }
@@ -139,6 +187,23 @@ export function AdminStoreRulesPage() {
       </Button>
 
       <Layout>
+        {user?.role === 'superadmin' && (
+          <Box sx={{ m: 2, minWidth: 250 }}>
+            <Typography sx={{ mb: 1 }}>Організація</Typography>
+
+            <FormControl fullWidth>
+              <InputLabel>Організація</InputLabel>
+
+              <Select value={selectedOrg || ''} label="Організація" onChange={(e) => setSelectedOrg(e.target.value)}>
+                {organizations.map((org) => (
+                  <MenuItem key={org.slug} value={org.slug}>
+                    {org.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        )}
         <Container sx={{ py: 4 }}>
           <Stack spacing={3}>
             <Typography variant="h4" fontWeight={700}>
@@ -179,6 +244,8 @@ export function AdminStoreRulesPage() {
                     key={editingItem?.storeId || 'create'}
                     initialData={editingItem}
                     onSubmit={editingItem ? handleUpdate : handleCreate}
+                    organizationSlug={activeOrg}
+                    isSuperadmin={user?.role === 'superadmin'}
                   />
                 </CardContent>
               </Card>

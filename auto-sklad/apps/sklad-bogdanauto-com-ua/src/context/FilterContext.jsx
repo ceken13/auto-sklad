@@ -58,7 +58,7 @@ export function FilterProvider({ children }) {
       exteriorColors: [],
       interiorColors: [],
       years: [],
-      regularPrice: [0, 3000000],
+      regularPrice: [0, 5000000],
       availableCars: false,
       inUkraineCars: false,
       usedCars: false,

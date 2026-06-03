@@ -80,10 +80,10 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     } else {
       setForm((prev) => ({
         ...prev,
-        organizationSlug: getOrganizationSlug(), // або localStorage
+        organizationSlug: user?.organizationSlug || '',
       }));
     }
-  }, [editingCar]);
+  }, [editingCar, user]);
 
   useEffect(() => {
     if (sortableRef.current && !sortableInstance.current) {

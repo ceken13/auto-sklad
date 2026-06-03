@@ -15,18 +15,14 @@ import {
 
 import { getOrganizations } from '../../api/organizations.api';
 
-export default function StoreRuleForm({ initialData, onSubmit }) {
-  const currentOrganizationSlug = localStorage.getItem('organizationSlug');
-
-  const isSuperadmin = currentOrganizationSlug === 'default';
-
+export default function StoreRuleForm({ initialData, onSubmit, organizationSlug, isSuperadmin }) {
   const [organizations, setOrganizations] = useState([]);
 
   const [form, setForm] = useState({
     storeId: initialData?.storeId || '',
     storeName: initialData?.storeName || '',
     dealerCity: initialData?.dealerCity || '',
-    organizationSlug: initialData?.organizationSlug || currentOrganizationSlug || '',
+    organizationSlug: initialData?.organizationSlug || organizationSlug || '',
     inUkraine: initialData?.inUkraine || false,
   });
 
@@ -44,6 +40,18 @@ export default function StoreRuleForm({ initialData, onSubmit }) {
 
     fetchOrganizations();
   }, []);
+
+  useEffect(() => {
+    if (!initialData && organizationSlug && organizations.length) {
+      const org = organizations.find((o) => o.slug === organizationSlug);
+
+      setForm((prev) => ({
+        ...prev,
+        organizationSlug,
+        dealerCity: org?.city || '',
+      }));
+    }
+  }, [organizationSlug, organizations, initialData]);
 
   // ---------------- AUTO SET CITY ----------------
 
@@ -63,7 +71,13 @@ export default function StoreRuleForm({ initialData, onSubmit }) {
     const { name, value } = e.target;
 
     if (name === 'organizationSlug') {
-      handleOrganizationChange(value);
+      const org = organizations.find((o) => o.slug === value);
+
+      setForm((prev) => ({
+        ...prev,
+        organizationSlug: value,
+        dealerCity: org?.city || '',
+      }));
       return;
     }
 
@@ -84,7 +98,9 @@ export default function StoreRuleForm({ initialData, onSubmit }) {
     e.preventDefault();
     onSubmit(form);
   };
-
+  console.log('organizationSlug prop:', organizationSlug);
+  console.log('form.organizationSlug:', form.organizationSlug);
+  console.log('organizations:', organizations);
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Stack spacing={2}>
@@ -106,7 +122,6 @@ export default function StoreRuleForm({ initialData, onSubmit }) {
           <Select
             name="organizationSlug"
             value={form.organizationSlug}
-            label="Організація"
             onChange={handleChange}
             disabled={!isSuperadmin}
           >
@@ -119,7 +134,7 @@ export default function StoreRuleForm({ initialData, onSubmit }) {
         </FormControl>
 
         {/* CITY */}
-        <TextField label="Dealer City" name="dealerCity" value={form.dealerCity} fullWidth disabled />
+        <TextField label="Dealer City" name="dealerCity" value={form.dealerCity} fullWidth onChange={handleChange} />
 
         <FormControlLabel
           control={<Checkbox checked={form.inUkraine} onChange={handleCheckboxChange} />}

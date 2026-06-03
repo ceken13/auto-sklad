@@ -76,6 +76,10 @@ export function User() {
       const loadOrgs = async () => {
         const data = await getOrganizations();
         setOrganizations(data);
+        // вибираємо першу організацію автоматично
+        if (data?.length > 0) {
+          setSelectedOrg(data[0].slug);
+        }
       };
 
       loadOrgs();
@@ -84,6 +88,11 @@ export function User() {
 
   // ---------------- LOAD CARS ----------------
   useEffect(() => {
+    if (!user) return;
+
+    // для superadmin чекаємо поки вибереться організація
+    if (user.role === 'superadmin' && !selectedOrg) return;
+
     fetchCars();
   }, [selectedOrg, user]);
 
@@ -122,6 +131,7 @@ export function User() {
   // ---------------- DELETE ----------------
 
   const handleDelete = async (car) => {
+    console.log('DELETE CAR:', car);
     try {
       await deleteAdminCar(car.vinCode, car.organizationSlug);
 
@@ -156,7 +166,30 @@ export function User() {
         <Typography variant="h4" mb={3}>
           Адмін панель
         </Typography>
+        <Box>
+          {isSuperAdmin && (
+            <Box sx={{ m: 2, minWidth: 250, width: 'auto' }}>
+              <Typography sx={{ mb: 1 }}>Організація</Typography>
 
+              <FormControl fullWidth>
+                <InputLabel id="org-select-label">Організація</InputLabel>
+
+                <Select
+                  labelId="org-select-label"
+                  value={selectedOrg || ''}
+                  label="Організація"
+                  onChange={(e) => setSelectedOrg(e.target.value)}
+                >
+                  {organizations.map((org) => (
+                    <MenuItem key={org.slug} value={org.slug}>
+                      {org.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          )}
+        </Box>
         <Button variant="contained" sx={{ m: 2, width: 'auto' }} onClick={handleAddNew}>
           Додати авто
         </Button>
@@ -180,31 +213,6 @@ export function User() {
               Store Rules
             </Button>
           </>
-        )}
-
-        {isSuperAdmin && (
-          <Box sx={{ m: 2, minWidth: 250, width: 'auto' }}>
-            <Typography sx={{ mb: 1 }}>Організація</Typography>
-
-            <FormControl fullWidth>
-              <InputLabel id="org-select-label">Організація</InputLabel>
-
-              <Select
-                labelId="org-select-label"
-                value={selectedOrg || ''}
-                label="Організація"
-                onChange={(e) => setSelectedOrg(e.target.value)}
-              >
-                <MenuItem value="">Всі організації</MenuItem>
-
-                {organizations.map((org) => (
-                  <MenuItem key={org.slug} value={org.slug}>
-                    {org.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
         )}
 
         {showForm && (

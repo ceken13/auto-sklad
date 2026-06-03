@@ -45,7 +45,7 @@ export default function AdminCarsList({ cars = [], onEdit, onDelete }) {
                       Редагувати
                     </Button>
 
-                    <Button variant="outlined" size="small" color="error" onClick={() => onDelete(car.id)}>
+                    <Button variant="outlined" size="small" color="error" onClick={() => onDelete(car)}>
                       Видалити
                     </Button>
                   </Stack>

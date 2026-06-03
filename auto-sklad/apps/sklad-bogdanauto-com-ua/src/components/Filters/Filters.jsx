@@ -325,7 +325,7 @@ export function Filters() {
                 value={filters.regularPrice}
                 onChange={(e, newValue) => setPrice(newValue)}
                 min={0}
-                max={3000000}
+                max={5000000}
               />
 
               <Stack direction="row" spacing={2}>
