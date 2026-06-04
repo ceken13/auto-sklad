@@ -3,6 +3,7 @@ import { getStyles } from './styles';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { getMediaUrl } from '../../utils/uploadImage';
 
 export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid }) {
   const styles = getStyles(theme);
@@ -19,7 +20,7 @@ export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid
 
         <Box
           component="img"
-          src={car?.imgCar || '/images/car-placeholder.jpg'}
+          src={getMediaUrl(car?.imgCar) || '/images/car-placeholder.jpg'}
           onError={(e) => {
             e.currentTarget.src = '/images/car-placeholder.jpg';
           }}

@@ -10,7 +10,6 @@ import { NotFound } from '../pages/NotFound';
 import { AdminConfigurationEnrichments } from '../pages/AdminConfigurationEnrichments';
 import { AdminOrganizationsPage } from '../pages/AdminOrganizationsPage';
 import { AdminUsersListPage } from '../pages/AdminUsersListPage';
-import { AdminStoreRulesPage } from '../pages/AdminStoreRulesPage';
 
 export function App() {
   return (
@@ -33,7 +32,6 @@ export function App() {
           <Route path="/admin/configuration-enrichments" element={<AdminConfigurationEnrichments />} />
           <Route path="/admin/organizations" element={<AdminOrganizationsPage />} />
           <Route path="/admin/users-list" element={<AdminUsersListPage />} />
-          <Route path="/admin/store-rules" element={<AdminStoreRulesPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AdminProvider>

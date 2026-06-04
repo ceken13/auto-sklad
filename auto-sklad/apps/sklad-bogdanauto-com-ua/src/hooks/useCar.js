@@ -15,6 +15,9 @@ export function useCar(vinCode) {
         setLoading(true);
         const organizationSlug = getOrganizationSlug();
         const data = await getCarByVin(vinCode, organizationSlug);
+
+        console.log('CARinfo:', data);
+
         setCar(data);
       } catch (err) {
         setError(err);

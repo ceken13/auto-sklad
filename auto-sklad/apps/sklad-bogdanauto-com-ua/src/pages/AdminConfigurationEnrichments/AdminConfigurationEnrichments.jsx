@@ -156,6 +156,10 @@ export function AdminConfigurationEnrichments() {
                     key={editingItem?.id || 'create'}
                     onSubmit={editingItem ? handleUpdate : handleCreate}
                     initialData={editingItem}
+                    onClose={() => {
+                      setEditingItem(null);
+                      setShowCreateForm(false);
+                    }}
                   />
                 </CardContent>
               </Card>

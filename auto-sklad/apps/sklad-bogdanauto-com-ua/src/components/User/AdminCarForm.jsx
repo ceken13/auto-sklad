@@ -17,11 +17,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import Sortable from 'sortablejs';
 import { useConfigurationEnrichments } from '../../hooks/useConfigurationEnrichments';
 import { getOrganizationSlug } from '../../utils/getOrganizationSlug';
+import { getMediaUrl } from '../../utils/uploadImage';
 
 export default function AdminCarForm({ onSubmit, editingCar, onClose, user, organizations }) {
   const MAX_FILE_SIZE = 500 * 1024;
   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-
+  const normalizeImages = (arr) => (arr || []).map((img) => getMediaUrl(img));
   const isValidImageFile = (file) => validTypes.includes(file.type) && file.size <= MAX_FILE_SIZE;
 
   const emptySpec = { title: '', items: [] };
@@ -360,7 +361,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
 
         {form.imgCar && (
           <Box sx={{ position: 'relative', width: 120 }}>
-            <img src={form.imgCar} alt="main" width={120} />
+            <img src={getMediaUrl(form.imgCar)} alt="main" width={120} />
 
             <IconButton
               size="small"
@@ -379,7 +380,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
         <Stack direction="row" spacing={1} ref={sortableRef} sx={{ flexWrap: 'wrap', cursor: 'grab' }}>
           {form.sliderImages.map((img) => (
             <Box key={img} sx={{ position: 'relative' }}>
-              <img src={img} width={100} height={60} alt="" style={{ userSelect: 'none' }} />
+              <img src={getMediaUrl(img)} width={100} height={60} alt="" style={{ userSelect: 'none' }} />
               <IconButton
                 size="small"
                 sx={{ position: 'absolute', top: 0, right: 0, bgcolor: 'white' }}

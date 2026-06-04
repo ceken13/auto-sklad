@@ -7,10 +7,19 @@ import { PickUpLabel } from '../SortingCarBlock/PickUpLabel';
 import { SpecialOfferLabel } from '../SortingCarBlock/SpecialOfferLabel';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { getMediaUrl } from '../../utils/uploadImage';
 
 export function SliderBlock({ car }) {
   const styles = getStyles(theme);
   const [current, setCurrent] = useState(0);
+
+  const toMediaUrl = (url) => {
+    if (!url) return '/images/car-placeholder.jpg';
+    if (url.startsWith('http')) return url;
+    return getMediaUrl(url);
+  };
+
+  const images = [toMediaUrl(car?.imgCar), ...(car?.sliderImages || []).map(toMediaUrl)];
 
   const handlePrev = () => {
     setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -19,7 +28,6 @@ export function SliderBlock({ car }) {
   const handleNext = () => {
     setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
-  const images = [car?.imgCar || '/images/car-placeholder.jpg', ...(car?.sliderImages || [])];
 
   return (
     <Box>
@@ -31,7 +39,7 @@ export function SliderBlock({ car }) {
           {/* Зображення */}
           <Box
             component="img"
-            src={images[current]}
+            src={images[current] || '/images/car-placeholder.jpg'}
             onError={(e) => {
               e.currentTarget.src = '/images/car-placeholder.jpg';
             }}

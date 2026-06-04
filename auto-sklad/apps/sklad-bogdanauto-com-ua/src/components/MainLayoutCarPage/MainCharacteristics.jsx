@@ -11,7 +11,6 @@ export function MainCharacteristics({ car }) {
   return (
     <Box>
       <Box>
-        <Typography> id = {car?.id} </Typography>
         {/* Статус */}
         {car?.availableCar && (
           <Typography color="green" sx={{ fontSize: '24px' }}>

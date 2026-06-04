@@ -26,7 +26,7 @@ export function Filters() {
       try {
         const organizationSlug = getOrganizationSlug();
 
-        const res = await getFilters(organizationSlug);
+        const res = await getFilters();
 
         console.log('FILTERS API:', res);
 

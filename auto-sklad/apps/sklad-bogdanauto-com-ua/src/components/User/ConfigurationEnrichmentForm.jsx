@@ -11,8 +11,16 @@ import {
   IconButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getMediaUrl } from '../../utils/uploadImage';
+
+export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onClose }) {
   const isEditMode = Boolean(initialData);
+
+  const normalizeImages = (arr) => (arr || []).map((img) => getMediaUrl(img));
+
   const emptySpec = {
     title: '',
     items: [],
@@ -29,8 +37,8 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
       modelId: initialData.modelId ?? '',
       configurationId: initialData.configurationId ?? '',
 
-      imgCar: initialData.imgCar ?? '',
       sliderImages: initialData.sliderImages ?? [],
+      imgCar: initialData.imgCar ?? '',
 
       engine: initialData.engine ?? '',
       enginePowerHP: initialData.enginePowerHP ?? '',
@@ -240,6 +248,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
       alert('Заповни обовʼязкові поля: Марка, Модель, Конфігурація, ID конфігурації');
       return;
     }
+
     const payload = {
       carBrand: form.carBrand || null,
       model: form.model || null,
@@ -294,25 +303,25 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
           <TextField name="carBrand" label="Марка" required value={form.carBrand} onChange={handleChange} fullWidth />
           <TextField name="model" label="Модель" required value={form.model} onChange={handleChange} fullWidth />
         </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <TextField
+            name="configuration"
+            label="Конфігурація"
+            required
+            value={form.configuration}
+            onChange={handleChange}
+            fullWidth
+          />
 
-        <TextField
-          name="configuration"
-          label="Конфігурація"
-          required
-          value={form.configuration}
-          onChange={handleChange}
-          fullWidth
-        />
-
-        <TextField
-          name="configurationId"
-          label="ID конфігурації"
-          required
-          value={form.configurationId}
-          onChange={handleChange}
-          fullWidth
-        />
-
+          <TextField
+            name="configurationId"
+            label="ID конфігурації"
+            required
+            value={form.configurationId}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Box>
         {/* ID */}
         <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField name="brandId" label="Brand ID" value={form.brandId} onChange={handleChange} fullWidth />
@@ -330,7 +339,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
 
         {form.imgCar && (
           <Box sx={{ position: 'relative', width: 120 }}>
-            <img src={form.imgCar} alt="main" width={120} />
+            <img src={getMediaUrl(form.imgCar)} alt="main" width={120} />
 
             <IconButton
               size="small"
@@ -350,7 +359,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           {form.sliderImages.map((img, i) => (
             <Box key={i} sx={{ position: 'relative' }}>
-              <img src={img} width={100} alt="" />
+              <img src={getMediaUrl(img)} width={100} alt="" />
 
               <IconButton
                 size="small"
@@ -373,9 +382,8 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
             onChange={handleChange}
             fullWidth
           />
+          <TextField name="trimLevel" label="Комплектація" value={form.trimLevel} onChange={handleChange} fullWidth />
         </Box>
-
-        <TextField name="trimLevel" label="Комплектація" value={form.trimLevel} onChange={handleChange} fullWidth />
 
         {/* SELECTS */}
         <Box sx={{ display: 'flex', gap: 2 }}>
@@ -435,8 +443,6 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
             label="Комбінований"
             onChange={handleChange}
           />
-        </Box>
-        <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField
             name="fuelTankCapacity"
             value={form.fuelTankCapacity}
@@ -444,6 +450,8 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
             onChange={handleChange}
             fullWidth
           />
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField
             name="accel0to100"
             value={form.accel0to100}
@@ -451,48 +459,102 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData }) {
             onChange={handleChange}
             fullWidth
           />
+          <TextField
+            name="maximumSpeed"
+            value={form.maximumSpeed}
+            label="Максимальна швидкість, км/год"
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            name="curbWeightKg"
+            value={form.curbWeightKg}
+            label="Споряджена маса, кг"
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            name="grossWeightKg"
+            value={form.grossWeightKg}
+            label="Повна маса, кг"
+            onChange={handleChange}
+            fullWidth
+          />
         </Box>
         {/* SPECS ) */}
-        <Typography variant="h6">Опції</Typography>
+        <Accordion defaultExpanded={false}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">Опції ({form.specs.length})</Typography>
+          </AccordionSummary>
 
-        {form.specs.map((spec, si) => (
-          <Box key={si} sx={{ border: '1px solid #ccc', p: 2 }}>
-            <TextField value={spec.title} onChange={(e) => updateSpecTitle(si, e.target.value)} fullWidth />
-
-            {spec.items.map((item, ii) => (
-              <Box key={ii} sx={{ display: 'flex', gap: 2, mt: 1 }}>
+          <AccordionDetails>
+            {form.specs.map((spec, si) => (
+              <Box key={si} sx={{ border: '1px solid #ccc', p: 2, mb: 2 }}>
                 <TextField
-                  value={item.label}
-                  onChange={(e) => updateSpecItem(si, ii, 'label', e.target.value)}
+                  label="Назва секції"
+                  value={spec.title}
+                  onChange={(e) => updateSpecTitle(si, e.target.value)}
                   fullWidth
                 />
 
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={item.value}
-                      onChange={(e) => updateSpecItem(si, ii, 'value', e.target.checked)}
+                {spec.items.map((item, ii) => (
+                  <Box key={ii} sx={{ display: 'flex', gap: 2, mt: 1 }}>
+                    <TextField
+                      value={item.label}
+                      onChange={(e) => updateSpecItem(si, ii, 'label', e.target.value)}
+                      fullWidth
                     />
-                  }
-                  label="є"
-                />
 
-                <Button onClick={() => removeSpecItem(si, ii)}>X</Button>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={item.value}
+                          onChange={(e) => updateSpecItem(si, ii, 'value', e.target.checked)}
+                        />
+                      }
+                      label="є"
+                    />
+
+                    <Button color="error" onClick={() => removeSpecItem(si, ii)}>
+                      X
+                    </Button>
+                  </Box>
+                ))}
+
+                <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
+                  <Button onClick={() => addSpecItem(si)}>Додати опцію</Button>
+
+                  <Button color="error" onClick={() => removeSpecSection(si)}>
+                    Видалити секцію
+                  </Button>
+                </Box>
               </Box>
             ))}
 
-            <Button onClick={() => addSpecItem(si)}>Додати</Button>
-            <Button onClick={() => removeSpecSection(si)} color="error">
-              Видалити
+            <Button variant="outlined" onClick={addSpecSection}>
+              Додати категорію
             </Button>
-          </Box>
-        ))}
+          </AccordionDetails>
+        </Accordion>
 
-        <Button onClick={addSpecSection}>Додати категорію</Button>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            justifyContent: 'center',
+            mt: 2,
+          }}
+        >
+          <Button type="submit" variant="contained">
+            {isEditMode ? 'Оновити' : 'Створити'}
+          </Button>
 
-        <Button type="submit" variant="contained">
-          {isEditMode ? 'Оновити' : 'Створити'}
-        </Button>
+          {isEditMode && (
+            <Button variant="outlined" color="error" onClick={onClose}>
+              Закрити
+            </Button>
+          )}
+        </Box>
       </Stack>
     </Box>
   );

@@ -36,14 +36,8 @@ export function User() {
   const fetchCars = async () => {
     try {
       setLoading(true);
-
-      const localSlug = localStorage.getItem('organizationSlug');
-
-      const orgSlug = user?.role === 'superadmin' ? selectedOrg : localSlug;
-
-      console.log('CURRENT ORGANIZATION:', orgSlug);
-
-      const data = await getAdminCars(orgSlug);
+      console.log('CURRENT ORGANIZATION:', user?.role === 'superadmin' ? selectedOrg : user?.organizationSlug);
+      const data = await getAdminCars(user?.role === 'superadmin' ? selectedOrg : undefined);
 
       setCars(data || []);
     } catch (error) {
@@ -209,9 +203,7 @@ export function User() {
             <Button component={Link} to="/admin/users-list" variant="contained" sx={{ m: 2, width: 'auto' }}>
               Додати Admin Users
             </Button>
-            <Button component={Link} to="/admin/store-rules" variant="contained" sx={{ m: 2, width: 'auto' }}>
-              Store Rules
-            </Button>
+            {/* <Button component={Link} to="/admin/store-rules" variant="contained" sx={{ m: 2, width: 'auto' }}>Store Rules</Button> */}
           </>
         )}
 

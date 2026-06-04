@@ -6,6 +6,7 @@ import { PickUpLabel } from './PickUpLabel';
 import { SpecialOfferLabel } from './SpecialOfferLabel';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
+import { getMediaUrl } from '../../utils/uploadImage';
 
 export function CarBlockCard({ data }) {
   const styles = getStyles(theme);
@@ -23,7 +24,7 @@ export function CarBlockCard({ data }) {
 
         <Box
           component="img"
-          src={data?.imgCar || '/images/car-placeholder.jpg'}
+          src={getMediaUrl(data?.imgCar) || '/images/car-placeholder.jpg'}
           onError={(e) => {
             e.currentTarget.src = '/images/car-placeholder.jpg';
           }}
@@ -50,7 +51,6 @@ export function CarBlockCard({ data }) {
 
       {/* RIGHT SIDE */}
       <Box sx={{ flex: 1 }}>
-        <Typography> id = {data?.id} </Typography>
         <Typography variant="h6" sx={{ mb: 1 }}>
           {data?.model} {data?.carBrand}
         </Typography>

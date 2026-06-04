@@ -109,6 +109,9 @@ export function AdminOrganizationsPage() {
     try {
       await updateOrganization(editingItem.slug, {
         name: payload.name,
+        dealerCode: payload.dealerCode,
+        dealerCity: payload.dealerCity,
+        inUkraine: payload.inUkraine,
       });
 
       await fetchData();
@@ -198,7 +201,15 @@ export function AdminOrganizationsPage() {
                         </Typography>
 
                         <Typography>
-                          <b>Created:</b> {item.createdAt}
+                          <b>Dealer Code:</b> {item.dealerCode || '-'}
+                        </Typography>
+
+                        <Typography>
+                          <b>Dealer City:</b> {item.dealerCity || '-'}
+                        </Typography>
+
+                        <Typography>
+                          <b>In Ukraine:</b> {item.inUkraine ? 'Так' : 'Ні'}
                         </Typography>
                       </Stack>
                     </CardContent>
