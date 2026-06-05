@@ -23,6 +23,8 @@ To create a production bundle:
 
 ```sh
 npx nx build sklad-bogdanauto-com-ua
+
+
 ```
 
 To see all available targets to run for a project, run:
@@ -82,3 +84,6 @@ And join the Nx community:
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 
 tree /F
+
+npx nx run @auto-sklad/sklad-bogdanauto-com-ua:build
+npx nx build @auto-sklad/sklad-bogdanauto-com-ua

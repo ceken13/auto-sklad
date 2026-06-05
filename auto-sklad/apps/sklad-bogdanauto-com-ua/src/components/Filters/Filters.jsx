@@ -28,8 +28,6 @@ export function Filters() {
 
         const res = await getFilters();
 
-        console.log('FILTERS API:', res);
-
         setFilterOptions(res);
       } catch (err) {
         console.error(err);

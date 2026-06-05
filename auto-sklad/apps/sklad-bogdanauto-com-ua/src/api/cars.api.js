@@ -5,7 +5,7 @@ export const getCars = async (organizationSlug) => {
     params: organizationSlug ? { organizationSlug } : {},
   });
 
-  console.log('API RESPONSE:', response);
+  // console.log('API RESPONSE:', response);
 
   return response.data.items;
 };

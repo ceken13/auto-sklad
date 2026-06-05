@@ -17,7 +17,9 @@ export function useCars() {
           /*  const data = await getCars(organizationSlug); якщо виводити + додані через адмінку*/
         }
         const data = await getCars();
-        console.log('CARS FROM HOMEPAGE+organizationSlug:', data);
+        {
+          /*console.log('CARS:', data);*/
+        }
         setCars(Array.isArray(data) ? data : []);
       } catch (err) {
         setError(err);

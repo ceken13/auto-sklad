@@ -7,7 +7,5 @@ export const getFilters = async (organizationSlug) => {
     },
   });
 
-  console.log('FILTERS API:', response);
-
   return response.data;
 };

@@ -73,8 +73,7 @@ export function SortingCarBlock() {
         filters.interiorColors.length === 0 ||
         filters.interiorColors.map((c) => c?.toLowerCase()).includes(car.interiorColor?.toLowerCase());
 
-      const yearMatch =
-        filters.years.length === 0 || filters.years.map((c) => c?.toLowerCase()).includes(car.year?.toLowerCase());
+      const yearMatch = filters.years.length === 0 || filters.years.includes(car.year);
 
       const price = Number(String(car.regularPrice).replace(/\s/g, ''));
 
