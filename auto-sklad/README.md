@@ -17,6 +17,7 @@ To run the dev server for your app, use:
 ```sh
 npx nx serve sklad-bogdanauto-com-ua
 npx nx serve sklad-hyundai-zp-com-ua
+npx nx serve sklad-hyundai-ck-com-ua
 ```
 
 To create a production bundle:
@@ -87,3 +88,5 @@ tree /F
 
 npx nx run @auto-sklad/sklad-bogdanauto-com-ua:build
 npx nx build @auto-sklad/sklad-bogdanauto-com-ua
+
+npx nx run @auto-sklad/sklad-hyundai-ck-com-ua:build
