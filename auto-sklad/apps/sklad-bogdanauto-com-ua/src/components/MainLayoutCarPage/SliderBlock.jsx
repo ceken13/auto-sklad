@@ -1,7 +1,7 @@
 import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
 import Typography from '@mui/material/Typography';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Dialog } from '@mui/material';
 import { useState } from 'react';
 import { PickUpLabel } from '../SortingCarBlock/PickUpLabel';
 import { SpecialOfferLabel } from '../SortingCarBlock/SpecialOfferLabel';
@@ -12,7 +12,7 @@ import { getMediaUrl } from '../../utils/uploadImage';
 export function SliderBlock({ car }) {
   const styles = getStyles(theme);
   const [current, setCurrent] = useState(0);
-
+  const [openImage, setOpenImage] = useState(false);
   const toMediaUrl = (url) => {
     if (!url) return '/images/car-placeholder.jpg';
     if (url.startsWith('http')) return url;
@@ -40,6 +40,7 @@ export function SliderBlock({ car }) {
           <Box
             component="img"
             src={images[current] || '/images/car-placeholder.jpg'}
+            onClick={() => setOpenImage(true)}
             onError={(e) => {
               e.currentTarget.src = '/images/car-placeholder.jpg';
             }}
@@ -103,6 +104,18 @@ export function SliderBlock({ car }) {
         * під кредитним платежем мається на увазі розрахунок кредиту авто при умовах першого внеску - 70%, терміну
         виплати кредиту - 36 місяців, річна ставка - 0.01%.
       </Typography>
+      <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="lg">
+        <Box
+          component="img"
+          src={images[current]}
+          sx={{
+            width: '100%',
+            maxWidth: '1200px',
+            maxHeight: '90vh',
+            objectFit: 'contain',
+          }}
+        />
+      </Dialog>
     </Box>
   );
 }

@@ -12,6 +12,7 @@ export const getStyles = (theme) => ({
     width: '450px',
     margin: '0 auto',
     display: 'block',
+    cursor: 'pointer',
   },
   sliderWrap: {
     position: 'relative',
