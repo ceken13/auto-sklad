@@ -495,6 +495,18 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
                   value={spec.title}
                   onChange={(e) => updateSpecTitle(si, e.target.value)}
                   fullWidth
+                  sx={{
+                    mt: 2,
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: '#f5f5f5',
+                      '& fieldset': {
+                        borderColor: '#1976d2',
+                      },
+                    },
+                    '& .MuiInputBase-input': {
+                      fontWeight: 700,
+                    },
+                  }}
                 />
 
                 {spec.items.map((item, ii) => (

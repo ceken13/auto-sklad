@@ -10,6 +10,7 @@ import { NotFound } from '../pages/NotFound';
 import { AdminConfigurationEnrichments } from '../pages/AdminConfigurationEnrichments';
 import { AdminOrganizationsPage } from '../pages/AdminOrganizationsPage';
 import { AdminUsersListPage } from '../pages/AdminUsersListPage';
+import { ComparePage } from '../pages/ComparePage';
 
 export function App() {
   return (
@@ -20,6 +21,7 @@ export function App() {
           <Route path="/car-details/:id" element={<CarsDetails />} />
           <Route path="/car-request/:id" element={<CarsRequest />} />
           <Route path="/login" element={<UserAuthorizationPage />} />
+          <Route path="/compare/:vinCodes" element={<ComparePage />} />
 
           <Route
             path="/admin"

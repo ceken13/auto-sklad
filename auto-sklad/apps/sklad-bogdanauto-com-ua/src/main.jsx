@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme';
 import { FilterProvider } from './context/FilterContext';
+import { CompareProvider } from './context/CompareContext';
 import App from './app/app';
 import '@fontsource/inter';
 import '@fontsource/inter/300.css';
@@ -19,10 +20,12 @@ root.render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <FilterProvider>
-        <BrowserRouter>
-          <CssBaseline />
-          <App />
-        </BrowserRouter>
+        <CompareProvider>
+          <BrowserRouter>
+            <CssBaseline />
+            <App />
+          </BrowserRouter>
+        </CompareProvider>
       </FilterProvider>
     </ThemeProvider>
   </StrictMode>,

@@ -6,6 +6,7 @@ import { Filters } from '../Filters/Filters';
 import { SortingCarBlock } from '../SortingCarBlock/SortingCarBlock';
 import { Box, Button, Drawer, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
+import CompareBar from '../CompareBar/CompareBar';
 
 export function MainLayoutHomePage() {
   const styles = getStyles(theme);
@@ -38,6 +39,7 @@ export function MainLayoutHomePage() {
           <SortingCarBlock />
         </Box>
       </Box>
+      <CompareBar />
     </Layout>
   );
 }
