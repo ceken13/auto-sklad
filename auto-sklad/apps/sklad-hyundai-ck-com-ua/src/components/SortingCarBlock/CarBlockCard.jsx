@@ -7,10 +7,14 @@ import { SpecialOfferLabel } from './SpecialOfferLabel';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/uploadImage';
+import BalanceIcon from '@mui/icons-material/Balance';
+import { useCompare } from '../../context/CompareContext';
 
 export function CarBlockCard({ data }) {
   const styles = getStyles(theme);
   const navigate = useNavigate();
+  const { compareCars, toggleCompare } = useCompare();
+  const isCompare = compareCars.some((item) => item.id === data.id);
 
   return (
     <Box sx={styles.carItemWrap}>
@@ -51,10 +55,25 @@ export function CarBlockCard({ data }) {
 
       {/* RIGHT SIDE */}
       <Box sx={{ flex: 1, paddingRight: '10%' }}>
-        <Typography variant="h6" sx={{ mb: 1, fontFamily: 'HyundaiSansHeadMedium, sans-serif' }}>
-          {data?.model} {data?.carBrand}
-        </Typography>
-
+        <Box sx={{ mb: 1, display: 'flex', gap: 2, justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6" sx={{ fontFamily: 'HyundaiSansHeadMedium, sans-serif' }}>
+            {data?.model} {data?.carBrand}
+          </Typography>
+          {data?.tradeIn && (
+            <Typography
+              sx={{
+                background: '#000',
+                color: '#fff',
+                borderRadius: '4px',
+                padding: '2px 4px',
+                fontSize: '12px',
+                textAlign: 'center',
+              }}
+            >
+              TRADE IN
+            </Typography>
+          )}
+        </Box>
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
           {data?.engine}
         </Typography>
@@ -98,6 +117,30 @@ export function CarBlockCard({ data }) {
         >
           Детальніше
         </Button>
+        <Box
+          onClick={() => toggleCompare(data)}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            cursor: 'pointer',
+            marginTop: '16px',
+            color: isCompare ? '#999' : '#000',
+            transition: '0.2s',
+          }}
+        >
+          <BalanceIcon fontSize="medium" />
+
+          <Typography
+            sx={{
+              fontSize: '14px',
+              color: 'inherit',
+            }}
+          >
+            {isCompare ? 'Прибрати з порівняння' : 'Порівняти'}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

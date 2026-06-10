@@ -194,9 +194,9 @@ export function ComparePage() {
     <>
       <Header />
       <Layout>
-        <Typography variant="h1">ОНЛАЙН СКЛАД</Typography>
+        <Typography variant="h1">Онлайн склад Богдан-Авто Черкаси</Typography>
 
-        <Typography variant="h4" sx={{ mb: 2 }}>
+        <Typography variant="h4" sx={{ mb: 2, fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}>
           Порівняння автомобілів
         </Typography>
 
@@ -272,7 +272,10 @@ export function ComparePage() {
                     },
                   }}
                 >
-                  <Typography fontWeight={700} sx={{ textAlign: 'center' }}>
+                  <Typography
+                    fontWeight={700}
+                    sx={{ textAlign: 'center', fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}
+                  >
                     {car.carBrand} {car.model}
                   </Typography>
 
@@ -324,7 +327,10 @@ export function ComparePage() {
               })
               .map((section) => (
                 <Box key={section.title} sx={{ mb: 5 }}>
-                  <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ mb: 2, fontWeight: 700, fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}
+                  >
                     {section.title}
                   </Typography>
 
@@ -359,6 +365,7 @@ export function ComparePage() {
                               lg: '20%',
                             },
                             fontWeight: 600,
+                            fontFamily: 'HyundaiSansHeadRegular, sans-serif',
                           }}
                         >
                           {field.label}
@@ -390,6 +397,7 @@ export function ComparePage() {
                                   lg: '20%',
                                 },
                                 textAlign: 'center',
+                                fontFamily: 'HyundaiSansHeadRegular, sans-serif',
                               }}
                             >
                               {formatValue(value)}
@@ -403,7 +411,10 @@ export function ComparePage() {
             {/* ================= OPTIONS (COMPARE STYLE) ================= */}
             {visibleSpecsSections.length > 0 && (
               <Box sx={{ mt: 6 }}>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ mb: 2, fontWeight: 700, fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}
+                >
                   Опції
                 </Typography>
 
@@ -445,6 +456,7 @@ export function ComparePage() {
                           sx={{
                             fontWeight: 500,
                             fontSize: '18px',
+                            fontFamily: 'HyundaiSansHeadRegular, sans-serif',
                           }}
                         >
                           {section.title}
@@ -495,6 +507,7 @@ export function ComparePage() {
                                       lg: '20%',
                                     },
                                     color: '#555',
+                                    fontFamily: 'HyundaiSansHeadRegular, sans-serif',
                                   }}
                                 >
                                   {item.label}
@@ -517,6 +530,7 @@ export function ComparePage() {
                                         lg: '20%',
                                       },
                                       textAlign: 'center',
+                                      fontFamily: 'HyundaiSansHeadRegular, sans-serif',
                                     }}
                                   >
                                     {formatValue(item.values[car.id])}

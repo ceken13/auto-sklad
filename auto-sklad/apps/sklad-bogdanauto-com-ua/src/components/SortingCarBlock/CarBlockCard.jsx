@@ -56,9 +56,25 @@ export function CarBlockCard({ data }) {
 
       {/* RIGHT SIDE */}
       <Box sx={{ flex: 1 }}>
-        <Typography variant="h6" sx={{ mb: 1 }}>
-          {data?.model} {data?.carBrand}
-        </Typography>
+        <Box sx={{ mb: 1, display: 'flex', gap: 2, justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            {data?.model} {data?.carBrand}
+          </Typography>
+          {data?.tradeIn && (
+            <Typography
+              sx={{
+                background: '#000',
+                color: '#fff',
+                borderRadius: '4px',
+                padding: '2px 4px',
+                fontSize: '12px',
+                textAlign: 'center',
+              }}
+            >
+              TRADE IN
+            </Typography>
+          )}
+        </Box>
 
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
           {data?.engine}
