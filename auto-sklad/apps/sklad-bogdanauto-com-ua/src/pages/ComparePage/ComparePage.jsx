@@ -239,12 +239,12 @@ export function ComparePage() {
               <Box
                 sx={{
                   flex: {
-                    xs: '0 0 10%',
+                    xs: '0 0 200px',
                     md: '0 0 10%',
                     lg: '0 0 19%',
                   },
                   width: {
-                    xs: '10%',
+                    xs: '200px',
                     md: '10%',
                     lg: '19%',
                   },
@@ -260,12 +260,12 @@ export function ComparePage() {
                     borderRadius: 2,
                     background: '#fff',
                     flex: {
-                      xs: '0 0 22%',
+                      xs: '0 0 200px',
                       md: '0 0 22%',
                       lg: '0 0 18%',
                     },
                     width: {
-                      xs: '22%',
+                      xs: '200px',
                       md: '22%',
                       lg: '18%',
                     },
@@ -348,12 +348,12 @@ export function ComparePage() {
                         <Box
                           sx={{
                             flex: {
-                              xs: '0 0 12%',
+                              xs: '0 0 200px',
                               md: '0 0 12%',
                               lg: '0 0 20%',
                             },
                             width: {
-                              xs: '12%',
+                              xs: '200px',
                               md: '12%',
                               lg: '20%',
                             },
@@ -379,12 +379,12 @@ export function ComparePage() {
                               key={car.id}
                               sx={{
                                 flex: {
-                                  xs: '0 0 22%',
+                                  xs: '0 0 200px',
                                   md: '0 0 22%',
                                   lg: '0 0 20%',
                                 },
                                 width: {
-                                  xs: '22%',
+                                  xs: '200px',
                                   md: '22%',
                                   lg: '20%',
                                 },
@@ -484,12 +484,12 @@ export function ComparePage() {
                                 <Box
                                   sx={{
                                     flex: {
-                                      xs: '0 0 12%',
+                                      xs: '0 0 200px',
                                       md: '0 0 12%',
                                       lg: '0 0 20%',
                                     },
                                     width: {
-                                      xs: '12%',
+                                      xs: '200px',
                                       md: '12%',
                                       lg: '20%',
                                     },
@@ -506,12 +506,12 @@ export function ComparePage() {
                                     sx={{
                                       fontWeight: 500,
                                       flex: {
-                                        xs: '0 0 22%',
+                                        xs: '0 0 200px',
                                         md: '0 0 22%',
                                         lg: '0 0 20%',
                                       },
                                       width: {
-                                        xs: '22%',
+                                        xs: '200px',
                                         md: '22%',
                                         lg: '20%',
                                       },
