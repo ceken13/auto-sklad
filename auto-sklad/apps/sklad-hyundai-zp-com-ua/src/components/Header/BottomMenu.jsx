@@ -42,7 +42,7 @@ export function BottomMenu() {
       <ListItemButton
         sx={styles.bottomMenuItem}
         component="a"
-        href="https://hyundai-zp.com.ua/specialoffers_bogdanauto-zp"
+        href="https://hyundai-zp.com.ua/specialoffers-bogdanauto-zp"
         target="_blank"
       >
         <ListItemText

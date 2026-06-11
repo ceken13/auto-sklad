@@ -6,6 +6,7 @@ import { Filters } from '../Filters/Filters';
 import { SortingCarBlock } from '../SortingCarBlock/SortingCarBlock';
 import { Box, Button, Drawer, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
+import CompareBar from '../CompareBar/CompareBar';
 
 export function MainLayoutHomePage() {
   const styles = getStyles(theme);
@@ -18,7 +19,7 @@ export function MainLayoutHomePage() {
 
   return (
     <Layout>
-      <Typography variant="h1">Онлайн склад Богдан Авто</Typography>
+      <Typography variant="h1">Онлайн склад Богдан-Авто Запоріжжя</Typography>
       <Box sx={styles.flexBetween}>
         {isMobile ? (
           <>
@@ -38,6 +39,7 @@ export function MainLayoutHomePage() {
           <SortingCarBlock />
         </Box>
       </Box>
+      <CompareBar />
     </Layout>
   );
 }

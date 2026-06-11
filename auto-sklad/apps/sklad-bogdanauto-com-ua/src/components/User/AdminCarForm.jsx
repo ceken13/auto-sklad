@@ -203,7 +203,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     const payload = {
       vinCode: form.vinCode?.trim(),
       store: form.store || 'Default Store',
-      storeId: form.storeId || '0000000001',
+      storeId: form.storeId || '0000000000',
       carBrand: form.carBrand,
       model: form.model,
 
@@ -267,11 +267,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
             })),
         })),
     };
-    console.log('FINAL PAYLOAD:', payload);
-    console.log('VIN:', payload.vinCode);
-    console.log('enginePowerHP:', payload.enginePowerHP);
-    console.log('year:', payload.year);
-    console.log('sliderImages:', payload.sliderImages);
+
     onSubmit(payload);
   };
   const isSuperAdmin = user?.role === 'superadmin';

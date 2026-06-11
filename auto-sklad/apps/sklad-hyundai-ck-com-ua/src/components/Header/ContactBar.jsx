@@ -27,7 +27,7 @@ export function ContactBar() {
         <a style={styles.linkTel} href="tel:0632624714">
           (063) 262-47-14
         </a>
-        , <strong>СТО</strong>
+        , <strong>СТО:</strong>
         <Box component="br" sx={{ display: { xs: 'block', md: 'none' } }} />{' '}
         <a style={styles.linkTel} href="tel:0730243370">
           (073) 024-33-70

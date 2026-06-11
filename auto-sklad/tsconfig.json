@@ -11,6 +11,21 @@
     },
     {
       "path": "./apps/sklad-hyundai-ck-com-ua"
+    },
+    {
+      "path": "./apps/sklad-hyundai-kyiv-com-ua"
+    },
+    {
+      "path": "./apps/sklad-hyundai-volyn-com-ua"
+    },
+    {
+      "path": "./apps/sklad-hyundai-if-com-ua"
+    },
+    {
+      "path": "./apps/sklad-hyundai-cn-com-ua"
+    },
+    {
+      "path": "./apps/sklad-kr-bogdanauto-hyundai-com-ua"
     }
   ]
 }

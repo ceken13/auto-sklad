@@ -9,16 +9,34 @@ import { MainCharacteristics } from './MainCharacteristics';
 import { TechnicalPerformance } from './TechnicalPerformance';
 import { CarDimensions } from './CarDimensions';
 import { OptionalEquipment } from './OptionalEquipment';
-import { carsMock } from '../SortingCarBlock/carsMock';
+//import { carsMock } from '../SortingCarBlock/carsMock';
+import { useCar } from '../../hooks/useCar';
+import { useParams } from 'react-router-dom';
+import { Loader } from '../ui/Loader';
+import { CarPageSkeleton } from '../ui/CarPageSkeleton';
 
-export function MainLayoutCarPage({ id }) {
+export function MainLayoutCarPage() {
   const styles = getStyles(theme);
   const navigate = useNavigate();
-  const car = carsMock.find((item) => item?.id === Number(id));
-
+  //const car = carsMock.find((item) => item?.id === Number(id));
+  const { id } = useParams();
+  const { car, loading, error } = useCar(id);
+  if (loading) {
+    return (
+      <Layout>
+        <CarPageSkeleton />
+      </Layout>
+    );
+  }
+  if (error) {
+    return <Typography color="error">Помилка завантаження авто</Typography>;
+  }
+  if (!car) {
+    return <Typography>Авто не знайдено</Typography>;
+  }
   return (
     <Layout>
-      <Typography variant="h1">Онлайн склад Богдан Авто</Typography>
+      <Typography variant="h1">Онлайн склад Богдан-Авто Запоріжжя</Typography>
       <Typography
         onClick={() => navigate(-1)}
         sx={{ cursor: 'pointer', color: '#000', fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}

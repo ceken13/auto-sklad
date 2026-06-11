@@ -24,15 +24,16 @@ export function ContactBar() {
 
       <Typography sx={{ fontSize: { xs: '16px', md: '16px' } }}>
         <strong>Салон:</strong>{' '}
-        <a style={styles.linkTel} href="tel:+380931432050">
+        <a style={styles.linkTel} href="tel:0931432050">
           (093) 143 20 50
         </a>
-        ,<Box component="br" sx={{ display: { xs: 'block', md: 'none' } }} /> <strong>СТО:</strong>{' '}
-        <a style={styles.linkTel} href="tel:+380732698305">
+        , <strong>СТО:</strong>
+        <Box component="br" sx={{ display: { xs: 'block', md: 'none' } }} />{' '}
+        <a style={styles.linkTel} href="tel:0732698305">
           (073) 269 83 05
         </a>
-        ,<Box component="br" sx={{ display: { xs: 'block', md: 'none' } }} />{' '}
-        <a style={styles.linkTel} href="tel:+380931702287">
+        ,
+        <a style={styles.linkTel} href="tel:0931702287">
           (093) 170 22 87
         </a>
       </Typography>

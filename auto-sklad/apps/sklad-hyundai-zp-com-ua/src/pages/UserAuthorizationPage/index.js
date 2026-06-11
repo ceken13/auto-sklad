@@ -1,1 +1,0 @@
-export { UserAuthorizationPage } from './UserAuthorizationPage';

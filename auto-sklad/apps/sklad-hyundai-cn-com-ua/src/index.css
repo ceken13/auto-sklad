@@ -1,0 +1,107 @@
+/* =========================
+   HEAD OFFICE (заголовки)
+========================= */
+
+@font-face {
+  font-family: 'Hyundai Sans Head Office';
+  src: url('./assets/fonts/HyundaiSansHeadOffice-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hyundai Sans Head Office';
+  src: url('./assets/fonts/HyundaiSansHeadOffice-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================
+   TEXT OFFICE (UI текст)
+========================= */
+
+@font-face {
+  font-family: 'Hyundai Sans Text Office';
+  src: url('./assets/fonts/HyundaiSansTextOffice-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hyundai Sans Text Office';
+  src: url('./assets/fonts/HyundaiSansTextOffice-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hyundai Sans Text Office';
+  src: url('./assets/fonts/HyundaiSansTextOffice-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansHeadBold;
+  src: url(./assets/fonts/HyundaiSansHeadOffice-Bold.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansHeadLight;
+  src: url(./assets/fonts/HyundaiSansHeadOffice-Light.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansHeadMedium;
+  src: url(./assets/fonts/HyundaiSansHeadOffice-Medium.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansHeadRegular;
+  src: url(./assets/fonts/HyundaiSansHeadOffice-Regular.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansTextBold;
+  src: url(./assets/fonts/HyundaiSansTextOffice-Bold.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansTextBoldItalic;
+  src: url(./assets/fonts/HyundaiSansTextOffice-BoldItalic.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansTextItalic;
+  src: url(./assets/fonts/HyundaiSansTextOffice-Italic.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansTextMedium;
+  src: url(./assets/fonts/HyundaiSansTextOffice-Medium.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansTextMediumItalic;
+  src: url(./assets/fonts/HyundaiSansTextOffice-MediumItalic.woff);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HyundaiSansTextRegular;
+  src: url(./assets/fonts/HyundaiSansTextOffice-Regular.woff);
+  font-display: swap;
+}

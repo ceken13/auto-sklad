@@ -18,6 +18,12 @@ To run the dev server for your app, use:
 npx nx serve sklad-bogdanauto-com-ua
 npx nx serve sklad-hyundai-zp-com-ua
 npx nx serve sklad-hyundai-ck-com-ua
+npx nx serve sklad-hyundai-kyiv-com-ua
+npx nx serve sklad-hyundai-volyn-com-ua
+npx nx serve sklad-hyundai-if-com-ua
+npx nx serve sklad-hyundai-cn-com-ua
+npx nx serve sklad-kr-bogdanauto-hyundai-com-ua
+
 ```
 
 To create a production bundle:
@@ -87,6 +93,12 @@ And join the Nx community:
 tree /F
 
 npx nx run @auto-sklad/sklad-bogdanauto-com-ua:build
-npx nx build @auto-sklad/sklad-bogdanauto-com-ua
-
 npx nx run @auto-sklad/sklad-hyundai-ck-com-ua:build
+npx nx run @auto-sklad/sklad-hyundai-kyiv-com-ua:build
+npx nx run @auto-sklad/sklad-hyundai-volyn-com-ua:build
+npx nx run @auto-sklad/sklad-hyundai-if-com-ua:build
+npx nx run @auto-sklad/sklad-hyundai-cn-com-ua:build
+npx nx run @auto-sklad/sklad-kr-bogdanauto-hyundai-com-ua:build
+
+npx nx reset
+npx nx show projects
