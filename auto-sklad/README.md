@@ -94,6 +94,7 @@ tree /F
 
 npx nx run @auto-sklad/sklad-bogdanauto-com-ua:build
 npx nx run @auto-sklad/sklad-hyundai-ck-com-ua:build
+npx nx run @auto-sklad/sklad-hyundai-zp-com-ua:build
 npx nx run @auto-sklad/sklad-hyundai-kyiv-com-ua:build
 npx nx run @auto-sklad/sklad-hyundai-volyn-com-ua:build
 npx nx run @auto-sklad/sklad-hyundai-if-com-ua:build

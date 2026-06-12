@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import { Layout } from '../Layout/Layout';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
-//import { carsMock } from '../SortingCarBlock/carsMock';
 import { CarPreviewBlock } from './CarPreviewBlock';
 import { CarForm } from './CarForm';
 import React, { useState } from 'react';
@@ -25,49 +24,40 @@ export function CarsRequestPage() {
   const styles = getStyles(theme);
   const [captchaValue, setCaptchaValue] = useState(null);
   const isCaptchaValid = !!captchaValue;
-  const schema = yup
-    .object({
-      firstName: yup
-        .string()
-        .required("Ім'я обов'язкове")
-        .matches(/^[А-Яа-яA-Za-zІіЇїЄє'-]+$/, 'Тільки літери'),
+  const schema = yup.object({
+    firstName: yup
+      .string()
+      .required("Ім'я обов'язкове")
+      .matches(/^[А-Яа-яA-Za-zІіЇїЄє'-]+$/, 'Тільки літери'),
 
-      middleName: yup
-        .string()
-        .nullable()
-        .matches(/^[А-Яа-яA-Za-zІіЇїЄє'-]*$/, 'Тільки літери'),
+    middleName: yup
+      .string()
+      .nullable()
+      .matches(/^[А-Яа-яA-Za-zІіЇїЄє'-]*$/, 'Тільки літери'),
 
-      lastName: yup
-        .string()
-        .required('Прізвище обовʼязкове')
-        .matches(/^[А-Яа-яA-Za-zІіЇїЄє'-]+$/, 'Тільки літери'),
+    lastName: yup
+      .string()
+      .required('Прізвище обовʼязкове')
+      .matches(/^[А-Яа-яA-Za-zІіЇїЄє'-]+$/, 'Тільки літери'),
 
-      email: yup.string().required('Email обовʼязковий').email('Невірний email'),
+    email: yup.string().required('Email обовʼязковий').email('Невірний email'),
 
-      phone: yup
-        .string()
-        .required('Телефон обовʼязковий')
-        .matches(/^\+38 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Формат: +38 (067) 123-45-67'),
+    phone: yup
+      .string()
+      .required('Телефон обовʼязковий')
+      .matches(/^\+38 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Формат: +38 (067) 123-45-67'),
 
-      isIndividual: yup.boolean(),
-      isCompany: yup.boolean(),
+    customerType: yup.string().required('Оберіть тип особи'),
 
-      comment: yup.string(),
+    comment: yup.string(),
 
-      contactMethod: yup.string().notRequired(),
-    })
-    .test('person-type', 'Оберіть тип особи', function (data) {
-      if (!data.isIndividual && !data.isCompany) {
-        return this.createError({ path: 'personType' });
-      }
-      return true;
-    });
-
-  //const car = carsMock.find((item) => item?.id === Number(id));
+    contactMethod: yup.string().required('Оберіть метод комунікації'),
+  });
 
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -78,8 +68,7 @@ export function CarsRequestPage() {
       lastName: '',
       email: '',
       phone: '',
-      isIndividual: false,
-      isCompany: false,
+      customerType: '',
       comment: '',
       contactMethod: '',
     },
@@ -95,13 +84,29 @@ export function CarsRequestPage() {
 
     try {
       await sendCarRequest({
-        ...data,
+        firstName: data.firstName,
+        middleName: data.middleName || '',
+        lastName: data.lastName,
+
+        email: data.email,
+        phone: data.phone,
+
+        comment: data.comment || '',
+
+        communicationMethod: data.contactMethod || '',
+
+        customerType: data.customerType,
+
         vinCode: car?.vinCode,
-        dealerCity: car?.dealerCity,
         dealerName: car?.dealerName,
+
+        carBrand: car?.carBrand,
+        model: car?.model,
       });
 
       setModalOpen(true);
+      reset();
+      setCaptchaValue(null);
     } catch (error) {
       console.error(error);
       alert('Помилка відправки заявки');

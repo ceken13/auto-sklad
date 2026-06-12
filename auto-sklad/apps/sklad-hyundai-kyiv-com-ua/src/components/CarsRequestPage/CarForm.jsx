@@ -114,30 +114,28 @@ export function CarForm({ control, errors }) {
       </Box>
 
       {/* Чекбокси */}
-      <Box sx={{ display: 'flex', gap: '30px', mb: 3 }}>
-        <Controller
-          name="isIndividual"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel control={<Checkbox {...field} checked={field.value} />} label="Фізична особа" />
-          )}
-        />
+      <Box sx={{ mb: 3 }}>
+        <Typography mb={1}>Тип особи:</Typography>
+        <Box>
+          <Controller
+            name="customerType"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup {...field} sx={{ flexDirection: 'row', gap: 3 }}>
+                <FormControlLabel value="individual" control={<Radio />} label="Фізична особа" />
 
-        <Controller
-          name="isCompany"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel control={<Checkbox {...field} checked={field.value} />} label="Юридична особа" />
+                <FormControlLabel value="legal" control={<Radio />} label="Юридична особа" />
+              </RadioGroup>
+            )}
+          />
+
+          {errors.customerType && (
+            <Typography color="error" fontSize={14}>
+              {errors.customerType.message}
+            </Typography>
           )}
-        />
+        </Box>
       </Box>
-
-      {/* 🔥 Ось помилка */}
-      {errors?.personType && (
-        <Typography color="error" fontSize={14}>
-          {errors.personType.message}
-        </Typography>
-      )}
 
       {/* Коментар */}
       <Box mb={3}>
@@ -166,6 +164,11 @@ export function CarForm({ control, errors }) {
             </RadioGroup>
           )}
         />
+        {errors.contactMethod && (
+          <Typography color="error" fontSize={14}>
+            {errors.contactMethod.message}
+          </Typography>
+        )}
       </FormControl>
     </Box>
   );
