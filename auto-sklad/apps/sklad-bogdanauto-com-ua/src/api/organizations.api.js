@@ -25,3 +25,9 @@ export const updateOrganization = async (organizationSlug, payload) => {
 
   return response.data;
 };
+// GET ONE BY SLUG
+export const getOrganizationBySlug = async (organizationSlug) => {
+  const response = await apiClient.get(`/admin/organizations/${organizationSlug}`);
+
+  return response.data;
+};

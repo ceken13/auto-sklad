@@ -31,15 +31,18 @@ export function MainCharacteristics({ car }) {
               {car?.carBrand} {car?.model}
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1 }}>Колір кузова:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.exteriorColor}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mb: 1, flex: 1 }}>Рік випуску:</Typography>
-            <Typography sx={{ mb: 1, flex: 1 }}>{car?.year}</Typography>
-          </Box>
-
+          {car?.exteriorColor && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Колір кузова:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.exteriorColor}</Typography>
+            </Box>
+          )}
+          {car?.year && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Рік випуску:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.year}</Typography>
+            </Box>
+          )}
           {car?.trimLevel && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Комплектація:</Typography>

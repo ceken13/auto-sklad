@@ -55,6 +55,29 @@ export function Filters() {
     <Box>
       <Box sx={styles.layoutFilters}>
         <Stack>
+          <Stack>
+            <FormControlLabel
+              sx={{ padding: '20px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
+              control={<Checkbox checked={filters.usedCars} onChange={() => toggleBooleanFilter('usedCars')} />}
+              label="Вживані авто"
+            />
+
+            <FormControlLabel
+              sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
+              control={
+                <Checkbox checked={filters.specialOfferCars} onChange={() => toggleBooleanFilter('specialOfferCars')} />
+              }
+              label="Спеціальна пропозиція"
+            />
+
+            <FormControlLabel
+              sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
+              control={
+                <Checkbox checked={filters.pickUpOfferCars} onChange={() => toggleBooleanFilter('pickUpOfferCars')} />
+              }
+              label="Забрати за 60 хвилин"
+            />
+          </Stack>
           {/* Марка */}
           {brands?.length > 0 && (
             <Accordion defaultExpanded sx={styles.accordionStyles}>
@@ -371,29 +394,6 @@ export function Filters() {
             </AccordionDetails>
           </Accordion>
           {/* Додаткові фільтри */}
-          <Stack>
-            <FormControlLabel
-              sx={{ padding: '0px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={<Checkbox checked={filters.usedCars} onChange={() => toggleBooleanFilter('usedCars')} />}
-              label="Вживані авто"
-            />
-
-            <FormControlLabel
-              sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={
-                <Checkbox checked={filters.specialOfferCars} onChange={() => toggleBooleanFilter('specialOfferCars')} />
-              }
-              label="Спеціальна пропозиція"
-            />
-
-            <FormControlLabel
-              sx={{ padding: '16px 20px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={
-                <Checkbox checked={filters.pickUpOfferCars} onChange={() => toggleBooleanFilter('pickUpOfferCars')} />
-              }
-              label="Забрати за 60 хвилин"
-            />
-          </Stack>
         </Stack>
       </Box>
       <Button onClick={clearFilters} variant="contained" color="primary">

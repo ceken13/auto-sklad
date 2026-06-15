@@ -112,9 +112,20 @@ export function SortingCarBlock() {
   // 2. SORT
   // =========================
   const sortedCars = useMemo(() => {
-    if (!sortOrder) return filteredCars;
+    const list = [...filteredCars];
 
-    return [...filteredCars].sort((a, b) => {
+    // 👉 РЕЖИМ 1: без сортування → pickUpOffer зверху
+    if (!sortOrder) {
+      return list.sort((a, b) => {
+        const aPick = a.pickUpOffer ? 1 : 0;
+        const bPick = b.pickUpOffer ? 1 : 0;
+
+        return bPick - aPick;
+      });
+    }
+
+    // 👉 РЕЖИМ 2: сортування по ціні → ІГНОРУЄМО pickUpOffer
+    return list.sort((a, b) => {
       const priceA = parsePrice(a.regularPrice);
       const priceB = parsePrice(b.regularPrice);
 

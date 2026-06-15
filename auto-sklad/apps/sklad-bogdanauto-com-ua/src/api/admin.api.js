@@ -55,3 +55,18 @@ export const getAdminMe = async () => {
   const response = await apiClient.get('/admin/me');
   return response.data;
 };
+
+// UPLOAD IMAGE
+export const uploadAdminImage = async (file) => {
+  const formData = new FormData();
+
+  formData.append('file', file);
+
+  const response = await apiClient.post('/admin/media/images', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return response.data;
+};

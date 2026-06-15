@@ -18,12 +18,26 @@ import Sortable from 'sortablejs';
 import { useConfigurationEnrichments } from '../../hooks/useConfigurationEnrichments';
 import { getOrganizationSlug } from '../../utils/getOrganizationSlug';
 import { getMediaUrl } from '../../utils/uploadImage';
+import { uploadAdminImage } from '../../api/admin.api';
+import { getOrganizationBySlug } from '../../api/organizations.api';
+import { ORGANIZATION_MAP } from '../../utils/organizationsCity';
 
 export default function AdminCarForm({ onSubmit, editingCar, onClose, user, organizations }) {
-  const MAX_FILE_SIZE = 500 * 1024;
+  const MAX_FILE_SIZE = 200 * 1024;
   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-  const normalizeImages = (arr) => (arr || []).map((img) => getMediaUrl(img));
-  const isValidImageFile = (file) => validTypes.includes(file.type) && file.size <= MAX_FILE_SIZE;
+  const isValidImageFile = (file) => {
+    if (!validTypes.includes(file.type)) {
+      alert('Дозволені тільки PNG, JPG, JPEG');
+      return false;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      alert(`Файл ${file.name} занадто великий (макс 200 KB)`);
+      return false;
+    }
+
+    return true;
+  };
 
   const emptySpec = { title: '', items: [] };
 
@@ -73,6 +87,8 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
   const sortableInstance = useRef(null);
 
   useEffect(() => {
+    const slug = editingCar?.organizationSlug || user?.organizationSlug;
+
     if (editingCar) {
       setForm((prev) => ({
         ...prev,
@@ -81,9 +97,11 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     } else {
       setForm((prev) => ({
         ...prev,
-        organizationSlug: user?.organizationSlug || '',
+        organizationSlug: slug || '',
       }));
     }
+
+    applyOrganizationDefaults(slug);
   }, [editingCar, user]);
 
   useEffect(() => {
@@ -124,25 +142,46 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     }));
   };
 
-  const handleMainImage = (e) => {
+  const handleMainImage = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (!isValidImageFile(file)) return alert('Файл повинен бути PNG або JPG і ≤500KB');
-    const reader = new FileReader();
-    reader.onload = () => setForm((prev) => ({ ...prev, imgCar: reader.result }));
-    reader.readAsDataURL(file);
+
+    if (!isValidImageFile(file)) return;
+
+    try {
+      const result = await uploadAdminImage(file);
+
+      setForm((prev) => ({
+        ...prev,
+        imgCar: result.url,
+      }));
+    } catch (error) {
+      console.error(error);
+      alert('Помилка завантаження зображення');
+    }
   };
 
-  const handleSliderImages = (e) => {
+  const handleSliderImages = async (e) => {
     const files = Array.from(e.target.files);
-    files.forEach((file) => {
-      if (!isValidImageFile(file)) return alert(`Файл ${file.name} не підходить`);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setForm((prev) => ({ ...prev, sliderImages: [...prev.sliderImages, reader.result] }));
-      };
-      reader.readAsDataURL(file);
-    });
+
+    const uploadedImages = [];
+
+    try {
+      for (const file of files) {
+        if (!isValidImageFile(file)) continue;
+
+        const result = await uploadAdminImage(file);
+        uploadedImages.push(result.url);
+      }
+
+      setForm((prev) => ({
+        ...prev,
+        sliderImages: [...prev.sliderImages, ...uploadedImages],
+      }));
+    } catch (error) {
+      console.error(error);
+      alert('Помилка завантаження зображень');
+    }
   };
 
   const removeSliderImage = (img) => {
@@ -191,8 +230,10 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
 
   // -----------------------------------------------------------------
   const toNumber = (v) => {
+    if (v === '' || v === null || v === undefined) return null;
+
     const n = Number(v);
-    return Number.isFinite(n) ? n : 0;
+    return Number.isFinite(n) ? n : null;
   };
 
   const { enrichments } = useConfigurationEnrichments();
@@ -271,6 +312,19 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     onSubmit(payload);
   };
   const isSuperAdmin = user?.role === 'superadmin';
+
+  const applyOrganizationDefaults = (slug) => {
+    const org = ORGANIZATION_MAP[slug];
+
+    if (!org) return;
+
+    setForm((prev) => ({
+      ...prev,
+      dealerName: org.dealerName,
+      dealerCity: org.dealerCity,
+    }));
+  };
+
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4 }}>
       <Typography variant="h6" mb={2}>
@@ -334,12 +388,16 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
               name="organizationSlug"
               value={form.organizationSlug || ''}
               label="Організація (organizationSlug)"
-              onChange={(e) =>
+              onChange={(e) => {
+                const slug = e.target.value;
+
                 setForm((prev) => ({
                   ...prev,
-                  organizationSlug: e.target.value,
-                }))
-              }
+                  organizationSlug: slug,
+                }));
+
+                applyOrganizationDefaults(slug);
+              }}
             >
               {organizations?.map((org) => (
                 <MenuItem key={org.slug} value={org.slug}>
@@ -393,13 +451,18 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Комплектація" name="trimLevel" value={form.trimLevel} onChange={handleChange} />
-          <TextField label="Рік випуску " name="year" value={form.year} onChange={handleChange} />
+          <TextField label="Рік випуску " name="year" value={form.year ?? ''} onChange={handleChange} />
           <TextField label="Колір салону" name="interiorColor" value={form.interiorColor} onChange={handleChange} />
           <TextField label="Колір кузова" name="exteriorColor" value={form.exteriorColor} onChange={handleChange} />
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Регулярна ціна" name="regularPrice" value={form.regularPrice} onChange={handleChange} />
-          <TextField label="Кредитний платіж" name="loanRepayment" value={form.loanRepayment} onChange={handleChange} />
+          <TextField
+            label="Кредитний платіж"
+            name="loanRepayment"
+            value={form.loanRepayment ?? ''}
+            onChange={handleChange}
+          />
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <FormControlLabel
