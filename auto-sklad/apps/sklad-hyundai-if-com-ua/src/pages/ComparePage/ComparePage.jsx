@@ -81,13 +81,23 @@ export function ComparePage() {
   ];
 
   const formatValue = (value) => {
-    if (value === null || value === undefined || value === '') return '-';
-
-    if (typeof value === 'string') {
-      value = value.trim();
+    if (value === null || value === undefined || value === '') {
+      return 'Н/Д';
     }
 
-    if (typeof value === 'boolean') return value ? '+' : '-';
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+
+      if (!trimmed) {
+        return 'Н/Д';
+      }
+
+      return trimmed;
+    }
+
+    if (typeof value === 'boolean') {
+      return value ? '+' : '-';
+    }
 
     if (typeof value === 'number') {
       return value.toLocaleString('uk-UA');
@@ -195,15 +205,12 @@ export function ComparePage() {
       <Header />
       <Layout>
         <Typography variant="h1">Онлайн склад Богдан-Авто Івано-Франківськ</Typography>
-
-        <Typography variant="h4" sx={{ mb: 2, fontFamily: 'HyundaiSansHeadRegular, sans-serif' }}>
+        <Typography onClick={() => navigate(-1)} sx={{ cursor: 'pointer', color: '#000', mb: 3 }}>
+          Повернутись назад
+        </Typography>
+        <Typography variant="h4" sx={{ mb: 2, fontFamily: 'HyundaiSansHeadRegular, sans-serif', textAlign: 'center' }}>
           Порівняння автомобілів
         </Typography>
-
-        <FormControlLabel
-          control={<Checkbox checked={onlyDiff} onChange={(e) => setOnlyDiff(e.target.checked)} />}
-          label="Показати тільки відмінності"
-        />
 
         <Box
           sx={{
@@ -233,7 +240,7 @@ export function ComparePage() {
             <Box
               sx={{
                 display: 'flex',
-                gap: 1.5,
+                gap: 2,
               }}
             >
               {/* empty column for labels */}
@@ -249,8 +256,15 @@ export function ComparePage() {
                     md: '10%',
                     lg: '19%',
                   },
+                  alignSelf: 'self-end',
                 }}
-              />
+              >
+                <FormControlLabel
+                  control={<Checkbox checked={onlyDiff} onChange={(e) => setOnlyDiff(e.target.checked)} />}
+                  label="Показати тільки відмінності"
+                  sx={{ maxWidth: '210px', padding: '0', margin: '0' }}
+                />
+              </Box>
 
               {cars.map((car) => (
                 <Box
@@ -270,6 +284,7 @@ export function ComparePage() {
                       md: '22%',
                       lg: '18%',
                     },
+                    maxWidth: '230px',
                   }}
                 >
                   <Typography

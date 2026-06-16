@@ -63,6 +63,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     usedCars: true,
     inUkraine: true,
     availableCar: true,
+    toHMU: true,
     trimLevel: '',
     fuelType: '',
     accel0to100: '',
@@ -298,6 +299,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
 
       inUkraine: !!form.inUkraine,
       availableCar: !!form.availableCar,
+      toHMU: !!form.toHMU,
 
       specs: form.specs
         .filter((s) => s.title?.trim() && s.items?.length > 0)
@@ -467,7 +469,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
             onChange={handleChange}
           />
         </Box>
-        <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
+        <Box sx={{ display: 'flex', gap: '10px', '& > *': { flex: 1 } }}>
           <FormControlLabel
             control={<Checkbox name="specialOffer" checked={form.specialOffer} onChange={handleChange} />}
             label="СПЕЦІАЛЬНА ПРОПОЗИЦІЯ"
@@ -487,6 +489,10 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
           <FormControlLabel
             control={<Checkbox name="availableCar" checked={form.availableCar} onChange={handleChange} />}
             label="В наявності"
+          />
+          <FormControlLabel
+            control={<Checkbox name="toHMU" checked={form.toHMU} onChange={handleChange} />}
+            label="На сайт ХМУ"
           />
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
