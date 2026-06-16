@@ -3,11 +3,12 @@ import { getStyles } from './styles';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { calculateLoanRepayment } from '../../utils/calculateLoanRepayment';
 
 export function MainCharacteristics({ car }) {
   const styles = getStyles(theme);
   const navigate = useNavigate();
-
+  const loanPayment = car?.loanRepayment ?? calculateLoanRepayment(car?.regularPrice);
   return (
     <Box>
       <Box>
@@ -61,7 +62,7 @@ export function MainCharacteristics({ car }) {
               <Typography sx={{ mb: 1, flex: 1 }}>{car?.fuelType}</Typography>
             </Box>
           )}
-          {car?.fuelType && (
+          {car?.transmission && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>КПП:</Typography>
               <Typography sx={{ mb: 1, flex: 1 }}>{car?.transmission}</Typography>
@@ -77,10 +78,13 @@ export function MainCharacteristics({ car }) {
               {car?.regularPrice?.toLocaleString('uk-UA')} грн
             </Typography>
           </Box>
-          {car?.loanRepayment && (
+          {loanPayment && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>Кредитний платіж:</Typography>
-              <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>{car?.loanRepayment} грн/міс.*</Typography>
+
+              <Typography sx={{ mb: 1, flex: 1, color: '#cbcbcb' }}>
+                {loanPayment.toLocaleString('uk-UA')} грн/міс.*
+              </Typography>
             </Box>
           )}
         </Box>

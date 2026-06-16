@@ -232,7 +232,10 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
   const toNumber = (v) => {
     if (v === '' || v === null || v === undefined) return null;
 
-    const n = Number(v);
+    const cleaned = String(v).replace(/[^\d]/g, '');
+
+    const n = Number(cleaned);
+
     return Number.isFinite(n) ? n : null;
   };
 
@@ -262,7 +265,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       interiorColor: form.interiorColor,
       exteriorColor: form.exteriorColor,
 
-      regularPrice: toNumber(form.regularPrice),
+      regularPrice: toNumber(form.regularPrice) ?? 0,
       loanRepayment: toNumber(form.loanRepayment),
 
       trimLevel: form.trimLevel,

@@ -9,12 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import { getMediaUrl } from '../../utils/uploadImage';
 import BalanceIcon from '@mui/icons-material/Balance';
 import { useCompare } from '../../context/CompareContext';
+import { calculateLoanRepayment } from '../../utils/calculateLoanRepayment';
 
 export function CarBlockCard({ data }) {
   const styles = getStyles(theme);
   const navigate = useNavigate();
   const { compareCars, toggleCompare } = useCompare();
   const isCompare = compareCars.some((item) => item.id === data.id);
+  const loanPayment = data?.loanRepayment ?? calculateLoanRepayment(data?.regularPrice);
 
   return (
     <Box sx={styles.carItemWrap}>
@@ -74,22 +76,32 @@ export function CarBlockCard({ data }) {
             </Typography>
           )}
         </Box>
-        <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
-          {data?.engine}
-        </Typography>
-        <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
-          Рік випуску: {data?.year}
-        </Typography>
-
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ fontSize: '14px', margin: '30px 0' }}>
-          <Typography variant="body2" sx={{ fontSize: '14px' }}>
-            Колір кузова:
-          </Typography>
-
+        {data?.engine && (
           <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
-            {data?.exteriorColor}
+            {data?.engine}
           </Typography>
-        </Stack>
+        )}
+        {data?.year && (
+          <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
+            Рік випуску: {data?.year}
+          </Typography>
+        )}
+        {data?.trimLevel && (
+          <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
+            Комплектація: {data?.trimLevel}
+          </Typography>
+        )}
+        {data?.exteriorColor && (
+          <Stack direction="row" spacing={1} alignItems="center" sx={{ fontSize: '14px', margin: '30px 0' }}>
+            <Typography variant="body2" sx={{ fontSize: '14px' }}>
+              Колір кузова:
+            </Typography>
+
+            <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
+              {data?.exteriorColor}
+            </Typography>
+          </Stack>
+        )}
 
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
           Регулярна ціна:
@@ -105,9 +117,9 @@ export function CarBlockCard({ data }) {
           </span>
         </Typography>
 
-        {data?.loanRepayment != null && (
+        {loanPayment && (
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: '14px', margin: '8px 0' }}>
-            Кредитний платіж: <strong>{data?.loanRepayment} грн/міс.*</strong>
+            Кредитний платіж: <strong>{loanPayment.toLocaleString('uk-UA')} грн/міс.*</strong>
           </Typography>
         )}
         <Button

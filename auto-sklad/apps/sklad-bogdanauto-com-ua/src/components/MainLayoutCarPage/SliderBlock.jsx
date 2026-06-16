@@ -104,17 +104,62 @@ export function SliderBlock({ car }) {
         * під кредитним платежем мається на увазі розрахунок кредиту авто при умовах першого внеску - 70%, терміну
         виплати кредиту - 36 місяців, річна ставка - 0.01%.
       </Typography>
-      <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="lg">
+      <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="xl">
         <Box
-          component="img"
-          src={images[current]}
           sx={{
-            width: '100%',
-            maxWidth: '1200px',
-            maxHeight: '90vh',
-            objectFit: 'contain',
+            position: 'relative',
+            backgroundColor: '#fff',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '80vh',
           }}
-        />
+        >
+          {/* Ліва стрілка */}
+          {images.length > 1 && (
+            <IconButton
+              onClick={handlePrev}
+              sx={{
+                position: 'absolute',
+                left: 20,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                bgcolor: 'rgba(255,255,255,0.8)',
+                zIndex: 10,
+              }}
+            >
+              <ArrowBackIosNewIcon />
+            </IconButton>
+          )}
+
+          {/* Фото */}
+          <Box
+            component="img"
+            src={images[current]}
+            sx={{
+              maxWidth: '95vw',
+              maxHeight: '90vh',
+              objectFit: 'contain',
+            }}
+          />
+
+          {/* Права стрілка */}
+          {images.length > 1 && (
+            <IconButton
+              onClick={handleNext}
+              sx={{
+                position: 'absolute',
+                right: 20,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                bgcolor: 'rgba(255,255,255,0.8)',
+                zIndex: 10,
+              }}
+            >
+              <ArrowForwardIosIcon />
+            </IconButton>
+          )}
+        </Box>
       </Dialog>
     </Box>
   );

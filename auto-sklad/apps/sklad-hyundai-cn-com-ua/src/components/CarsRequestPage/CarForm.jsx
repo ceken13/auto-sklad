@@ -26,7 +26,7 @@ export function CarForm({ control, errors }) {
       {/* Ім’я / По батькові / Прізвище */}
       <Box sx={styles.rowStyle}>
         <Box sx={styles.fieldWrapperStyle}>
-          <Typography mb={1}>Введіть ім'я:</Typography>
+          <Typography mb={1}>Введіть ім'я*:</Typography>
           <Controller
             name="firstName"
             control={control}
@@ -53,7 +53,7 @@ export function CarForm({ control, errors }) {
         </Box>
 
         <Box sx={styles.fieldWrapperStyle}>
-          <Typography mb={1}>Введіть прізвище:</Typography>
+          <Typography mb={1}>Введіть прізвище*:</Typography>
           <Controller
             name="lastName"
             control={control}
@@ -74,7 +74,7 @@ export function CarForm({ control, errors }) {
       {/* Email / Phone */}
       <Box sx={styles.rowStyle}>
         <Box sx={styles.fieldWrapperStyle}>
-          <Typography mb={1}>Введіть ваш e-mail:</Typography>
+          <Typography mb={1}>Введіть ваш e-mail*:</Typography>
           <Controller
             name="email"
             control={control}
@@ -95,7 +95,7 @@ export function CarForm({ control, errors }) {
         </Box>
 
         <Box sx={styles.fieldWrapperStyle}>
-          <Typography mb={1}>Введіть ваш телефон:</Typography>
+          <Typography mb={1}>Введіть ваш телефон*:</Typography>
           <Controller
             name="phone"
             control={control}
@@ -115,7 +115,7 @@ export function CarForm({ control, errors }) {
 
       {/* Чекбокси */}
       <Box sx={{ mb: 3 }}>
-        <Typography mb={1}>Тип особи:</Typography>
+        <Typography mb={1}>Тип особи*:</Typography>
         <Box>
           <Controller
             name="customerType"
@@ -151,7 +151,7 @@ export function CarForm({ control, errors }) {
 
       {/* Радіо */}
       <FormControl>
-        <Typography mb={1}>Метод комунікації:</Typography>
+        <Typography mb={1}>Метод комунікації*:</Typography>
         <Controller
           name="contactMethod"
           control={control}
