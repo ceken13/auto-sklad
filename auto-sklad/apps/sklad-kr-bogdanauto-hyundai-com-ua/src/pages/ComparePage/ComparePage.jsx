@@ -193,6 +193,9 @@ export function ComparePage() {
       <>
         <Header />
         <Layout>
+          <Typography onClick={() => navigate(-1)} sx={{ cursor: 'pointer', color: '#000', mb: 3, mt: 3 }}>
+            Повернутись назад
+          </Typography>
           <Typography>Мінімум 2 авто для порівняння</Typography>
         </Layout>
         <Footer />

@@ -10,6 +10,7 @@ export const getStyles = (theme) => ({
   imgSlider: {
     maxWidth: '100%',
     width: '450px',
+    cursor: 'pointer',
   },
   sliderWrap: {
     position: 'relative',
@@ -22,6 +23,6 @@ export const getStyles = (theme) => ({
     color: '#999999',
     opacity: '0,5',
     fontSize: '14px',
-    marginTop: '30px',
+    marginTop: '10px',
   },
 });

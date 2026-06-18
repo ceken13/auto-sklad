@@ -1,13 +1,12 @@
 import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
-import { Box, Typography, Button, Stack } from '@mui/material';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
+
 import { calculateLoanRepayment } from '../../utils/calculateLoanRepayment';
 
 export function MainCharacteristics({ car }) {
   const styles = getStyles(theme);
-  const navigate = useNavigate();
+
   const loanPayment = car?.loanRepayment ?? calculateLoanRepayment(car?.regularPrice);
   return (
     <Box>
@@ -71,7 +70,7 @@ export function MainCharacteristics({ car }) {
         </Box>
 
         {/* Ціна */}
-        <Box sx={{ marginBottom: '40px' }}>
+        <Box>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Регулярна ціна:</Typography>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '22px', fontWeight: '700' }}>
@@ -88,22 +87,10 @@ export function MainCharacteristics({ car }) {
             </Box>
           )}
         </Box>
-
-        {/* Кнопка */}
-        <Button
-          fullWidth
-          sx={{
-            backgroundColor: '#0f6b5c',
-            color: '#fff',
-            padding: '12px',
-            borderRadius: '6px',
-            textTransform: 'none',
-            width: '100%',
-          }}
-          onClick={() => navigate(`/car-request/${car?.id}`)}
-        >
-          Подати запит на авто
-        </Button>
+        <Typography sx={styles.textUnderSlider}>
+          * під кредитним платежем мається на увазі розрахунок кредиту авто при умовах першого внеску - 70%, терміну
+          виплати кредиту - 36 місяців, річна ставка - 0.01%. Розрахунок наведено орієнтовно.
+        </Typography>
       </Box>
     </Box>
   );

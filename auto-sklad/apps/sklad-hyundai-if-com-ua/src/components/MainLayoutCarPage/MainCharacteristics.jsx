@@ -1,13 +1,11 @@
 import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
-import { Box, Typography, Button, Stack } from '@mui/material';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
 import { calculateLoanRepayment } from '../../utils/calculateLoanRepayment';
 
 export function MainCharacteristics({ car }) {
   const styles = getStyles(theme);
-  const navigate = useNavigate();
+
   const loanPayment = car?.loanRepayment ?? calculateLoanRepayment(car?.regularPrice);
   return (
     <Box>
@@ -105,24 +103,11 @@ export function MainCharacteristics({ car }) {
               </Typography>
             </Box>
           )}
+          <Typography sx={styles.textUnderSlider}>
+            * під кредитним платежем мається на увазі розрахунок кредиту авто при умовах першого внеску - 70%, терміну
+            виплати кредиту - 36 місяців, річна ставка - 0.01%. Розрахунок наведено орієнтовно.
+          </Typography>
         </Box>
-
-        {/* Кнопка */}
-        <Button
-          fullWidth
-          sx={{
-            backgroundColor: '#002C5E',
-            color: '#fff',
-            padding: '12px',
-            borderRadius: '0px',
-            textTransform: 'none',
-            width: '100%',
-            fontFamily: 'HyundaiSansHeadRegular, sans-serif',
-          }}
-          onClick={() => navigate(`/car-request/${car?.id}`)}
-        >
-          Подати запит на авто
-        </Button>
       </Box>
     </Box>
   );

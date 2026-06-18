@@ -1,15 +1,17 @@
 import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
 import Typography from '@mui/material/Typography';
-import { Box, IconButton, Dialog } from '@mui/material';
+import { Box, IconButton, Dialog, Button } from '@mui/material';
 import { useState } from 'react';
 import { PickUpLabel } from '../SortingCarBlock/PickUpLabel';
 import { SpecialOfferLabel } from '../SortingCarBlock/SpecialOfferLabel';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { getMediaUrl } from '../../utils/uploadImage';
+import { useNavigate } from 'react-router-dom';
 
 export function SliderBlock({ car }) {
+  const navigate = useNavigate();
   const styles = getStyles(theme);
   const [current, setCurrent] = useState(0);
   const [openImage, setOpenImage] = useState(false);
@@ -100,10 +102,21 @@ export function SliderBlock({ car }) {
           </Box>
         </Box>
       </Box>
-      <Typography sx={styles.textUnderSlider}>
-        * під кредитним платежем мається на увазі розрахунок кредиту авто при умовах першого внеску - 70%, терміну
-        виплати кредиту - 36 місяців, річна ставка - 0.01%.
-      </Typography>
+      <Button
+        fullWidth
+        sx={{
+          backgroundColor: '#0f6b5c',
+          color: '#fff',
+          padding: '12px',
+          borderRadius: '6px',
+          textTransform: 'none',
+          width: '100%',
+          mt: 4,
+        }}
+        onClick={() => navigate(`/car-request/${car?.id}`)}
+      >
+        Подати запит на авто
+      </Button>
       <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="xl">
         <Box
           sx={{

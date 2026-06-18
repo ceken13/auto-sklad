@@ -118,7 +118,7 @@ export function CarBlockCard({ data }) {
 
         {loanPayment && (
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: '14px', margin: '8px 0' }}>
-            Кредитний платіж: <strong>{loanPayment.toLocaleString('uk-UA')} грн/міс.*</strong>
+            Кредитний платіж: <strong>{loanPayment.toLocaleString('uk-UA')} грн/міс.</strong>
           </Typography>
         )}
         <Button
