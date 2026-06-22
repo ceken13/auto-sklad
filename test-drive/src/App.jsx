@@ -3,7 +3,7 @@ import { useState } from 'react';
 import CarSelect from './components/CarSelect';
 import CitySelect from './components/CitySelect';
 import DealerList from './components/DealerList';
-import { cars, dealers, cities } from './data/mockData';
+import { cars } from './data/mockData';
 import DateField from './components/DateField';
 import ContactFields from './components/ContactFields';
 import {
@@ -21,6 +21,12 @@ import {
 import CustomStepper from './components/CustomStepper';
 
 export default function App() {
+  const [cities, setCities] = useState([]);
+  const [dealers, setDealers] = useState([]);
+
+  const [citiesLoading, setCitiesLoading] = useState(false);
+  const [dealersLoading, setDealersLoading] = useState(false);
+
   const steps = ['Вибір авто', 'Ввід даних', 'Відправка заявки'];
   const [step, setStep] = useState(0);
 
@@ -42,9 +48,27 @@ export default function App() {
     setDealerEditMode(false);
   };
 
-  const handleCarSelect = (car) => {
+  const handleCarSelect = async (car) => {
     setSelectedCar(car);
-    setStep(1);
+    setSelectedCity(null);
+    setSelectedDealer(null);
+    setCities([]);
+    setDealers([]);
+
+    try {
+      const response = await fetch(
+        //`https://hyundai.com.ua/api/test-drive/cities?model=${encodeURIComponent(car.apiModel)}&lang=uk`,
+        `/api/test-drive/cities?model=${encodeURIComponent(car.apiModel)}&lang=uk`,
+      );
+
+      const result = await response.json();
+
+      setCities(result.data.cities);
+
+      setStep(1);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleBackToCars = () => {
@@ -55,12 +79,65 @@ export default function App() {
     setStep(0);
   };
 
-  const filteredDealers = dealers.filter((dealer) => {
-    const matchCity = !selectedCity || selectedCity === 'ALL' || dealer.city === selectedCity;
-    const matchCar = selectedCar && dealer.cars.includes(selectedCar.id);
+  const handleCityChange = async (city) => {
+    setSelectedCity(city);
+    setSelectedDealer(null);
+    setDealerEditMode(true);
 
-    return matchCity && matchCar;
-  });
+    try {
+      let dealersData = [];
+
+      if (city === 'ALL') {
+        // отримуємо дилерів з усіх міст
+        const requests = cities.map((cityName) =>
+          fetch(
+            `/api/test-drive/dealers?model=${encodeURIComponent(
+              selectedCar.apiModel,
+            )}&city=${encodeURIComponent(cityName)}&lang=uk`,
+          ).then((res) => res.json()),
+        );
+
+        const results = await Promise.all(requests);
+
+        dealersData = results.flatMap((result) => result.data?.dealers || []);
+
+        // прибираємо дублікати
+        dealersData = dealersData.filter(
+          (dealer, index, self) => index === self.findIndex((d) => d.nid === dealer.nid),
+        );
+      } else {
+        const response = await fetch(
+          `/api/test-drive/dealers?model=${encodeURIComponent(
+            selectedCar.apiModel,
+          )}&city=${encodeURIComponent(city)}&lang=uk`,
+        );
+
+        const result = await response.json();
+        dealersData = result.data.dealers;
+      }
+
+      const mappedDealers = dealersData.map((dealer) => ({
+        id: dealer.nid,
+        name: dealer.title,
+        city: dealer.field_dealer_city?.city_name,
+        fullAddress: dealer.field_dealer_address?.value ?? '',
+        phonesShowroom: Array.isArray(dealer.field_dealer_office_phone)
+          ? dealer.field_dealer_office_phone.map((p) => p.value)
+          : [],
+
+        phonesService: Array.isArray(dealer.field_dealer_service_phone)
+          ? dealer.field_dealer_service_phone.map((p) => p.value)
+          : [],
+        site: dealer.field_dealer_site?.url ?? '',
+        siteLabel: dealer.field_dealer_site?.url?.replace('https://', '')?.replace('http://', '')?.replace(/\/$/, ''),
+        mapUrl: `https://www.google.com/maps?q=${encodeURIComponent(dealer.field_dealer_address?.value ?? '')}`,
+      }));
+
+      setDealers(mappedDealers);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const phoneRegex = /^\d{9}$/;
   const handleSubmit = async () => {
     setSubmitAttempted(true);
@@ -178,7 +255,7 @@ export default function App() {
 
               <CitySelect
                 value={selectedCity}
-                onChange={setSelectedCity}
+                onChange={handleCityChange}
                 cities={cities}
                 submitAttempted={submitAttempted}
               />
@@ -254,12 +331,12 @@ export default function App() {
           </Grid>
           {dealerEditMode && selectedCity && (
             <>
-              {filteredDealers.length === 0 ? (
+              {dealers.length === 0 ? (
                 <Typography color="error" style={{ marginTop: 40 }}>
                   На жаль, у вибраному місці автомобіля для тест-драйву немає
                 </Typography>
               ) : (
-                <DealerList dealers={filteredDealers} onSelect={handleSelectDealer} />
+                <DealerList dealers={dealers} onSelect={handleSelectDealer} />
               )}
             </>
           )}

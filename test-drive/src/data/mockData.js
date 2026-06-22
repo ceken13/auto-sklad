@@ -155,6 +155,7 @@ export const cars = [
     image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/i10-13_16x9_-_kopiya.png',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/new-i10/HME_AC3.jpg',
     isTestDriveAvailable: true,
+    apiModel: 'i10',
   },
   {
     id: 'i30',
@@ -164,6 +165,7 @@ export const cars = [
     bigImage:
       'https://hyundai.com.ua/sites/all/themes/responsive/images/newi30/highlights/HME_PD_HB_360_EXT_PE2_552910NI000_007.png',
     isTestDriveAvailable: true,
+    apiModel: 'i30',
   },
   {
     id: 'elantra',
@@ -173,6 +175,7 @@ export const cars = [
     bigImage:
       'https://hyundai.com.ua/sites/all/themes/responsive/images/exterior/exterior_elantra2023/steel15/atlas-white/atlas-white_000.png',
     isTestDriveAvailable: true,
+    apiModel: 'Elantra',
   },
   {
     id: 'inster',
@@ -181,6 +184,7 @@ export const cars = [
     bigImage:
       'https://dmassets.hyundai.com/is/image/hyundaiautoever/Hyundai_INSTER_2024_Exterior_SHOT07_Side:16x9?wid=800&hei=450&fit=wrap,1 800w',
     isTestDriveAvailable: true,
+    apiModel: 'Inster',
   },
   {
     id: 'venue',
@@ -188,6 +192,7 @@ export const cars = [
     image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/venue_1.png',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/polar-venue.jpg',
     isTestDriveAvailable: true,
+    apiModel: 'Venue',
   },
   {
     id: 'kona-hybrid',
@@ -195,6 +200,7 @@ export const cars = [
     image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/sx2-ice.png',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/kona2023/highlights/HME_SX2_HEV_360_EXT.jfif',
     isTestDriveAvailable: true,
+    apiModel: 'Kona',
   },
   {
     id: 'kona-electric',
@@ -204,6 +210,7 @@ export const cars = [
     bigImage:
       'https://hyundai.com.ua/sites/all/themes/responsive/images/kona-electric-2024/highlights/sx2-kona-ev-820x372-pc.png',
     isTestDriveAvailable: true,
+    apiModel: 'Kona Electric',
   },
   {
     id: 'sonata',
@@ -213,6 +220,7 @@ export const cars = [
     bigImage:
       'https://hyundai.com.ua/sites/all/themes/responsive/images/sonata2023/highlights/aero-silver-metallic_000.png',
     isTestDriveAvailable: true,
+    apiModel: 'Sonata',
   },
   {
     id: 'tucson-hybrid',
@@ -221,6 +229,7 @@ export const cars = [
     bigImage:
       'https://hyundai.com.ua/sites/all/themes/responsive/images/new-tucson-2024/design/Hyundai_TUCSON_2024_Exterior_PI_SHOT06_34_Front_Lights_On_PHEV_T2P_4x3.jpg',
     isTestDriveAvailable: true,
+    apiModel: 'Tucson',
   },
   {
     id: 'ioniq-5',
@@ -229,6 +238,7 @@ export const cars = [
       'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/hyundai_ioniq_5_my25_2024_16x9.png',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/ioniq5-ne-wp-side-view.jpg',
     isTestDriveAvailable: true,
+    apiModel: 'IONIQ 5',
   },
   {
     id: 'ioniq-5n',
@@ -238,6 +248,7 @@ export const cars = [
     bigImage:
       'https://dmassets.hyundai.com/is/image/hyundaiautoever/Hyundai_IONIQ_5_N_Exterior_2023_PI_SHOT10_Side_Lights_On:4x3?wid=800&hei=600&fit=wrap,1',
     isTestDriveAvailable: false,
+    apiModel: 'IONIQ 5 N',
   },
 
   {
@@ -246,6 +257,7 @@ export const cars = [
     image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/ioniq-6-pre-pip_16x9_0.jpg',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/ioniq6/image14.png',
     isTestDriveAvailable: true,
+    apiModel: 'IONIQ 6',
   },
   {
     id: 'santa-fe',
@@ -253,6 +265,7 @@ export const cars = [
     image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/mx5_teasepage_16x9.png',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/creamy-white-pearl_000.png',
     isTestDriveAvailable: true,
+    apiModel: 'Santa Fe',
   },
   {
     id: 'palisade',
@@ -260,6 +273,7 @@ export const cars = [
     image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/palisade-26my-gnb-suv_0.png',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/palisade-lx2-side-view-white-cream.jpg',
     isTestDriveAvailable: true,
+    apiModel: 'Palisade',
   },
   {
     id: 'staria',
@@ -267,5 +281,6 @@ export const cars = [
     image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/staria_clearcut_21-1.jpg',
     bigImage: 'https://hyundai.com.ua/sites/all/themes/responsive/images/staria-us4-fmc-side-view-thumb.jpg',
     isTestDriveAvailable: true,
+    apiModel: 'Staria',
   },
 ];
