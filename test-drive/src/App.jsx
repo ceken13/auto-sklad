@@ -40,25 +40,12 @@ export default function App() {
   const [time, setTime] = useState('');
   const [consent, setConsent] = useState(false);
   const [dealerEditMode, setDealerEditMode] = useState(true);
-  const [showFallbackDealers, setShowFallbackDealers] = useState(false);
-  const [fallbackDealers, setFallbackDealers] = useState([]);
-  const [fallbackLoading, setFallbackLoading] = useState(false);
-  const [dealerChosen, setDealerChosen] = useState(false);
-
   const cityError = submitAttempted && !selectedCity;
   const dealerError = submitAttempted && !selectedDealer;
   const consentError = submitAttempted && !consent;
-  const resetDealerViews = () => {
-    setDealers([]);
-    setFallbackDealers([]);
-    setShowFallbackDealers(false);
-  };
   const handleSelectDealer = (dealer) => {
     setSelectedDealer(dealer);
     setDealerEditMode(false);
-    setDealerChosen(true);
-    // ❗ повністю ховаємо ВСІ списки і стани
-    resetDealerViews();
   };
 
   const handleCarSelect = async (car) => {
@@ -95,10 +82,6 @@ export default function App() {
   const handleCityChange = async (city) => {
     setSelectedCity(city);
     setSelectedDealer(null);
-    setDealerChosen(false);
-    setDealersLoading(true);
-
-    resetDealerViews();
     setDealerEditMode(true);
 
     try {
@@ -153,44 +136,6 @@ export default function App() {
       setDealers(mappedDealers);
     } catch (error) {
       console.error(error);
-    } finally {
-      setDealersLoading(false); // 👈 ДОДАТИ
-    }
-  };
-  const handleLoadAllCityDealers = async () => {
-    if (!selectedCity) return;
-
-    setFallbackLoading(true);
-
-    try {
-      const response = await fetch(`/api/test-drive/dealers?city=${encodeURIComponent(selectedCity)}&lang=uk`);
-
-      const result = await response.json();
-
-      const dealersData = result.data?.dealers || [];
-
-      const mapped = dealersData.map((dealer) => ({
-        id: dealer.nid,
-        name: dealer.title,
-        city: dealer.field_dealer_city?.city_name,
-        fullAddress: dealer.field_dealer_address?.value ?? '',
-        phonesShowroom: Array.isArray(dealer.field_dealer_office_phone)
-          ? dealer.field_dealer_office_phone.map((p) => p.value)
-          : [],
-        phonesService: Array.isArray(dealer.field_dealer_service_phone)
-          ? dealer.field_dealer_service_phone.map((p) => p.value)
-          : [],
-        site: dealer.field_dealer_site?.url ?? '',
-        siteLabel: dealer.field_dealer_site?.url?.replace('https://', '')?.replace('http://', '')?.replace(/\/$/, ''),
-        mapUrl: `https://www.google.com/maps?q=${encodeURIComponent(dealer.field_dealer_address?.value ?? '')}`,
-      }));
-
-      setFallbackDealers(mapped);
-      setShowFallbackDealers(true);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setFallbackLoading(false);
     }
   };
   const phoneRegex = /^\d{9}$/;
@@ -387,8 +332,6 @@ export default function App() {
                     setDealerEditMode(true);
                     setSelectedCity(null);
                     setSelectedDealer(null);
-                    setDealerChosen(false);
-                    resetDealerViews();
                   }}
                   style={{
                     fontSize: '16px',
@@ -414,32 +357,16 @@ export default function App() {
               )}
             </Grid>
           </Grid>
-          {!selectedCity || selectedDealer || dealersLoading ? null : dealers.length === 0 && !showFallbackDealers ? (
-            <div style={{ marginTop: 40 }}>
-              <Typography color="error">На жаль, у вибраному місті автомобіля для тест-драйву немає</Typography>
-
-              <button
-                onClick={handleLoadAllCityDealers}
-                style={{
-                  marginTop: 15,
-                  background: '#002c5f',
-                  color: '#fff',
-                  border: 'none',
-                  padding: '10px 20px',
-                  cursor: 'pointer',
-                }}
-              >
-                Зробити запит на дилера
-              </button>
-            </div>
-          ) : showFallbackDealers ? (
-            fallbackLoading ? (
-              <Typography style={{ marginTop: 20 }}>Завантаження...</Typography>
-            ) : (
-              <DealerList dealers={fallbackDealers} onSelect={handleSelectDealer} />
-            )
-          ) : (
-            <DealerList dealers={dealers} onSelect={handleSelectDealer} />
+          {dealerEditMode && selectedCity && (
+            <>
+              {dealers.length === 0 ? (
+                <Typography color="error" style={{ marginTop: 40 }}>
+                  На жаль, у вибраному місці автомобіля для тест-драйву немає
+                </Typography>
+              ) : (
+                <DealerList dealers={dealers} onSelect={handleSelectDealer} />
+              )}
+            </>
           )}
 
           {/* ===================== */}

@@ -37,11 +37,12 @@ export default function CitySelect({ value, onChange, cities, submitAttempted })
 
         <MenuItem value="ALL">Будь-яке</MenuItem>
 
-        {cities.map((city) => (
-          <MenuItem key={city} value={city}>
-            {city}
-          </MenuItem>
-        ))}
+        {Array.isArray(cities) &&
+          cities.map((city) => (
+            <MenuItem key={city} value={city}>
+              {city}
+            </MenuItem>
+          ))}
       </Select>
 
       {cityError && <FormHelperText style={{ color: 'red' }}>Оберіть місто</FormHelperText>}

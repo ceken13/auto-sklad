@@ -24,6 +24,8 @@ npx nx serve sklad-hyundai-if-com-ua
 npx nx serve sklad-hyundai-cn-com-ua
 npx nx serve sklad-kr-bogdanauto-hyundai-com-ua
 
+npx nx serve test-drive
+
 ```
 
 To create a production bundle:

@@ -2,6 +2,7 @@ import DealerCard from './DealerCard';
 import { Box } from '@mui/material';
 
 export default function DealerList({ dealers, onSelect }) {
+  const safeDealers = Array.isArray(dealers) ? dealers : [];
   return (
     <Box
       sx={{
@@ -15,7 +16,7 @@ export default function DealerList({ dealers, onSelect }) {
         mb: 1,
       }}
     >
-      {dealers.map((dealer) => (
+      {safeDealers.map((dealer) => (
         <DealerCard key={dealer.id} dealer={dealer} onSelect={onSelect} />
       ))}
     </Box>
