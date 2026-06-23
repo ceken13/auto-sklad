@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 
 export default function DealerList({ dealers, onSelect }) {
   const safeDealers = Array.isArray(dealers) ? dealers : [];
+  console.log('DealerList dealers:', dealers);
   return (
     <Box
       sx={{
