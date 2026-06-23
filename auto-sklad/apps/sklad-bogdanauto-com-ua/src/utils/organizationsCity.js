@@ -1,6 +1,6 @@
 export const ORGANIZATION_MAP = {
   'hyundai-kyiv': {
-    dealerName: 'Богдан Авто (Київ, Новоконстантинівська)',
+    dealerName: 'БА Новоконстантинівська',
     dealerCity: 'Київ',
   },
   'hyundai-if': {
