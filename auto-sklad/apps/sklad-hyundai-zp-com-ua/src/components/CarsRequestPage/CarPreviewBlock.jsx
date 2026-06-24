@@ -41,6 +41,22 @@ export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid
               {car?.carBrand} {car?.model} {car?.trimLevel}
             </Typography>
           </Box>
+          {car?.specialPrice && (
+            <Box sx={{ display: 'flex', color: 'red', fontWeight: '600' }}>
+              <Typography sx={{ mb: 1, flex: 1, fontSize: '18px' }}>Акційна ціна:</Typography>
+              <Typography
+                sx={{
+                  mb: 1,
+                  flex: 1,
+                  fontFamily: 'HyundaiSansHeadRegular, sans-serif',
+                  fontSize: '18px',
+                  fontWeight: '900',
+                }}
+              >
+                {car?.specialPrice?.toLocaleString('uk-UA')} грн
+              </Typography>
+            </Box>
+          )}
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '18px' }}>Регулярна ціна:</Typography>
             <Typography

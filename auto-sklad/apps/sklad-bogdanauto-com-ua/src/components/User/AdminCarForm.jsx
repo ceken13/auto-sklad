@@ -23,6 +23,7 @@ import { getOrganizationBySlug } from '../../api/organizations.api';
 import { ORGANIZATION_MAP } from '../../utils/organizationsCity';
 
 export default function AdminCarForm({ onSubmit, editingCar, onClose, user, organizations }) {
+  const SPEC_SECTIONS = ['Безпека', 'Комфорт і обладнання', 'Мультимедіа', 'Світло', "Інтер'єр", "Екстер'єр"];
   const MAX_FILE_SIZE = 200 * 1024;
   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
   const isValidImageFile = (file) => {
@@ -57,8 +58,9 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     interiorColor: '',
     exteriorColor: '',
     regularPrice: '',
+    specialPrice: '',
     loanRepayment: '',
-    specialOffer: false,
+
     pickUpOffer: false,
     usedCars: true,
     inUkraine: true,
@@ -267,6 +269,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       exteriorColor: form.exteriorColor,
 
       regularPrice: toNumber(form.regularPrice) ?? 0,
+      specialPrice: toNumber(form.specialPrice),
       loanRepayment: toNumber(form.loanRepayment),
 
       trimLevel: form.trimLevel,
@@ -293,7 +296,6 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       grossWeightKg: form.grossWeightKg,
       organizationSlug: form.organizationSlug,
 
-      specialOffer: !!form.specialOffer,
       pickUpOffer: !!form.pickUpOffer,
       usedCars: !!form.usedCars,
 
@@ -462,6 +464,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Регулярна ціна" name="regularPrice" value={form.regularPrice} onChange={handleChange} />
+          <TextField label="Акційна ціна" name="specialPrice" value={form.specialPrice} onChange={handleChange} />
           <TextField
             label="Кредитний платіж"
             name="loanRepayment"
@@ -470,10 +473,6 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
           />
         </Box>
         <Box sx={{ display: 'flex', gap: '10px', '& > *': { flex: 1 } }}>
-          <FormControlLabel
-            control={<Checkbox name="specialOffer" checked={form.specialOffer} onChange={handleChange} />}
-            label="СПЕЦІАЛЬНА ПРОПОЗИЦІЯ"
-          />
           <FormControlLabel
             control={<Checkbox name="pickUpOffer" checked={form.pickUpOffer} onChange={handleChange} />}
             label="ЗАБРАТИ ЗА 60 ХВИЛИН"
@@ -605,10 +604,18 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
               sx={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <TextField
+                select
                 label="Назва секції"
                 value={spec.title}
                 onChange={(e) => updateSpecTitle(specIndex, e.target.value)}
-              />
+                sx={{ minWidth: 280 }}
+              >
+                {SPEC_SECTIONS.map((section) => (
+                  <MenuItem key={section} value={section}>
+                    {section}
+                  </MenuItem>
+                ))}
+              </TextField>
               <Button variant="outlined" color="error" onClick={() => removeSpecSection(specIndex)}>
                 Видалити секцію
               </Button>

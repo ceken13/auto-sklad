@@ -71,6 +71,14 @@ export function MainCharacteristics({ car }) {
 
         {/* Ціна */}
         <Box>
+          {car?.specialPrice && (
+            <Box sx={{ display: 'flex', color: 'red', fontWeight: '600' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Акційна ціна:</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontSize: '22px', fontWeight: '700' }}>
+                {car?.specialPrice?.toLocaleString('uk-UA')} грн
+              </Typography>
+            </Box>
+          )}
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Регулярна ціна:</Typography>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '22px', fontWeight: '700' }}>

@@ -45,7 +45,20 @@ export default function AdminCarsList({ cars = [], onEdit, onDelete }) {
                       Редагувати
                     </Button>
 
-                    <Button variant="outlined" size="small" color="error" onClick={() => onDelete(car)}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      color="error"
+                      onClick={() => {
+                        const confirmed = window.confirm(
+                          `Видалити авто ${car.carBrand} ${car.model} (VIN: ${car.vinCode})?`,
+                        );
+
+                        if (confirmed) {
+                          onDelete(car);
+                        }
+                      }}
+                    >
                       Видалити
                     </Button>
                   </Stack>

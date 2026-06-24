@@ -52,6 +52,7 @@ export function ComparePage() {
         { label: 'Тип палива', key: 'fuelType' },
         { label: 'КПП', key: 'transmission' },
         { label: 'Ціна', key: 'regularPrice' },
+        { label: 'Акційна ціна', key: 'specialPrice' },
       ],
     },
     {
@@ -387,6 +388,9 @@ export function ComparePage() {
                           let value = car[field.key];
 
                           if (field.key === 'regularPrice') {
+                            value = value ? `${value.toLocaleString('uk-UA')} грн` : 'Н/Д';
+                          }
+                          if (field.key === 'specialPrice') {
                             value = value ? `${value.toLocaleString('uk-UA')} грн` : 'Н/Д';
                           }
                           if (field.key === 'year') {

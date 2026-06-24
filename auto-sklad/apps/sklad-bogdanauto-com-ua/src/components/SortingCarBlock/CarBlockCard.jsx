@@ -103,6 +103,16 @@ export function CarBlockCard({ data }) {
             </Typography>
           </Stack>
         )}
+
+        {data?.specialPrice && (
+          <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0', color: 'red', fontWeight: '600' }}>
+            Акційна ціна:
+            <span style={{ fontSize: '18px', fontWeight: 700, marginLeft: '10px' }}>
+              {data?.specialPrice?.toLocaleString('uk-UA')} грн
+            </span>
+          </Typography>
+        )}
+
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
           Регулярна ціна:
           <span style={{ fontSize: '18px', fontWeight: 700, marginLeft: '10px' }}>

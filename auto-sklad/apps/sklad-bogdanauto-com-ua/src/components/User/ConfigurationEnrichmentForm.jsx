@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getMediaUrl } from '../../utils/uploadImage';
 
 export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onClose }) {
+  const SPEC_SECTIONS = ['Безпека', 'Комфорт і обладнання', 'Мультимедіа', 'Світло', "Інтер'єр", "Екстер'єр"];
   const isEditMode = Boolean(initialData);
 
   const normalizeImages = (arr) => (arr || []).map((img) => getMediaUrl(img));
@@ -32,6 +33,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       carBrand: initialData.carBrand ?? '',
       model: initialData.model ?? '',
       configuration: initialData.configuration ?? '',
+      specialPrice: initialData.specialPrice ?? '',
 
       brandId: initialData.brandId ?? '',
       modelId: initialData.modelId ?? '',
@@ -78,7 +80,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
     brandId: '',
     modelId: '',
     configurationId: '',
-
+    specialPrice: '',
     imgCar: '',
     sliderImages: [], // через кому
 
@@ -253,6 +255,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       carBrand: form.carBrand || null,
       model: form.model || null,
       configuration: form.configuration || null,
+      specialPrice: form.specialPrice ? Number(form.specialPrice) : null,
 
       brandId: form.brandId || null,
       modelId: form.modelId || null,
@@ -318,6 +321,13 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
             label="ID конфігурації"
             required
             value={form.configurationId}
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            name="specialPrice"
+            label="Акційна ціна"
+            value={form.specialPrice}
             onChange={handleChange}
             fullWidth
           />
@@ -491,6 +501,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
             {form.specs.map((spec, si) => (
               <Box key={si} sx={{ border: '1px solid #ccc', p: 2, mb: 2 }}>
                 <TextField
+                  select
                   label="Назва секції"
                   value={spec.title}
                   onChange={(e) => updateSpecTitle(si, e.target.value)}
@@ -507,7 +518,15 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
                       fontWeight: 700,
                     },
                   }}
-                />
+                >
+                  <MenuItem value="">Виберіть категорію</MenuItem>
+
+                  {SPEC_SECTIONS.map((section) => (
+                    <MenuItem key={section} value={section}>
+                      {section}
+                    </MenuItem>
+                  ))}
+                </TextField>
 
                 {spec.items.map((item, ii) => (
                   <Box key={ii} sx={{ display: 'flex', gap: 2, mt: 1 }}>
