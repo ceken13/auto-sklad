@@ -43,7 +43,15 @@ export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid
           )}
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1, fontSize: '18px' }}>Регулярна ціна:</Typography>
-            <Typography sx={{ mb: 1, flex: 1, fontSize: '18px', fontWeight: '900' }}>
+            <Typography
+              sx={{
+                mb: 1,
+                flex: 1,
+                fontSize: '18px',
+                fontWeight: '900',
+                textDecoration: car?.specialPrice ? 'line-through' : 'none',
+              }}
+            >
               {car?.regularPrice?.toLocaleString('uk-UA')} грн
             </Typography>
           </Box>

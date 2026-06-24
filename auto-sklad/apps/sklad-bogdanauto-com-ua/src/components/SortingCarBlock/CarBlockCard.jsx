@@ -17,8 +17,7 @@ export function CarBlockCard({ data }) {
   const { compareCars, toggleCompare } = useCompare();
 
   const isCompare = compareCars.some((item) => item.id === data.id);
-  const loanPayment = data?.loanRepayment ?? calculateLoanRepayment(data?.regularPrice);
-
+  const loanPayment = data?.loanRepayment ?? calculateLoanRepayment(data?.specialPrice || data?.regularPrice);
   return (
     <Box sx={styles.carItemWrap}>
       {/* LEFT SIDE */}
@@ -115,7 +114,14 @@ export function CarBlockCard({ data }) {
 
         <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
           Регулярна ціна:
-          <span style={{ fontSize: '18px', fontWeight: 700, marginLeft: '10px' }}>
+          <span
+            style={{
+              fontSize: '18px',
+              fontWeight: 700,
+              marginLeft: '10px',
+              textDecoration: data?.specialPrice ? 'line-through' : 'none',
+            }}
+          >
             {data?.regularPrice?.toLocaleString('uk-UA')} грн
           </span>
         </Typography>

@@ -16,7 +16,7 @@ export function CarBlockCard({ data }) {
   const navigate = useNavigate();
   const { compareCars, toggleCompare } = useCompare();
   const isCompare = compareCars.some((item) => item.id === data.id);
-  const loanPayment = data?.loanRepayment ?? calculateLoanRepayment(data?.regularPrice);
+  const loanPayment = data?.loanRepayment ?? calculateLoanRepayment(data?.specialPrice || data?.regularPrice);
 
   return (
     <Box sx={styles.carItemWrap}>
@@ -126,6 +126,7 @@ export function CarBlockCard({ data }) {
               fontWeight: 700,
               marginLeft: '10px',
               fontFamily: 'HyundaiSansHeadMedium, sans-serif',
+              textDecoration: data?.specialPrice ? 'line-through' : 'none',
             }}
           >
             {data?.regularPrice?.toLocaleString('uk-UA')} грн

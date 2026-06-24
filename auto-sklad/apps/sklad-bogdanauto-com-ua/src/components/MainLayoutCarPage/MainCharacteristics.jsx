@@ -7,7 +7,7 @@ import { calculateLoanRepayment } from '../../utils/calculateLoanRepayment';
 export function MainCharacteristics({ car }) {
   const styles = getStyles(theme);
 
-  const loanPayment = car?.loanRepayment ?? calculateLoanRepayment(car?.regularPrice);
+  const loanPayment = car?.loanRepayment ?? calculateLoanRepayment(car?.specialPrice || car?.regularPrice);
   return (
     <Box>
       <Box>
@@ -81,7 +81,15 @@ export function MainCharacteristics({ car }) {
           )}
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mb: 1, flex: 1 }}>Регулярна ціна:</Typography>
-            <Typography sx={{ mb: 1, flex: 1, fontSize: '22px', fontWeight: '700' }}>
+            <Typography
+              sx={{
+                mb: 1,
+                flex: 1,
+                fontSize: '22px',
+                fontWeight: '700',
+                textDecoration: car?.specialPrice ? 'line-through' : 'none',
+              }}
+            >
               {car?.regularPrice?.toLocaleString('uk-UA')} грн
             </Typography>
           </Box>

@@ -66,6 +66,7 @@ export function CarPreviewBlock({ car, onSubmit, setCaptchaValue, isCaptchaValid
                 fontSize: '18px',
                 fontWeight: '900',
                 fontFamily: 'HyundaiSansHeadRegular, sans-serif',
+                textDecoration: car?.specialPrice ? 'line-through' : 'none',
               }}
             >
               {car?.regularPrice?.toLocaleString('uk-UA')} грн
