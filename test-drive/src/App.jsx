@@ -19,6 +19,7 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import CustomStepper from './components/CustomStepper';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
 export default function App() {
   const [cities, setCities] = useState([]);
@@ -44,7 +45,8 @@ export default function App() {
   const [fallbackDealers, setFallbackDealers] = useState([]);
   const [fallbackLoading, setFallbackLoading] = useState(false);
   const [dealerChosen, setDealerChosen] = useState(false);
-
+  const [noDealersPopupOpen, setNoDealersPopupOpen] = useState(false);
+  //тут працює
   const cityError = submitAttempted && !selectedCity;
   const dealerError = submitAttempted && !selectedDealer;
   const consentError = submitAttempted && !consent;
@@ -57,8 +59,6 @@ export default function App() {
     setSelectedDealer(dealer);
     setDealerEditMode(false);
     setDealerChosen(true);
-    // ❗ повністю ховаємо ВСІ списки і стани
-    resetDealerViews();
   };
 
   const handleCarSelect = async (car) => {
@@ -151,6 +151,9 @@ export default function App() {
       }));
 
       setDealers(mappedDealers);
+      if (mappedDealers.length === 0) {
+        setNoDealersPopupOpen(true);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -385,10 +388,9 @@ export default function App() {
                   type="button"
                   onClick={() => {
                     setDealerEditMode(true);
-                    setSelectedCity(null);
+
                     setSelectedDealer(null);
                     setDealerChosen(false);
-                    resetDealerViews();
                   }}
                   style={{
                     fontSize: '16px',
@@ -414,43 +416,80 @@ export default function App() {
               )}
             </Grid>
           </Grid>
-          {!selectedCity || selectedDealer || dealersLoading ? null : dealers.length === 0 && !showFallbackDealers ? (
-            <div style={{ marginTop: 40, textAlign: 'center' }}>
-              <div style={{ color: '#000', fontSize: 16 }}>У вибраному місті автомобіля для тест-драйву немає</div>
 
+          {!dealerChosen && (dealers.length > 0 || showFallbackDealers) && (
+            <DealerList dealers={showFallbackDealers ? fallbackDealers : dealers} onSelect={handleSelectDealer} />
+          )}
+          <Dialog open={noDealersPopupOpen} onClose={() => setNoDealersPopupOpen(false)} maxWidth="sm" fullWidth>
+            <p></p>
+
+            <DialogContent>
               {selectedCity === 'ALL' ? (
-                <div style={{ marginTop: 20, fontSize: 16, color: '#000' }}>Оберіть місто для запиту на дилера</div>
+                <>
+                  <p style={{ textAlign: 'center', padding: '30px' }}>
+                    На жаль, цей автомобіль наразі недоступний у тест-парках.{' '}
+                    <b>Ви можете залишити заявку дилеру на індивідуальний тест-драйв у конкретному місті.</b>
+                  </p>
+                  <Button
+                    style={{
+                      display: 'block',
+                      width: '260px',
+                      lineHeight: '50px',
+                      height: '50px',
+                      background: '#002c5f',
+                      color: '#fff',
+                      margin: '50px auto 60px',
+                      padding: '0 10px',
+                      cursor: 'pointer',
+                      fontSize: '16px',
+                      borderRadius: 0,
+                      textTransform: 'none',
+                      fontWeight: '400',
+                      fontFamily: 'HyundaiSansHeadMedium',
+                    }}
+                    onClick={() => setNoDealersPopupOpen(false)}
+                  >
+                    Обрати місто та делера
+                  </Button>
+                </>
               ) : (
-                <button
-                  onClick={handleLoadAllCityDealers}
+                <p style={{ textAlign: 'center', padding: '30px' }}>
+                  На жаль, цей автомобіль зараз недоступний у тест-парку у вашому місті.{' '}
+                  <b>Ви можете залишити заявку дилеру на індивідуальний тест-драйв.</b>
+                </p>
+              )}
+            </DialogContent>
+
+            <DialogActions>
+              {selectedCity !== 'ALL' && (
+                <Button
                   style={{
-                    marginTop: 20,
+                    display: 'block',
+                    width: '260px',
+                    lineHeight: '50px',
+                    height: '50px',
                     background: '#002c5f',
                     color: '#fff',
-                    border: 'none',
-                    padding: '12px 20px',
+                    margin: '50px auto 60px',
+                    padding: '0 10px',
                     cursor: 'pointer',
                     fontSize: '16px',
-                    display: 'block',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
+                    borderRadius: 0,
+                    textTransform: 'none',
+                    fontWeight: '400',
                     fontFamily: 'HyundaiSansHeadMedium',
                   }}
+                  onClick={() => {
+                    setNoDealersPopupOpen(false);
+                    handleLoadAllCityDealers();
+                  }}
+                  variant="contained"
                 >
-                  Зробити запит на дилера
-                </button>
+                  Обрати делера
+                </Button>
               )}
-            </div>
-          ) : showFallbackDealers ? (
-            fallbackLoading ? (
-              <div style={{ marginTop: 20 }}>Завантаження...</div>
-            ) : (
-              <DealerList dealers={fallbackDealers} onSelect={handleSelectDealer} />
-            )
-          ) : (
-            <DealerList dealers={dealers} onSelect={handleSelectDealer} />
-          )}
-
+            </DialogActions>
+          </Dialog>
           {/* ===================== */}
           {/* DATE + TIME */}
           {/* ===================== */}
