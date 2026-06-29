@@ -75,6 +75,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     highwayFuelConsumption: '',
     combinedFuelConsumption: '',
     fuelTankCapacity: '',
+    coEmissions: '',
     driveType: '',
     lengthMm: '',
     widthMm: '',
@@ -286,6 +287,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       combinedFuelConsumption: form.combinedFuelConsumption,
 
       fuelTankCapacity: form.fuelTankCapacity,
+      coEmissions: form.coEmissions,
 
       lengthMm: form.lengthMm,
       widthMm: form.widthMm,
@@ -524,6 +526,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
             value={form.fuelTankCapacity}
             onChange={handleChange}
           />
+          <TextField label="Викиди CO2, г/км" name="coEmissions" value={form.coEmissions} onChange={handleChange} />
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField

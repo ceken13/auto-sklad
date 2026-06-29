@@ -59,6 +59,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       combinedFuelConsumption: initialData.combinedFuelConsumption ?? '',
 
       fuelTankCapacity: initialData.fuelTankCapacity ?? '',
+      coEmissions: initialData.coEmissions ?? '',
 
       lengthMm: initialData.lengthMm ?? '',
       widthMm: initialData.widthMm ?? '',
@@ -101,6 +102,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
     combinedFuelConsumption: '',
 
     fuelTankCapacity: '',
+    coEmissions: '',
 
     lengthMm: '',
     widthMm: '',
@@ -281,6 +283,7 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       combinedFuelConsumption: form.combinedFuelConsumption || null,
 
       fuelTankCapacity: form.fuelTankCapacity || null,
+      coEmissions: form.coEmissions || null,
 
       lengthMm: form.lengthMm || null,
       widthMm: form.widthMm || null,
@@ -427,10 +430,34 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
 
         {/* РОЗМІРИ  */}
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <TextField name="lengthMm" value={form.lengthMm} label="Габарити авто Довжина, мм" onChange={handleChange} />
-          <TextField name="widthMm" value={form.widthMm} label="Габарити авто Ширина, мм" onChange={handleChange} />
-          <TextField name="heightMm" value={form.heightMm} label="Габарити авто Висота, мм" onChange={handleChange} />
-          <TextField name="wheelbaseMm" value={form.wheelbaseMm} label="Колісна база, мм" onChange={handleChange} />
+          <TextField
+            name="lengthMm"
+            value={form.lengthMm}
+            label="Габарити авто Довжина, мм"
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            name="widthMm"
+            value={form.widthMm}
+            label="Габарити авто Ширина, мм"
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            name="heightMm"
+            value={form.heightMm}
+            label="Габарити авто Висота, мм"
+            onChange={handleChange}
+            fullWidth
+          />
+          <TextField
+            name="wheelbaseMm"
+            value={form.wheelbaseMm}
+            label="Колісна база, мм"
+            onChange={handleChange}
+            fullWidth
+          />
         </Box>
 
         {/* ПАЛИВО  */}
@@ -440,25 +467,37 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
             value={form.cityFuelConsumption}
             label="Місто"
             onChange={handleChange}
+            fullWidth
           />
           <TextField
             name="highwayFuelConsumption"
             value={form.highwayFuelConsumption}
             label="Траса"
             onChange={handleChange}
+            fullWidth
           />
           <TextField
             name="combinedFuelConsumption"
             value={form.combinedFuelConsumption}
             label="Комбінований"
             onChange={handleChange}
+            fullWidth
           />
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField
             name="fuelTankCapacity"
             value={form.fuelTankCapacity}
             label="Паливний бак (л)"
             onChange={handleChange}
             fullWidth
+          />
+          <TextField
+            fullWidth
+            label="Викиди CO2, г/км"
+            name="coEmissions"
+            value={form.coEmissions}
+            onChange={handleChange}
           />
         </Box>
         <Box sx={{ display: 'flex', gap: 2 }}>

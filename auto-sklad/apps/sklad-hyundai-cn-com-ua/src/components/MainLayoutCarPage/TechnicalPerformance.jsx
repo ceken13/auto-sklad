@@ -17,6 +17,7 @@ export function TechnicalPerformance({ car }) {
           car?.accel0to100 ||
           car?.maximumSpeed ||
           car?.fuelTankCapacity ||
+          car?.coEmissions ||
           car?.driveType) && (
           <Typography
             variant="h6"
@@ -89,6 +90,14 @@ export function TechnicalPerformance({ car }) {
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Привід:</Typography>
               <Typography sx={{ mb: 1, flex: 1, fontWeight: 600 }}>{car?.driveType}</Typography>
+            </Box>
+          )}
+        </Box>
+        <Box>
+          {car?.coEmissions && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Викиди СО2, г/км:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.coEmissions}</Typography>
             </Box>
           )}
         </Box>
