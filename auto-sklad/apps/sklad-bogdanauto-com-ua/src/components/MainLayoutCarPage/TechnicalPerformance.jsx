@@ -95,7 +95,7 @@ export function TechnicalPerformance({ car }) {
         <Box>
           {car?.coEmissions && (
             <Box sx={{ display: 'flex' }}>
-              <Typography sx={{ mb: 1, flex: 1 }}>Викиди СО2, г/км:</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>Викиди СО2, г/км**:</Typography>
               <Typography sx={{ mb: 1, flex: 1 }}>{car?.coEmissions}</Typography>
             </Box>
           )}

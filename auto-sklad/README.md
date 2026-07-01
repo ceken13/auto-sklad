@@ -105,3 +105,13 @@ npx nx run @auto-sklad/sklad-kr-bogdanauto-hyundai-com-ua:build
 
 npx nx reset
 npx nx show projects
+
+Богдан-Авто Запоріжжя sklad.hyundai-zp.com.ua/
+Богдан-Авто Черкаси sklad.hyundai-ck.com.ua/
+Богдан Авто (Київ, Новоконстантинівська) sklad.hyundai-kyiv.com.ua/
+Богдан-Авто Луцьк sklad.hyundai-volyn.com.ua/
+Богдан Авто Івано-Франківськ sklad.hyundai-if.com.ua/
+Богдан-Авто Чернігів sklad.hyundai-cn.com.ua/
+Богдан-Авто Кропивницький sklad.kr-bogdanauto.hyundai.com.ua/
+hyundai-krp.com.ua
+один восьмий основний sklad.bogdanauto.com.ua/

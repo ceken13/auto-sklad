@@ -20,7 +20,7 @@ import {
 } from '@mui/material';
 import CustomStepper from './components/CustomStepper';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-
+//тут норм
 export default function App() {
   const [cities, setCities] = useState([]);
   const [dealers, setDealers] = useState([]);
@@ -32,7 +32,7 @@ export default function App() {
   const [step, setStep] = useState(0);
 
   const [selectedCar, setSelectedCar] = useState(null);
-  const [selectedCity, setSelectedCity] = useState(null);
+  const [city, setSelectedCity] = useState(null);
   const [selectedDealer, setSelectedDealer] = useState(null);
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [name, setName] = useState('');
@@ -46,8 +46,9 @@ export default function App() {
   const [fallbackLoading, setFallbackLoading] = useState(false);
   const [dealerChosen, setDealerChosen] = useState(false);
   const [noDealersPopupOpen, setNoDealersPopupOpen] = useState(false);
+  const [allPopupShown, setAllPopupShown] = useState(false);
   //тут працює
-  const cityError = submitAttempted && !selectedCity;
+  const cityError = submitAttempted && !city;
   const dealerError = submitAttempted && !selectedDealer;
   const consentError = submitAttempted && !consent;
   const resetDealerViews = () => {
@@ -89,6 +90,14 @@ export default function App() {
     setSelectedCity(null);
     setSelectedDealer(null);
     setDealerEditMode(true);
+    setCities([]);
+    setDealers([]);
+    setFallbackDealers([]);
+    setNoDealersPopupOpen(false);
+    setAllPopupShown(false);
+
+    setShowFallbackDealers(false);
+    setDealerChosen(false);
     setStep(0);
   };
 
@@ -106,11 +115,11 @@ export default function App() {
 
       if (city === 'ALL') {
         // отримуємо дилерів з усіх міст
-        const requests = cities.map((cityName) =>
+        const requests = cities.map((city) =>
           fetch(
             `/api/test-drive/dealers?model=${encodeURIComponent(
               selectedCar.apiModel,
-            )}&city=${encodeURIComponent(cityName)}&lang=uk`,
+            )}&city=${encodeURIComponent(city)}&lang=uk`,
           ).then((res) => res.json()),
         );
 
@@ -151,8 +160,18 @@ export default function App() {
       }));
 
       setDealers(mappedDealers);
+
       if (mappedDealers.length === 0) {
-        setNoDealersPopupOpen(true);
+        if (city === 'ALL') {
+          setAllPopupShown(true);
+          setNoDealersPopupOpen(true);
+        } else if (allPopupShown) {
+          // попап уже показували після ALL
+          await handleLoadAllCityDealers(city);
+        } else {
+          // якщо користувач одразу вибрав місто
+          setNoDealersPopupOpen(true);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -160,13 +179,13 @@ export default function App() {
       setDealersLoading(false); // 👈 ДОДАТИ
     }
   };
-  const handleLoadAllCityDealers = async () => {
-    if (!selectedCity) return;
+  const handleLoadAllCityDealers = async (city) => {
+    if (!city) return;
 
     setFallbackLoading(true);
 
     try {
-      const response = await fetch(`/api/test-drive/dealers?city=${encodeURIComponent(selectedCity)}&lang=uk`);
+      const response = await fetch(`/api/test-drive/dealers?city=${encodeURIComponent(city)}&lang=uk`);
 
       const result = await response.json();
 
@@ -200,8 +219,7 @@ export default function App() {
   const handleSubmit = async () => {
     setSubmitAttempted(true);
 
-    const isValid =
-      name.trim() && phoneRegex.test(phone) && selectedCity && selectedCity !== '' && selectedDealer && consent;
+    const isValid = name.trim() && phoneRegex.test(phone) && city && city !== '' && selectedDealer && consent;
 
     if (!isValid) return;
 
@@ -219,7 +237,7 @@ export default function App() {
         fullAddress: selectedDealer.fullAddress,
       },
 
-      city: selectedCity,
+      city: city,
       name,
       phone,
       date,
@@ -339,12 +357,7 @@ export default function App() {
                 Місто: <span style={{ color: '#00aad2' }}>*</span>
               </Typography>
 
-              <CitySelect
-                value={selectedCity}
-                onChange={handleCityChange}
-                cities={cities}
-                submitAttempted={submitAttempted}
-              />
+              <CitySelect value={city} onChange={handleCityChange} cities={cities} submitAttempted={submitAttempted} />
             </Grid>
 
             {/* DEALER */}
@@ -424,7 +437,7 @@ export default function App() {
             <p></p>
 
             <DialogContent>
-              {selectedCity === 'ALL' ? (
+              {city === 'ALL' ? (
                 <>
                   <p style={{ textAlign: 'center', padding: '30px' }}>
                     На жаль, цей автомобіль наразі недоступний у тест-парках.{' '}
@@ -447,21 +460,24 @@ export default function App() {
                       fontWeight: '400',
                       fontFamily: 'HyundaiSansHeadMedium',
                     }}
-                    onClick={() => setNoDealersPopupOpen(false)}
+                    onClick={() => {
+                      setAllPopupShown(true);
+                      setNoDealersPopupOpen(false);
+                    }}
                   >
                     Обрати місто та делера
                   </Button>
                 </>
               ) : (
                 <p style={{ textAlign: 'center', padding: '30px' }}>
-                  На жаль, цей автомобіль зараз недоступний у тест-парку у вашому місті.{' '}
+                  На жаль, цей автомобіль зараз недоступний у тест-парку в обраному місті.
                   <b>Ви можете залишити заявку дилеру на індивідуальний тест-драйв.</b>
                 </p>
               )}
             </DialogContent>
 
             <DialogActions>
-              {selectedCity !== 'ALL' && (
+              {city !== 'ALL' && (
                 <Button
                   style={{
                     display: 'block',
@@ -481,7 +497,7 @@ export default function App() {
                   }}
                   onClick={() => {
                     setNoDealersPopupOpen(false);
-                    handleLoadAllCityDealers();
+                    handleLoadAllCityDealers(city);
                   }}
                   variant="contained"
                 >
