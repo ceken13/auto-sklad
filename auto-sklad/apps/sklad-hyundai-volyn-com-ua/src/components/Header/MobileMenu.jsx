@@ -15,6 +15,10 @@ export function MobileMenu({ onClose }) {
           Контакти
         </ListItemButton>
 
+        <ListItemButton sx={{ p: 2 }} component="a" href="https://sklad.hyundai-volyn.com.ua/">
+          Онлайн склад
+        </ListItemButton>
+
         <ListItemButton sx={{ p: 2 }} component="a" href="https://hyundai-volyn.com.ua/zapys-servis-lutsk">
           Запис на сервіс
         </ListItemButton>

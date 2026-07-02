@@ -15,6 +15,10 @@ export function MobileMenu({ onClose }) {
           Контакти
         </ListItemButton>
 
+        <ListItemButton sx={{ p: 2 }} component="a" href="https://sklad.hyundai-kyiv.com.ua/">
+          Онлайн склад
+        </ListItemButton>
+
         <ListItemButton sx={{ p: 2 }} component="a" href="https://hyundai-kyiv.com.ua/zapys-servis-bogdanauto">
           Запис на сервіс
         </ListItemButton>

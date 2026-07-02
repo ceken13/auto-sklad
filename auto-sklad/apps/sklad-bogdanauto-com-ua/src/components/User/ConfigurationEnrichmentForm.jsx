@@ -97,8 +97,6 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
     transmission: '',
     driveType: '',
 
-    cityFuelConsumption: '',
-    highwayFuelConsumption: '',
     combinedFuelConsumption: '',
 
     fuelTankCapacity: '',
@@ -278,8 +276,6 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       transmission: form.transmission || null,
       driveType: form.driveType || null,
 
-      cityFuelConsumption: form.cityFuelConsumption || null,
-      highwayFuelConsumption: form.highwayFuelConsumption || null,
       combinedFuelConsumption: form.combinedFuelConsumption || null,
 
       fuelTankCapacity: form.fuelTankCapacity || null,
@@ -463,23 +459,10 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
         {/* ПАЛИВО  */}
         <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField
-            name="cityFuelConsumption"
-            value={form.cityFuelConsumption}
-            label="Місто"
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            name="highwayFuelConsumption"
-            value={form.highwayFuelConsumption}
-            label="Траса"
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
             name="combinedFuelConsumption"
             value={form.combinedFuelConsumption}
-            label="Комбінований"
+            label="Витрати палива 
+            (комбінований)"
             onChange={handleChange}
             fullWidth
           />

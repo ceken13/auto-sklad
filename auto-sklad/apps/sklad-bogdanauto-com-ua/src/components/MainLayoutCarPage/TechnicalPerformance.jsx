@@ -10,9 +10,7 @@ export function TechnicalPerformance({ car }) {
     <Box>
       <Box>
         {/* Заголовок */}
-        {(car?.cityFuelConsumption ||
-          car?.highwayFuelConsumption ||
-          car?.combinedFuelConsumption ||
+        {(car?.combinedFuelConsumption ||
           car?.enginePowerHP ||
           car?.accel0to100 ||
           car?.maximumSpeed ||
@@ -57,21 +55,13 @@ export function TechnicalPerformance({ car }) {
         </Box>
 
         <Box>
-          {car?.cityFuelConsumption && car?.highwayFuelConsumption && car?.combinedFuelConsumption && (
-            <Box sx={{ mb: 1 }}>
-              <Typography sx={{ mb: 1 }}>Витрати пального:</Typography>
-              <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ mb: 1, flex: 1, pl: 2 }}> • Міський цикл</Typography>
-                <Typography sx={{ mb: 1, flex: 1 }}>{car?.cityFuelConsumption}</Typography>
-              </Box>
-              <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ mb: 1, flex: 1, pl: 2 }}> • Заміський цикл</Typography>
-                <Typography sx={{ mb: 1, flex: 1 }}>{car?.highwayFuelConsumption}</Typography>
-              </Box>
-              <Box sx={{ display: 'flex' }}>
-                <Typography sx={{ mb: 1, flex: 1, pl: 2 }}> • Комбінований цикл</Typography>
-                <Typography sx={{ mb: 1, flex: 1 }}>{car?.combinedFuelConsumption}</Typography>
-              </Box>
+          {car?.combinedFuelConsumption && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>
+                {car?.fuelType === 'Електро' ? 'Питомі витрати палива, кВтГ/100км:' : 'Питомі витрати палива, л/100км:'}
+              </Typography>
+
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.combinedFuelConsumption}</Typography>
             </Box>
           )}
         </Box>

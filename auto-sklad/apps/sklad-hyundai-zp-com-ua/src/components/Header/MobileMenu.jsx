@@ -14,6 +14,9 @@ export function MobileMenu({ onClose }) {
         <ListItemButton sx={{ p: 2 }} component="a" href="https://hyundai-zp.com.ua/contacts-bogdanauto-zp">
           Контакти
         </ListItemButton>
+        <ListItemButton sx={{ p: 2 }} component="a" href="https://sklad.hyundai-zp.com.ua/">
+          Онлайн склад
+        </ListItemButton>
 
         <ListItemButton sx={{ p: 2 }} component="a" href="https://hyundai-zp.com.ua/zapys-servis-bogdanauto-zp">
           Запис на сервіс

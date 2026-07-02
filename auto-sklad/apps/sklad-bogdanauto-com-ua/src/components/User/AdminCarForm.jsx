@@ -71,8 +71,6 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     accel0to100: '',
     maximumSpeed: '',
     transmission: '',
-    cityFuelConsumption: '',
-    highwayFuelConsumption: '',
     combinedFuelConsumption: '',
     fuelTankCapacity: '',
     coEmissions: '',
@@ -282,8 +280,6 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       accel0to100: form.accel0to100,
       maximumSpeed: form.maximumSpeed,
 
-      cityFuelConsumption: form.cityFuelConsumption,
-      highwayFuelConsumption: form.highwayFuelConsumption,
       combinedFuelConsumption: form.combinedFuelConsumption,
 
       fuelTankCapacity: form.fuelTankCapacity,
@@ -529,18 +525,6 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
           <TextField label="Викиди CO2, г/км" name="coEmissions" value={form.coEmissions} onChange={handleChange} />
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
-          <TextField
-            label="Витрати пального Міський цикл"
-            name="cityFuelConsumption"
-            value={form.cityFuelConsumption}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Витрати пального Заміський цикл"
-            name="highwayFuelConsumption"
-            value={form.highwayFuelConsumption}
-            onChange={handleChange}
-          />
           <TextField
             label="Витрати пального Комбінований цикл"
             name="combinedFuelConsumption"

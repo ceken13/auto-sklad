@@ -112,6 +112,6 @@ npx nx show projects
 Богдан-Авто Луцьк sklad.hyundai-volyn.com.ua/
 Богдан Авто Івано-Франківськ sklad.hyundai-if.com.ua/
 Богдан-Авто Чернігів sklad.hyundai-cn.com.ua/
-Богдан-Авто Кропивницький sklad.kr-bogdanauto.hyundai.com.ua/
-hyundai-krp.com.ua
+Богдан-Авто Кропивницький http://sklad.hyundai-krp.com.ua/
+
 один восьмий основний sklad.bogdanauto.com.ua/

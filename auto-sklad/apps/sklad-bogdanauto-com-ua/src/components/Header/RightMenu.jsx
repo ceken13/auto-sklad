@@ -76,6 +76,15 @@ export function RightMenu({ open, toggleDrawer }) {
                 primary="Автомобілі"
               />
             </ListItemButton>
+            {/* Онлайн склад */}
+            <ListItemButton component="a" href="https://os.bogdanauto.com.ua/">
+              <ListItemText
+                primaryTypographyProps={{
+                  variant: 'body2',
+                }}
+                primary="Онлайн склад"
+              />
+            </ListItemButton>
 
             {/* Фінансові послуги */}
             <ListItemButton component="a" href="https://bogdanauto.com.ua/finansovi-poslugi/" target="_blank">

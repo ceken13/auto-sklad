@@ -14,6 +14,9 @@ export function MobileMenu({ onClose }) {
         <ListItemButton sx={{ p: 2 }} component="a" href="https://hyundai-cn.com.ua/contacts-cn">
           Контакти
         </ListItemButton>
+        <ListItemButton sx={{ p: 2 }} component="a" href="https://sklad.hyundai-cn.com.ua/">
+          Онлайн склад
+        </ListItemButton>
 
         <ListItemButton sx={{ p: 2 }} component="a" href="https://hyundai-cn.com.ua/zapys-servis-cn">
           Запис на сервіс
