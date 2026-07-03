@@ -2,8 +2,12 @@ import DealerCard from './DealerCard';
 import { Box } from '@mui/material';
 
 export default function DealerList({ dealers, onSelect }) {
-  const safeDealers = Array.isArray(dealers) ? dealers : [];
-  console.log('DealerList dealers:', dealers);
+  const safeDealers = Array.isArray(dealers)
+    ? [...dealers].sort((a, b) => a.name.localeCompare(b.name, 'uk', { sensitivity: 'base' }))
+    : [];
+
+  console.log('DealerList dealers:', safeDealers);
+
   return (
     <Box
       sx={{

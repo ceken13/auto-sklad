@@ -3,19 +3,27 @@ import { theme } from '../../theme.ts';
 import { getStyles } from './styles';
 import { Box, TextField, Typography, Checkbox, FormControlLabel, Radio, RadioGroup, FormControl } from '@mui/material';
 import { Controller } from 'react-hook-form';
+import { IMaskInput } from 'react-imask';
 
 export function CarForm({ control, errors }) {
   const styles = getStyles(theme);
   const formatPhone = (value) => {
-    const digits = value.replace(/\D/g, '').slice(0, 12);
+    const digits = value.replace(/\D/g, '').replace(/^38/, '').slice(0, 10);
 
-    const match = digits.match(/^38(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/);
+    const part1 = digits.slice(0, 3);
+    const part2 = digits.slice(3, 6);
+    const part3 = digits.slice(6, 8);
+    const part4 = digits.slice(8, 10);
 
-    if (!match) return value;
+    let result = '+38 (';
 
-    return `+38 (${match[1] || ''}) ${match[2] || ''}${match[3] ? '-' + match[3] : ''}${
-      match[4] ? '-' + match[4] : ''
-    }`;
+    if (part1) result += part1;
+    if (digits.length >= 3) result += ') ';
+    if (part2) result += part2;
+    if (part3) result += '-' + part3;
+    if (part4) result += '-' + part4;
+
+    return result;
   };
 
   return (
@@ -101,12 +109,18 @@ export function CarForm({ control, errors }) {
             control={control}
             render={({ field }) => (
               <TextField
+                fullWidth
                 value={field.value || ''}
-                onChange={(e) => field.onChange(formatPhone(e.target.value))}
-                placeholder="+38 (0"
+                onChange={field.onChange}
                 error={!!errors.phone}
                 helperText={errors.phone?.message}
-                fullWidth
+                placeholder="+38 (000) 000-00-00"
+                InputProps={{
+                  inputComponent: IMaskInput,
+                  inputProps: {
+                    mask: '+{38} (000) 000-00-00',
+                  },
+                }}
               />
             )}
           />

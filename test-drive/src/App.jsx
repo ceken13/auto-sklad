@@ -312,33 +312,6 @@ export default function App() {
           </button>
 
           {/* ===================== */}
-          {/* CONTACTS SECTION */}
-          {/* ===================== */}
-
-          <Typography
-            variant="h6"
-            style={{
-              marginTop: 20,
-              color: '#000',
-              fontSize: '18px',
-              textAlign: 'left',
-              fontFamily: 'HyundaiSansHeadMedium',
-            }}
-          >
-            Введіть, будь ласка, контактні дані:
-          </Typography>
-
-          <Grid container spacing={2} style={{ marginTop: 30 }}>
-            <ContactFields
-              name={name}
-              setName={setName}
-              phone={phone}
-              setPhone={setPhone}
-              submitAttempted={submitAttempted}
-            />
-          </Grid>
-
-          {/* ===================== */}
           {/* CITY + DEALER */}
           {/* ===================== */}
           <Grid size={12} container spacing={2} style={{ marginTop: 60, alignItems: 'flex-start' }}>
@@ -506,6 +479,31 @@ export default function App() {
               )}
             </DialogActions>
           </Dialog>
+
+          {/* ===================== */}
+          {/* CONTACTS SECTION */}
+          {/* ===================== */}
+          <Typography
+            variant="h6"
+            style={{
+              marginTop: 20,
+              color: '#000',
+              fontSize: '18px',
+              textAlign: 'left',
+              fontFamily: 'HyundaiSansHeadMedium',
+            }}
+          >
+            Введіть, будь ласка, контактні дані:
+          </Typography>
+          <Grid container spacing={2} style={{ marginBottom: '30px' }}>
+            <ContactFields
+              name={name}
+              setName={setName}
+              phone={phone}
+              setPhone={setPhone}
+              submitAttempted={submitAttempted}
+            />
+          </Grid>
           {/* ===================== */}
           {/* DATE + TIME */}
           {/* ===================== */}
