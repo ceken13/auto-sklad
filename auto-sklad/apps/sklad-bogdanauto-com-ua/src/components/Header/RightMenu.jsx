@@ -76,13 +76,13 @@ export function RightMenu({ open, toggleDrawer }) {
                 primary="Автомобілі"
               />
             </ListItemButton>
-            {/* Онлайн склад */}
+            {/* Авто в наявності */}
             <ListItemButton component="a" href="https://os.bogdanauto.com.ua/">
               <ListItemText
                 primaryTypographyProps={{
                   variant: 'body2',
                 }}
-                primary="Онлайн склад"
+                primary="Авто в наявності"
               />
             </ListItemButton>
 

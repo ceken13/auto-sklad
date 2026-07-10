@@ -149,7 +149,7 @@ export function TopMenu() {
       </ListItemButton>
 
       <ListItemButton sx={styles.topMenuItem} component="a" href="https://sklad.hyundai-kyiv.com.ua/">
-        <ListItemText primary="Онлайн склад" />
+        <ListItemText primary="Авто в наявності" />
       </ListItemButton>
 
       <ListItemButton

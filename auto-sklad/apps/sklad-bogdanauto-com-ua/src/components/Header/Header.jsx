@@ -58,7 +58,7 @@ export function Header() {
                       </li>
                       <li style={styles.liNav}>
                         <a style={styles.navA} href="https://os.bogdanauto.com.ua/">
-                          Онлайн склад
+                          Авто в наявності
                         </a>
                       </li>
                     </ul>

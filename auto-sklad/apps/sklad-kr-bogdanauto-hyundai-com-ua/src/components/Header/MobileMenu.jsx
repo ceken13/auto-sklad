@@ -16,7 +16,7 @@ export function MobileMenu({ onClose }) {
         </ListItemButton>
 
         <ListItemButton sx={{ p: 2 }} component="a" href="http://sklad.hyundai-krp.com.ua/">
-          Онлайн склад
+          Авто в наявності
         </ListItemButton>
 
         <ListItemButton sx={{ p: 2 }} component="a" href="https://kr-bogdanauto.hyundai.com.ua/zapys-servis-kirovohrad">

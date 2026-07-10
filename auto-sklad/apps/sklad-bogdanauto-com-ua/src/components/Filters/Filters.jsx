@@ -59,7 +59,7 @@ export function Filters() {
             <FormControlLabel
               sx={{ padding: '20px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
               control={<Checkbox checked={filters.usedCars} onChange={() => toggleBooleanFilter('usedCars')} />}
-              label="Вживані авто"
+              label="Авто з пробігом"
             />
 
             <FormControlLabel
