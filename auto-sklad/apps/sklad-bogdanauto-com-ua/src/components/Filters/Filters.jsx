@@ -37,7 +37,16 @@ export function Filters() {
     fetchFilters();
   }, []);
 
-  const { filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter } = useFilters();
+  const handleCarStatusChange = (type) => {
+    const used = type === 'used' ? !filters.showUsedCars : filters.showUsedCars;
+
+    const isNew = type === 'new' ? !filters.showNewCars : filters.showNewCars;
+
+    setCarStatus(used, isNew);
+  };
+
+  const { filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter, setBooleanFilter, setCarStatus } =
+    useFilters();
 
   const brands = filterOptions?.brands ?? [];
   const models = filterOptions?.models ?? [];
@@ -58,8 +67,14 @@ export function Filters() {
           <Stack>
             <FormControlLabel
               sx={{ padding: '20px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
-              control={<Checkbox checked={filters.usedCars} onChange={() => toggleBooleanFilter('usedCars')} />}
+              control={<Checkbox checked={filters.showUsedCars} onChange={() => handleCarStatusChange('used')} />}
               label="Авто з пробігом"
+            />
+
+            <FormControlLabel
+              sx={{ padding: '20px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
+              control={<Checkbox checked={filters.showNewCars} onChange={() => handleCarStatusChange('new')} />}
+              label="Нові авто"
             />
 
             <FormControlLabel

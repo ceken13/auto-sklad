@@ -17,7 +17,9 @@ export function FilterProvider({ children }) {
     regularPrice: [0, 5000000],
     availableCars: false,
     inUkraineCars: false,
-    usedCars: false,
+    usedCars: undefined,
+    showUsedCars: false,
+    showNewCars: false,
     specialOfferCars: false,
     pickUpOfferCars: false,
   });
@@ -46,6 +48,31 @@ export function FilterProvider({ children }) {
     }));
   };
 
+  const setBooleanFilter = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+  const setCarStatus = (used, isNew) => {
+    let usedCars;
+
+    if ((used && isNew) || (!used && !isNew)) {
+      usedCars = undefined;
+    } else if (used) {
+      usedCars = true;
+    } else {
+      usedCars = false;
+    }
+
+    setFilters((prev) => ({
+      ...prev,
+      showUsedCars: used,
+      showNewCars: isNew,
+      usedCars,
+    }));
+  };
+
   const clearFilters = () => {
     setFilters({
       brands: [],
@@ -61,14 +88,18 @@ export function FilterProvider({ children }) {
       regularPrice: [0, 5000000],
       availableCars: false,
       inUkraineCars: false,
-      usedCars: false,
+      usedCars: undefined,
+      showUsedCars: false,
+      showNewCars: false,
       specialOfferCars: false,
       pickUpOfferCars: false,
     });
   };
 
   return (
-    <FilterContext.Provider value={{ filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter }}>
+    <FilterContext.Provider
+      value={{ filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter, setBooleanFilter, setCarStatus }}
+    >
       {children}
     </FilterContext.Provider>
   );

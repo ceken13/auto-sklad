@@ -57,7 +57,10 @@ export function Header() {
                         </a>
                       </li>
                       <li style={styles.liNav}>
-                        <a style={styles.navA} href="https://os.bogdanauto.com.ua/">
+                        <a
+                          style={{ ...styles.navA, fontWeight: 700, color: '#006A5D' }}
+                          href="https://os.bogdanauto.com.ua/"
+                        >
                           Авто в наявності
                         </a>
                       </li>

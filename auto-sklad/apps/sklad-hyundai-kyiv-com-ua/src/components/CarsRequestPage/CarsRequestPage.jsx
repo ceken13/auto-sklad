@@ -100,6 +100,7 @@ export function CarsRequestPage() {
 
         vinCode: car?.vinCode,
         dealerName: car?.dealerName,
+        city: car?.dealerCity,
 
         carBrand: car?.carBrand,
         model: car?.model,
