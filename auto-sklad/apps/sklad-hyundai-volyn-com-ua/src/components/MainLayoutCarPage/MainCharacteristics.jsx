@@ -50,6 +50,12 @@ export function MainCharacteristics({ car }) {
               <Typography sx={{ mb: 1, flex: 1, fontWeight: '800' }}>{car?.year}</Typography>
             </Box>
           )}
+          {car?.kilometrage && (
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ mb: 1, flex: 1 }}>Пробіг:</Typography>
+              <Typography sx={{ mb: 1, flex: 1, fontWeight: '800' }}>{car?.kilometrage} км</Typography>
+            </Box>
+          )}
 
           {car?.trimLevel && (
             <Box sx={{ display: 'flex' }}>

@@ -86,6 +86,11 @@ export function CarBlockCard({ data }) {
             Рік випуску: {data?.year}
           </Typography>
         )}
+        {data?.kilometrage && (
+          <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
+            Пробіг: {data?.kilometrage} км
+          </Typography>
+        )}
         {data?.trimLevel && (
           <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
             Комплектація: {data?.trimLevel}

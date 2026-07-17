@@ -55,6 +55,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     engine: '',
     enginePowerHP: '',
     year: '',
+    kilometrage: '',
     interiorColor: '',
     exteriorColor: '',
     regularPrice: '',
@@ -263,6 +264,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       enginePowerHP: toNumber(form.enginePowerHP),
 
       year: toNumber(form.year),
+      kilometrage: toNumber(form.kilometrage),
 
       interiorColor: form.interiorColor,
       exteriorColor: form.exteriorColor,
@@ -453,6 +455,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Назва дилера" name="dealerName" value={form.dealerName} onChange={handleChange} />
           <TextField label="Місто" name="dealerCity" value={form.dealerCity} onChange={handleChange} />
+          <TextField label="Пробіг, км" name="kilometrage" value={form.kilometrage ?? ''} onChange={handleChange} />
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Комплектація" name="trimLevel" value={form.trimLevel} onChange={handleChange} />
