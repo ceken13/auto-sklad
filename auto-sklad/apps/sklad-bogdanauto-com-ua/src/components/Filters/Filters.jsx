@@ -21,12 +21,80 @@ import { getOrganizationSlug } from '../../utils/getOrganizationSlug';
 
 export function Filters() {
   const [filterOptions, setFilterOptions] = useState(null);
+  const { filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter, setBooleanFilter, setCarStatus } =
+    useFilters();
+
   useEffect(() => {
     const fetchFilters = async () => {
       try {
-        const organizationSlug = getOrganizationSlug();
+        const params = {};
 
-        const res = await getFilters();
+        if (filters.brands.length) {
+          params.brands = filters.brands;
+        }
+
+        if (filters.models.length) {
+          params.models = filters.models;
+        }
+
+        if (filters.cities.length) {
+          params.cities = filters.cities;
+        }
+
+        if (filters.trimLevels.length) {
+          params.trimLevels = filters.trimLevels;
+        }
+
+        if (filters.engines.length) {
+          params.engines = filters.engines;
+        }
+
+        if (filters.fuelTypes.length) {
+          params.fuelTypes = filters.fuelTypes;
+        }
+
+        if (filters.transmissions.length) {
+          params.transmissions = filters.transmissions;
+        }
+
+        if (filters.driveTypes.length) {
+          params.driveTypes = filters.driveTypes;
+        }
+
+        if (filters.exteriorColors.length) {
+          params.exteriorColors = filters.exteriorColors;
+        }
+
+        if (filters.interiorColors.length) {
+          params.interiorColors = filters.interiorColors;
+        }
+
+        // поки залишаємо один рік
+        if (filters.years.length) {
+          params.year = filters.years[0];
+        }
+
+        if (filters.availableCars) {
+          params.availableCars = true;
+        }
+
+        if (filters.inUkraineCars) {
+          params.inUkraineCars = true;
+        }
+
+        if (filters.usedCars !== undefined) {
+          params.usedCars = filters.usedCars;
+        }
+
+        if (filters.specialOfferCars) {
+          params.specialOfferCars = true;
+        }
+
+        if (filters.pickUpOfferCars) {
+          params.pickUpOffer = true;
+        }
+
+        const res = await getFilters(params);
 
         setFilterOptions(res);
       } catch (err) {
@@ -35,7 +103,7 @@ export function Filters() {
     };
 
     fetchFilters();
-  }, []);
+  }, [filters]);
 
   const handleCarStatusChange = (type) => {
     const used = type === 'used' ? !filters.showUsedCars : filters.showUsedCars;
@@ -44,9 +112,6 @@ export function Filters() {
 
     setCarStatus(used, isNew);
   };
-
-  const { filters, toggleFilter, clearFilters, setPrice, toggleBooleanFilter, setBooleanFilter, setCarStatus } =
-    useFilters();
 
   const brands = filterOptions?.brands ?? [];
   const models = filterOptions?.models ?? [];
@@ -58,6 +123,7 @@ export function Filters() {
   const exteriorColors = filterOptions?.exteriorColors ?? [];
   const interiorColors = filterOptions?.interiorColors ?? [];
   const years = filterOptions?.years ?? [];
+  const cities = filterOptions?.cities ?? [];
   const styles = getStyles(theme);
 
   return (
@@ -66,13 +132,13 @@ export function Filters() {
         <Stack>
           <Stack>
             <FormControlLabel
-              sx={{ padding: '20px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
+              sx={{ padding: '20px 20px 0px', margin: 0 }}
               control={<Checkbox checked={filters.showUsedCars} onChange={() => handleCarStatusChange('used')} />}
               label="Авто з пробігом"
             />
 
             <FormControlLabel
-              sx={{ padding: '20px 20px 16px', borderBottom: '2px solid #fff', margin: 0 }}
+              sx={{ padding: '0px 20px 16px', borderBottom: '2px solid #fff', margin: 0, mt: '-5px' }}
               control={<Checkbox checked={filters.showNewCars} onChange={() => handleCarStatusChange('new')} />}
               label="Нові авто"
             />
@@ -93,6 +159,31 @@ export function Filters() {
               label="Забрати за 60 хвилин"
             />
           </Stack>
+
+          {/* Місто */}
+          <Accordion defaultExpanded sx={styles.accordionStyles}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>Місто</Typography>
+            </AccordionSummary>
+
+            <AccordionDetails>
+              <Stack>
+                {cities.map((dealerCity) => (
+                  <FormControlLabel
+                    key={dealerCity}
+                    control={
+                      <Checkbox
+                        checked={filters.cities.includes(dealerCity)}
+                        onChange={() => toggleFilter('cities', dealerCity)}
+                      />
+                    }
+                    label={dealerCity}
+                  />
+                ))}
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+
           {/* Марка */}
           {brands?.length > 0 && (
             <Accordion defaultExpanded sx={styles.accordionStyles}>

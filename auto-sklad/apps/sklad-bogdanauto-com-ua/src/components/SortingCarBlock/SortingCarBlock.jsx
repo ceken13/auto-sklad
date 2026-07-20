@@ -37,6 +37,7 @@ export function SortingCarBlock() {
   // =========================
   const filteredCars = useMemo(() => {
     if (!Array.isArray(cars)) return [];
+
     return cars.filter((car) => {
       const brandMatch =
         filters.brands.length === 0 ||
@@ -75,6 +76,10 @@ export function SortingCarBlock() {
 
       const yearMatch = filters.years.length === 0 || filters.years.includes(car.year);
 
+      const cityMatch =
+        filters.cities.length === 0 ||
+        filters.cities.map((c) => c?.toLowerCase()).includes(car.dealerCity?.toLowerCase());
+
       const price = Number(String(car.regularPrice).replace(/\s/g, ''));
 
       const priceMatch = price >= filters.regularPrice[0] && price <= filters.regularPrice[1];
@@ -96,6 +101,7 @@ export function SortingCarBlock() {
         exteriorColorMatch &&
         interiorColorMatch &&
         yearMatch &&
+        cityMatch &&
         priceMatch &&
         usedMatch &&
         availableMatch &&

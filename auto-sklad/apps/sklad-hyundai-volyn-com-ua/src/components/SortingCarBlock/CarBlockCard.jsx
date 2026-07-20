@@ -88,7 +88,7 @@ export function CarBlockCard({ data }) {
         )}
         {data?.kilometrage && (
           <Typography variant="body2" sx={{ fontSize: '14px', margin: '8px 0' }}>
-            Пробіг: {data?.kilometrage} км
+            Пробіг: {data?.kilometrage?.toLocaleString('uk-UA')} км
           </Typography>
         )}
         {data?.trimLevel && (

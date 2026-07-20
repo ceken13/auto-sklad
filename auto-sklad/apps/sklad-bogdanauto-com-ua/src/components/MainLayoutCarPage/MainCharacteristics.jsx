@@ -46,7 +46,7 @@ export function MainCharacteristics({ car }) {
           {car?.kilometrage && (
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ mb: 1, flex: 1 }}>Пробіг:</Typography>
-              <Typography sx={{ mb: 1, flex: 1 }}>{car?.kilometrage} км</Typography>
+              <Typography sx={{ mb: 1, flex: 1 }}>{car?.kilometrage?.toLocaleString('uk-UA')} км</Typography>
             </Box>
           )}
           {car?.trimLevel && (

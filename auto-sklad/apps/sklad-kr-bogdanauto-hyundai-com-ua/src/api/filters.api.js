@@ -1,10 +1,8 @@
 import { apiClient } from './client';
 
-export const getFilters = async (organizationSlug) => {
+export const getFilters = async (params = {}) => {
   const response = await apiClient.get('/filters?organizationSlug=kr-bogdanauto.hyundai', {
-    params: {
-      organizationSlug,
-    },
+    params,
   });
 
   return response.data;
