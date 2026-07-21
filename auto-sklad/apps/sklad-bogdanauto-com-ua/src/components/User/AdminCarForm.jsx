@@ -20,11 +20,12 @@ import { getOrganizationSlug } from '../../utils/getOrganizationSlug';
 import { getMediaUrl } from '../../utils/uploadImage';
 import { uploadAdminImage } from '../../api/admin.api';
 import { getOrganizationBySlug } from '../../api/organizations.api';
+import { getColors } from '../../api/colors.api';
 import { ORGANIZATION_MAP } from '../../utils/organizationsCity';
 
 export default function AdminCarForm({ onSubmit, editingCar, onClose, user, organizations }) {
   const SPEC_SECTIONS = ['Безпека', 'Комфорт і обладнання', 'Мультимедіа', 'Світло', "Інтер'єр", "Екстер'єр"];
-  const MAX_FILE_SIZE = 200 * 1024;
+  const MAX_FILE_SIZE = 250 * 1024;
   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
   const isValidImageFile = (file) => {
     if (!validTypes.includes(file.type)) {
@@ -33,7 +34,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      alert(`Файл ${file.name} занадто великий (макс 200 KB)`);
+      alert(`Файл ${file.name} занадто великий (макс 250 KB)`);
       return false;
     }
 
@@ -85,7 +86,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     organizationSlug: '',
     specs: [emptySpec],
   });
-
+  const [colors, setColors] = useState([]);
   const sortableRef = useRef(null);
   const sortableInstance = useRef(null);
 
@@ -128,6 +129,21 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       }
     };
   }, []);
+  useEffect(() => {
+    const loadColors = async () => {
+      try {
+        const data = await getColors();
+        setColors(data || []);
+      } catch (error) {
+        console.error('GET colors error', error);
+      }
+    };
+
+    loadColors();
+  }, []);
+  const exteriorColors = colors.filter((c) => c.usages?.includes('exterior'));
+
+  const interiorColors = colors.filter((c) => c.usages?.includes('interior'));
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -460,8 +476,36 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Комплектація" name="trimLevel" value={form.trimLevel} onChange={handleChange} />
           <TextField label="Рік випуску " name="year" value={form.year ?? ''} onChange={handleChange} />
-          <TextField label="Колір салону" name="interiorColor" value={form.interiorColor} onChange={handleChange} />
-          <TextField label="Колір кузова" name="exteriorColor" value={form.exteriorColor} onChange={handleChange} />
+          <TextField
+            select
+            label="Колір салону"
+            name="interiorColor"
+            value={form.interiorColor || ''}
+            onChange={handleChange}
+          >
+            <MenuItem value="">Не вибрано</MenuItem>
+
+            {interiorColors.map((color) => (
+              <MenuItem key={color.sourceColor} value={color.sourceColor}>
+                {color.displayColor || color.sourceColor}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            label="Колір кузова"
+            name="exteriorColor"
+            value={form.exteriorColor || ''}
+            onChange={handleChange}
+          >
+            <MenuItem value="">Не вибрано</MenuItem>
+
+            {exteriorColors.map((color) => (
+              <MenuItem key={color.sourceColor} value={color.sourceColor}>
+                {color.displayColor || color.sourceColor}
+              </MenuItem>
+            ))}
+          </TextField>
         </Box>
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
           <TextField label="Регулярна ціна" name="regularPrice" value={form.regularPrice} onChange={handleChange} />

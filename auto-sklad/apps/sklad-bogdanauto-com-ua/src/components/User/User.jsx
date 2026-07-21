@@ -184,7 +184,7 @@ export function User() {
             </Box>
           )}
         </Box>
-        <Button variant="contained" sx={{ m: 2, width: 'auto' }} onClick={handleAddNew}>
+        <Button variant="contained" sx={{ m: 1, width: 'auto' }} onClick={handleAddNew}>
           Додати авто
         </Button>
         {isSuperAdmin && (
@@ -193,15 +193,18 @@ export function User() {
               component={Link}
               to="/admin/configuration-enrichments"
               variant="contained"
-              sx={{ m: 2, width: 'auto' }}
+              sx={{ m: 1, width: 'auto' }}
             >
               Додати шаблон (Configuration Enrichments)
             </Button>
-            <Button component={Link} to="/admin/organizations" variant="contained" sx={{ m: 2, width: 'auto' }}>
+            <Button component={Link} to="/admin/organizations" variant="contained" sx={{ m: 1, width: 'auto' }}>
               Додати організацію
             </Button>
-            <Button component={Link} to="/admin/users-list" variant="contained" sx={{ m: 2, width: 'auto' }}>
+            <Button component={Link} to="/admin/users-list" variant="contained" sx={{ m: 1, width: 'auto' }}>
               Додати Admin Users
+            </Button>
+            <Button component={Link} to="/admin/colors" variant="contained" sx={{ m: 1, width: 'auto' }}>
+              Довідник кольорів
             </Button>
             {/* <Button component={Link} to="/admin/store-rules" variant="contained" sx={{ m: 2, width: 'auto' }}>Store Rules</Button> */}
           </>

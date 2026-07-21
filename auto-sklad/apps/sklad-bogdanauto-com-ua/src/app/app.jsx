@@ -11,6 +11,7 @@ import { AdminConfigurationEnrichments } from '../pages/AdminConfigurationEnrich
 import { AdminOrganizationsPage } from '../pages/AdminOrganizationsPage';
 import { AdminUsersListPage } from '../pages/AdminUsersListPage';
 import { ComparePage } from '../pages/ComparePage';
+import { AdminColorsPage } from '../pages/AdminColorsPage';
 
 export function App() {
   return (
@@ -34,6 +35,7 @@ export function App() {
           <Route path="/admin/configuration-enrichments" element={<AdminConfigurationEnrichments />} />
           <Route path="/admin/organizations" element={<AdminOrganizationsPage />} />
           <Route path="/admin/users-list" element={<AdminUsersListPage />} />
+          <Route path="/admin/colors" element={<AdminColorsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AdminProvider>
