@@ -141,9 +141,22 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
 
     loadColors();
   }, []);
-  const exteriorColors = colors.filter((c) => c.usages?.includes('exterior'));
+  const uniqueByDisplay = (colors) => {
+    const map = new Map();
 
-  const interiorColors = colors.filter((c) => c.usages?.includes('interior'));
+    colors.forEach((color) => {
+      const key = color.displayColor || color.sourceColor;
+
+      if (!map.has(key)) {
+        map.set(key, color);
+      }
+    });
+
+    return [...map.values()];
+  };
+  const exteriorColors = uniqueByDisplay(colors.filter((c) => c.usages?.includes('exterior')));
+
+  const interiorColors = uniqueByDisplay(colors.filter((c) => c.usages?.includes('interior')));
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -587,6 +600,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
             <MenuItem value="Дизель">Дизель</MenuItem>
             <MenuItem value="Електро">Електро</MenuItem>
             <MenuItem value="Гібрид">Гібрид</MenuItem>
+            <MenuItem value="Газ/Бензин">Газ/Бензин</MenuItem>
           </TextField>
 
           <TextField
