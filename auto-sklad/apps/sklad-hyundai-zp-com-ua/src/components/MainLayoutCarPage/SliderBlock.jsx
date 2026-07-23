@@ -9,12 +9,14 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { getMediaUrl } from '../../utils/uploadImage';
 import { useNavigate } from 'react-router-dom';
+import TestDriveModal from '../TestDriveModal/TestDriveModal';
 
 export function SliderBlock({ car }) {
   const navigate = useNavigate();
   const styles = getStyles(theme);
   const [current, setCurrent] = useState(0);
   const [openImage, setOpenImage] = useState(false);
+  const [openTestDrive, setOpenTestDrive] = useState(false);
   const toMediaUrl = (url) => {
     if (!url) return '/images/car-placeholder.jpg';
     if (url.startsWith('http')) return url;
@@ -119,6 +121,21 @@ export function SliderBlock({ car }) {
       >
         Подати запит на авто
       </Button>
+      {/*<Button
+        fullWidth
+        variant="outlined"
+        sx={{
+          mt: 2,
+          borderColor: '#002C5E',
+          color: '#002C5E',
+          padding: '12px',
+          textTransform: 'none',
+          width: '100%',
+        }}
+        onClick={() => setOpenTestDrive(true)}
+      >
+        Тест-драйв
+      </Button>*/}
       <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="xl">
         <Box
           sx={{
@@ -176,6 +193,7 @@ export function SliderBlock({ car }) {
           )}
         </Box>
       </Dialog>
+      <TestDriveModal open={openTestDrive} onClose={() => setOpenTestDrive(false)} car={car} />
     </Box>
   );
 }

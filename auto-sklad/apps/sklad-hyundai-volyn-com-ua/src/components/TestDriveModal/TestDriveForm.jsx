@@ -4,11 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { IMaskInput } from 'react-imask';
 import * as yup from 'yup';
 import { useEffect } from 'react';
-import { ORGANIZATION_MAP } from '../../utils/organizationsCity';
 
 const schema = yup.object({
   model: yup.string().required(),
-  dealerName: yup.string().required('Оберіть дилерський центр'),
   preferredDate: yup.string().required('Оберіть дату'),
   fullName: yup
     .string()
@@ -21,7 +19,6 @@ const schema = yup.object({
 });
 
 export default function TestDriveForm({ car, onSubmit }) {
-  const organizations = Object.values(ORGANIZATION_MAP);
   const {
     control,
     handleSubmit,
@@ -31,7 +28,6 @@ export default function TestDriveForm({ car, onSubmit }) {
     resolver: yupResolver(schema),
     defaultValues: {
       model: car?.model || '',
-      dealerName: car?.dealerName || '',
       preferredDate: '',
       fullName: '',
       phone: '',
@@ -41,7 +37,6 @@ export default function TestDriveForm({ car, onSubmit }) {
   useEffect(() => {
     reset({
       model: car?.model || '',
-      dealerName: car?.dealerName || '',
       preferredDate: '',
       fullName: '',
       phone: '',
@@ -50,12 +45,11 @@ export default function TestDriveForm({ car, onSubmit }) {
 
   const submit = async (data) => {
     try {
-      const selectedOrganization = organizations.find((org) => org.dealerName === data.dealerName);
       await onSubmit?.({
         carBrand: car.carBrand,
-        city: selectedOrganization?.dealerCity,
+        city: car?.dealerCity,
         dealerCode: car.dealerCode,
-        dealerName: data.dealerName,
+        dealerName: 'Богдан-Авто Луцьк',
         desiredDate: data.preferredDate,
         model: car.model,
         name: data.fullName,
@@ -95,27 +89,6 @@ export default function TestDriveForm({ car, onSubmit }) {
           )}
         />
 
-        <Typography mt={1}>Оберіть дилерський центр:</Typography>
-        <Controller
-          name="dealerName"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              select
-              placeholder="Оберіть дилерський центр"
-              fullWidth
-              error={!!errors.dealerName}
-              helperText={errors.dealerName?.message}
-            >
-              {organizations.map((org) => (
-                <MenuItem key={org.dealerName} value={org.dealerName}>
-                  {org.dealerCity}
-                </MenuItem>
-              ))}
-            </TextField>
-          )}
-        />
         <Typography mt={1}>Оберіть бажану дату тест-драйву*:</Typography>
 
         <Controller
@@ -186,12 +159,9 @@ export default function TestDriveForm({ car, onSubmit }) {
           variant="contained"
           sx={{
             mt: 1,
-            backgroundColor: '#0f6b5c',
+            backgroundColor: '#002C5E',
             textTransform: 'none',
             py: 1.5,
-            '&:hover': {
-              backgroundColor: '#0d5a4d',
-            },
             margin: '20px auto 0',
           }}
         >
