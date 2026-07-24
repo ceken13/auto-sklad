@@ -119,7 +119,7 @@ export function SliderBlock({ car }) {
       >
         Подати запит на авто
       </Button>
-      {/*  
+
       <Button
         fullWidth
         variant="outlined"
@@ -136,7 +136,7 @@ export function SliderBlock({ car }) {
       >
         Тест-драйв
       </Button>
-      */}
+
       <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="xl">
         <Box
           sx={{

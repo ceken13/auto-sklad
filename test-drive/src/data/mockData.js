@@ -229,6 +229,15 @@ export const cars = [
     bigImage:
       'https://hyundai.com.ua/sites/all/themes/responsive/images/new-tucson-2024/design/Hyundai_TUCSON_2024_Exterior_PI_SHOT06_34_Front_Lights_On_PHEV_T2P_4x3.jpg',
     isTestDriveAvailable: true,
+    apiModel: 'Tucson Hybrid',
+  },
+  {
+    id: 'tucson',
+    name: 'TUCSON',
+    image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/tucson_new_0.png',
+    bigImage:
+      'https://hyundai.com.ua/sites/all/themes/responsive/images/new-tucson-2024/design/Hyundai_TUCSON_2024_Exterior_PI_SHOT06_34_Front_Lights_On_PHEV_T2P_4x3.jpg',
+    isTestDriveAvailable: true,
     apiModel: 'Tucson',
   },
   {

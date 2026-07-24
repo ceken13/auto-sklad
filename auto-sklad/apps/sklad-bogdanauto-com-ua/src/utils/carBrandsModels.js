@@ -1,0 +1,39 @@
+export const CAR_BRANDS_MODELS = {
+  BYD: ['Song L', 'Song Plus', 'Leopard 7'],
+
+  Chevrolet: ['Lacetti', 'Bolt EV', 'Volt', 'Aveo', 'Epica', 'Cruze'],
+
+  Mitsubishi: ['Outlander Sport', 'Pejero Wagon', 'Pejero Sport', 'ASX', 'L 200', 'Lancer'],
+
+  Lexus: ['CT', 'RC-F', 'RZ', 'ES', 'GS', 'GX', 'HS', 'IS', 'LC', 'LS', 'LX', 'RC'],
+
+  KIA: ['Sportage', 'Ceed', 'Sorento', 'Cerato', 'Optima', 'K5', 'Niro', 'Picanto'],
+
+  Ford: ['Escape', 'Edge', 'Focus C-Max', 'Fusion', 'Fiesta', 'Mondeo', 'Kuga', 'Transit'],
+
+  Nissan: ['Leaf', 'Qashqai', 'X-Trail', 'Juke'],
+
+  Seat: ['Leon', 'Ibiza'],
+
+  Mazda: ['3', '6', 'CX-5', 'CX-3', '5', 'CX-30'],
+
+  HAVAL: ['H5', 'Jolion', 'H6 GT', 'H6 HEV'],
+
+  HYUNDAI: [
+    'Santa FE',
+    'Tucson',
+    'Sonata',
+    'Accent',
+    'Elantra',
+    'i30',
+    'Ioniq 5',
+    'Kona',
+    'Kona Electric',
+    'Ioniq 6',
+    'ix35',
+    'Getz',
+    'Ioniq',
+    'i10',
+    'Staria',
+  ],
+};

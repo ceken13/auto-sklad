@@ -22,9 +22,11 @@ import { uploadAdminImage } from '../../api/admin.api';
 import { getOrganizationBySlug } from '../../api/organizations.api';
 import { getColors } from '../../api/colors.api';
 import { ORGANIZATION_MAP } from '../../utils/organizationsCity';
+import { CAR_BRANDS_MODELS } from '../../utils/carBrandsModels';
+import { DEFAULT_CAR_SPECS } from '../../utils/defaultCarSpecs';
 
 export default function AdminCarForm({ onSubmit, editingCar, onClose, user, organizations }) {
-  const SPEC_SECTIONS = ['Безпека', 'Комфорт і обладнання', 'Мультимедіа', 'Світло', "Інтер'єр", "Екстер'єр"];
+  const SPEC_SECTIONS = DEFAULT_CAR_SPECS.map((s) => s.title);
   const MAX_FILE_SIZE = 250 * 1024;
   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
   const isValidImageFile = (file) => {
@@ -40,8 +42,6 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
 
     return true;
   };
-
-  const emptySpec = { title: '', items: [] };
 
   const [form, setForm] = useState({
     vinCode: '',
@@ -84,7 +84,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
     curbWeightKg: '',
     grossWeightKg: '',
     organizationSlug: '',
-    specs: [emptySpec],
+    specs: structuredClone(DEFAULT_CAR_SPECS),
   });
   const [colors, setColors] = useState([]);
   const sortableRef = useRef(null);
@@ -102,6 +102,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
       setForm((prev) => ({
         ...prev,
         organizationSlug: slug || '',
+        specs: structuredClone(DEFAULT_CAR_SPECS),
       }));
     }
 
@@ -410,8 +411,43 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
         </TextField>*/}
 
         <Box sx={{ display: 'flex', gap: '20px', '& > *': { flex: 1 } }}>
-          <TextField label="Марка" required name="carBrand" value={form.carBrand} onChange={handleChange} />
-          <TextField label="Модель" required name="model" value={form.model} onChange={handleChange} />
+          <TextField
+            select
+            label="Марка"
+            required
+            name="carBrand"
+            value={form.carBrand}
+            onChange={(e) => {
+              const brand = e.target.value;
+
+              setForm((prev) => ({
+                ...prev,
+                carBrand: brand,
+                model: '', // очищаємо модель при зміні марки
+              }));
+            }}
+          >
+            {Object.keys(CAR_BRANDS_MODELS).map((brand) => (
+              <MenuItem key={brand} value={brand}>
+                {brand}
+              </MenuItem>
+            ))}
+          </TextField>{' '}
+          <TextField
+            select
+            label="Модель"
+            required
+            name="model"
+            value={form.model}
+            onChange={handleChange}
+            disabled={!form.carBrand}
+          >
+            {(CAR_BRANDS_MODELS[form.carBrand] || []).map((model) => (
+              <MenuItem key={model} value={model}>
+                {model}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField label="VIN код" required name="vinCode" value={form.vinCode} onChange={handleChange} />
         </Box>
 
@@ -682,6 +718,7 @@ export default function AdminCarForm({ onSubmit, editingCar, onClose, user, orga
                   label="Назва опції"
                   value={item.label}
                   onChange={(e) => updateSpecItem(specIndex, itemIndex, 'label', e.target.value)}
+                  sx={{ flex: 1 }}
                 />
                 <FormControlLabel
                   control={
