@@ -1,0 +1,2 @@
+export { TradeInPage } from './TradeInPage';
+export { default } from './TradeInPage';
