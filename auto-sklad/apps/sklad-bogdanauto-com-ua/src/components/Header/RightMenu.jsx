@@ -85,6 +85,15 @@ export function RightMenu({ open, toggleDrawer }) {
                 primary="Авто в наявності"
               />
             </ListItemButton>
+            {/* Оцінити авто за Trade-In */}
+            <ListItemButton component="a" href="https://os.bogdanauto.com.ua/trade-in">
+              <ListItemText
+                primaryTypographyProps={{
+                  variant: 'body2',
+                }}
+                primary="Оцінити авто за Trade-In"
+              />
+            </ListItemButton>
 
             {/* Фінансові послуги */}
             <ListItemButton component="a" href="https://bogdanauto.com.ua/finansovi-poslugi/" target="_blank">

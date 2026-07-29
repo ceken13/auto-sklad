@@ -136,6 +136,21 @@ export function SliderBlock({ car }) {
       >
         Тест-драйв
       </Button>
+      <Button
+        fullWidth
+        sx={{
+          backgroundColor: '#000000',
+          color: '#fff',
+          padding: '12px',
+          borderRadius: '6px',
+          textTransform: 'none',
+          width: '100%',
+          mt: 2,
+        }}
+        onClick={() => navigate(`/trade-in/${car?.id}`)}
+      >
+        Обміняти своє авто на цей автомобіль
+      </Button>
 
       <Dialog open={openImage} onClose={() => setOpenImage(false)} maxWidth="xl">
         <Box

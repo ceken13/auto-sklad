@@ -12,6 +12,8 @@ import { AdminOrganizationsPage } from '../pages/AdminOrganizationsPage';
 import { AdminUsersListPage } from '../pages/AdminUsersListPage';
 import { ComparePage } from '../pages/ComparePage';
 import { AdminColorsPage } from '../pages/AdminColorsPage';
+import { TradeInPage } from '../pages/TradeInPage';
+import { TradeInExchangePage } from '../pages/TradeInExchangePage';
 
 export function App() {
   return (
@@ -23,6 +25,8 @@ export function App() {
           <Route path="/car-request/:id" element={<CarsRequest />} />
           <Route path="/login" element={<UserAuthorizationPage />} />
           <Route path="/compare/:vinCodes" element={<ComparePage />} />
+          <Route path="/trade-in" element={<TradeInPage />} />
+          <Route path="/trade-in/:id" element={<TradeInExchangePage />} />
 
           <Route
             path="/admin"
