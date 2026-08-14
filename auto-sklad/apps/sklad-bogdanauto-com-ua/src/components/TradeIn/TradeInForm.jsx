@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Layout } from '../Layout/Layout';
@@ -12,6 +12,7 @@ import { SuccessModal } from '../SuccessModal/SuccessModal';
 import { TradeInDesiredCarCard } from './TradeInDesiredCarCard';
 import { useCar } from '../../hooks/useCar';
 import { Loader } from '../ui/Loader';
+import { sendTradeInRequest } from '../../api/tradeIn.api';
 
 export function TradeInForm({ id }) {
   const { car, loading } = useCar(id);
@@ -50,8 +51,8 @@ export function TradeInForm({ id }) {
 
       loan: '',
 
-      desiredCar: car ? `${car.carBrand} ${car.model}` : '',
-
+      desiredCar: '',
+      dealer: '',
       firstName: '',
       middleName: '',
       lastName: '',
@@ -63,14 +64,69 @@ export function TradeInForm({ id }) {
       agreement: false,
     },
   });
+  useEffect(() => {
+    if (car) {
+      setValue(
+        'desiredCar',
+        `${car.carBrand} ${car.model}. Комплектація: ${car.trimLevel || '—'}, Двигун: ${car.engine || '—'}`,
+      );
+    }
+  }, [car, setValue]);
   if (id && (loading || !car)) {
     return <Loader />;
   }
   const onSubmit = (data) => {
     console.log(data);
   };
-  const handleFinalSubmit = handleSubmit((data) => {
-    console.log('Trade In data:', data);
+  const handleFinalSubmit = handleSubmit(async (data) => {
+    const payload = {
+      contact: {
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        phone: data.phone,
+        email: data.email,
+        contactMethod: data.contactMethod,
+        contactTime: data.contactTime,
+      },
+
+      currentCar: {
+        autoRiaEnabled: data.autoRiaEnabled,
+        autoRiaUrl: data.autoRiaUrl,
+
+        brand: data.brand,
+        model: data.model,
+        year: data.year ? String(data.year) : null,
+        mileage: data.mileage ? String(data.mileage) : null,
+
+        vin: data.vin,
+        plateNumber: data.plateNumber,
+
+        transmission: data.transmission,
+        engine: data.engine,
+        bodyType: data.bodyType,
+
+        condition: data.condition,
+        conditionComment: data.conditionComment,
+
+        loan: data.loan,
+
+        photos: data.photos,
+      },
+      dealer: data.dealer || null,
+
+      desiredCar: {
+        vinCode: car?.vinCode || null,
+        carBrand: car?.carBrand || null,
+        model: car?.model || null,
+        dealerCity: car?.dealerCity || null,
+        comment: data.desiredCar || null,
+      },
+    };
+
+    console.log('TRADE IN PAYLOAD', payload);
+
+    await sendTradeInRequest(payload);
 
     setSuccessOpen(true);
   });

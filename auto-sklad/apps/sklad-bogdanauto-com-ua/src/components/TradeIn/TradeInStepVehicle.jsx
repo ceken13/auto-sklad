@@ -11,37 +11,64 @@ import {
 } from '@mui/material';
 
 import { Controller } from 'react-hook-form';
-import { useEffect } from 'react';
+
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { TradeInFileUpload } from './TradeInFileUpload';
+import { useEffect, useState } from 'react';
+import { getDealers } from '../../api/dealers.api';
 
 export function TradeInStepVehicle({ control, errors, watch, setValue, trigger, nextStep }) {
   const autoRiaEnabled = watch('autoRiaEnabled');
-
   const autoRiaUrl = watch('autoRiaUrl');
-
   const vehicleData = watch(['brand', 'model', 'year', 'mileage', 'transmission', 'engine', 'condition', 'loan']);
-
   const photos = watch('photos');
+  const dealer = watch('dealer');
 
-  const canNext = autoRiaEnabled ? !!autoRiaUrl : vehicleData.every(Boolean) && photos?.length > 0;
-
+  const canNext = autoRiaEnabled ? !!autoRiaUrl : vehicleData.every(Boolean) && photos?.length > 0 && !!dealer;
+  const [dealers, setDealers] = useState([]);
   const handleNext = async () => {
+    console.log('handleNext');
+
     if (autoRiaEnabled) {
-      if (!autoRiaUrl) {
-        return;
+      const valid = await trigger(['autoRiaUrl', 'dealer']);
+
+      if (valid) {
+        nextStep();
       }
 
-      nextStep();
       return;
     }
 
-    const valid = await trigger(['brand', 'model', 'year', 'mileage', 'transmission', 'engine', 'condition', 'loan']);
+    const valid = await trigger([
+      'brand',
+      'model',
+      'year',
+      'mileage',
+      'transmission',
+      'engine',
+      'condition',
+      'loan',
+      'bodyType',
+      'dealer',
+    ]);
 
     if (valid) {
       nextStep();
     }
   };
+  useEffect(() => {
+    const loadDealers = async () => {
+      try {
+        const data = await getDealers();
+        setDealers(data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadDealers();
+  }, []);
+
   return (
     <Box>
       <Box>
@@ -83,12 +110,33 @@ export function TradeInStepVehicle({ control, errors, watch, setValue, trigger, 
         <Controller
           name="autoRiaUrl"
           control={control}
+          rules={{
+            validate: (value) => {
+              if (!watch('autoRiaEnabled')) {
+                return true;
+              }
+
+              if (!value) {
+                return 'Вкажіть посилання Auto RIA';
+              }
+
+              const autoRiaRegex = /^https:\/\/(www\.)?auto\.ria\.com\/.+/i;
+
+              if (!autoRiaRegex.test(value)) {
+                return 'Вкажіть коректне посилання Auto RIA';
+              }
+
+              return true;
+            },
+          }}
           render={({ field }) => (
             <TextField
               {...field}
               fullWidth
               disabled={!autoRiaEnabled}
               label="Посилання на AUTO.RIA"
+              error={!!errors.autoRiaUrl}
+              helperText={errors.autoRiaUrl?.message}
               sx={{
                 mb: 4,
                 mt: 2,
@@ -131,7 +179,38 @@ export function TradeInStepVehicle({ control, errors, watch, setValue, trigger, 
             <Controller
               name="year"
               control={control}
-              render={({ field }) => <TextField sx={{ mb: 3 }} {...field} fullWidth />}
+              rules={{
+                required: 'Вкажіть рік',
+                validate: (value) => {
+                  if (!/^\d{4}$/.test(value)) {
+                    return 'Рік повинен містити 4 цифри';
+                  }
+
+                  const year = Number(value);
+
+                  if (year < 1900 || year > 2100) {
+                    return 'Рік повинен бути від 1900 до 2100';
+                  }
+
+                  return true;
+                },
+              }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  sx={{ mb: 3 }}
+                  error={!!errors.year}
+                  helperText={errors.year?.message}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                    field.onChange(value);
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                  }}
+                />
+              )}
             />
             <Typography mb={1}>
               Пробіг<span style={{ color: 'red' }}>*</span>:
@@ -139,7 +218,26 @@ export function TradeInStepVehicle({ control, errors, watch, setValue, trigger, 
             <Controller
               name="mileage"
               control={control}
-              render={({ field }) => <TextField sx={{ mb: 3 }} {...field} fullWidth />}
+              rules={{
+                required: 'Вкажіть пробіг',
+                pattern: {
+                  value: /^\d+$/,
+                  message: 'Пробіг повинен містити лише цифри',
+                },
+              }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  sx={{ mb: 3 }}
+                  error={!!errors.mileage}
+                  helperText={errors.mileage?.message}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*',
+                  }}
+                />
+              )}
             />
           </Box>
 
@@ -193,7 +291,7 @@ export function TradeInStepVehicle({ control, errors, watch, setValue, trigger, 
           <Controller
             name="bodyType"
             control={control}
-            render={({ field }) => <TextField sx={{ mb: 3 }} {...field} fullWidth sx={{ mb: 3 }} />}
+            render={({ field }) => <TextField sx={{ mb: 3 }} {...field} fullWidth />}
           />
 
           {/* Стан */}
@@ -260,10 +358,41 @@ export function TradeInStepVehicle({ control, errors, watch, setValue, trigger, 
               />
             )}
           />
-          <Typography mb={1}>
-            <span style={{ color: 'red' }}>*</span>Поля обов’язкові для заповнення
-          </Typography>
         </Box>
+        <Typography mb={1}>
+          Обрати дилерський центр<span style={{ color: 'red' }}>*</span>
+        </Typography>
+
+        <Controller
+          name="dealer"
+          control={control}
+          rules={{
+            required: 'Оберіть дилерський центр',
+          }}
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              select
+              fullWidth
+              sx={{ mb: 3 }}
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
+            >
+              <MenuItem value="">
+                <em>Оберіть дилерський центр</em>
+              </MenuItem>
+
+              {dealers.map((dealer) => (
+                <MenuItem key={dealer.dealerCode} value={dealer.dealerName}>
+                  {dealer.dealerName}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
+        />
+        <Typography mb={1}>
+          <span style={{ color: 'red' }}>*</span>Поля обов’язкові для заповнення
+        </Typography>
         <Button
           variant="contained"
           onClick={handleNext}

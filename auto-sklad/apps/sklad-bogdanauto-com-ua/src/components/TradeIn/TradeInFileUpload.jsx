@@ -3,6 +3,8 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CloseIcon from '@mui/icons-material/Close';
 import { Controller } from 'react-hook-form';
 import { useState } from 'react';
+import { uploadAdminImage } from '../../api/admin.api';
+import { getMediaUrl } from '../../utils/uploadImage';
 
 export function TradeInFileUpload({ control }) {
   const [error, setError] = useState('');
@@ -15,40 +17,39 @@ export function TradeInFileUpload({ control }) {
       name="photos"
       control={control}
       render={({ field }) => {
-        const handleChange = (e) => {
+        const handleChange = async (e) => {
           const files = Array.from(e.target.files);
 
-          const validFiles = [];
           let errorMessage = '';
 
-          files.forEach((file) => {
+          const uploadedPhotos = [];
+
+          for (const file of files) {
             if (!allowedFormats.includes(file.type)) {
-              errorMessage = 'Дозволені тільки JPG, PNG, WEBP формати';
-              return;
+              errorMessage = 'Дозволені тільки JPG, PNG, WEBP';
+              continue;
             }
 
             if (file.size > maxSize) {
-              errorMessage = 'Розмір одного фото не може перевищувати 10 МБ';
-              return;
+              errorMessage = 'Фото більше 10MB';
+              continue;
             }
 
-            // перевірка дубля
-            const alreadyExists = field.value?.some((item) => item.name === file.name && item.size === file.size);
+            try {
+              const result = await uploadAdminImage(file);
+              console.log('result', result);
+              uploadedPhotos.push(result.url);
+            } catch (err) {
+              console.error(err);
 
-            if (!alreadyExists) {
-              validFiles.push(file);
+              errorMessage = 'Помилка завантаження фото';
             }
-          });
-
-          if (errorMessage) {
-            setError(errorMessage);
-          } else {
-            setError('');
           }
 
-          field.onChange([...(field.value || []), ...validFiles]);
+          setError(errorMessage);
 
-          // щоб можна було повторно вибрати той самий файл
+          field.onChange([...(field.value || []), ...uploadedPhotos]);
+
           e.target.value = '';
         };
 
@@ -115,16 +116,16 @@ export function TradeInFileUpload({ control }) {
                   mb: 4,
                 }}
               >
-                {field.value.map((file, index) => (
+                {field.value.map((photo, index) => (
                   <Box
-                    key={`${file.name}-${index}`}
+                    key={`${photo}-${index}`}
                     sx={{
                       position: 'relative',
                     }}
                   >
                     <Box
                       component="img"
-                      src={URL.createObjectURL(file)}
+                      src={getMediaUrl(photo)}
                       sx={{
                         width: 120,
                         height: 120,
@@ -142,7 +143,6 @@ export function TradeInFileUpload({ control }) {
                         right: -10,
                         background: '#fff',
                         boxShadow: '0 2px 5px rgba(0,0,0,.2)',
-
                         '&:hover': {
                           background: '#fff',
                           color: 'red',

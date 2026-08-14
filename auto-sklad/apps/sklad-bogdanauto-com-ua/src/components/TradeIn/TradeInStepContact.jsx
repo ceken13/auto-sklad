@@ -6,7 +6,7 @@ import { IMaskInput } from 'react-imask';
 export function TradeInStepContact({ control, errors, prevStep, handleFinalSubmit }) {
   return (
     <Box sx={{ display: 'flex' }}>
-      <Box sx={{ flex: '0.6' }}>
+      <Box>
         <Typography
           mb={4}
           component="button"
@@ -94,56 +94,74 @@ export function TradeInStepContact({ control, errors, prevStep, handleFinalSubmi
         </Box>
 
         {/* Телефон */}
-
-        <Typography mb={1}>
-          Введіть ваш телефон<span style={{ color: 'red' }}>*</span>:
-        </Typography>
-
-        <Controller
-          name="phone"
-          control={control}
-          rules={{
-            required: 'Вкажіть телефон',
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              fullWidth
-              placeholder="+38 (000) 000-00-00"
-              error={!!errors.phone}
-              helperText={errors.phone?.message}
-              InputProps={{
-                inputComponent: IMaskInput,
-                inputProps: {
-                  mask: '+{38} (000) 000-00-00',
-                },
-              }}
-              sx={{ mb: 3 }}
-            />
-          )}
-        />
-
-        {/* Email */}
-
-        <Typography mb={1}>
-          Введіть ваш e-mail<span style={{ color: 'red' }}>*</span>:
-        </Typography>
-
-        <Controller
-          name="email"
-          control={control}
-          rules={{
-            required: 'Вкажіть email',
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: 'Некоректний email',
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 3,
+            mb: 3,
+            flexDirection: {
+              xs: 'column',
+              sm: 'row',
             },
           }}
-          render={({ field }) => (
-            <TextField {...field} fullWidth error={!!errors.email} helperText={errors.email?.message} sx={{ mb: 3 }} />
-          )}
-        />
+        >
+          <Box flex={1}>
+            <Typography mb={1}>
+              Введіть ваш телефон<span style={{ color: 'red' }}>*</span>:
+            </Typography>
 
+            <Controller
+              name="phone"
+              control={control}
+              rules={{
+                required: 'Вкажіть телефон',
+              }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  placeholder="+38 (000) 000-00-00"
+                  error={!!errors.phone}
+                  helperText={errors.phone?.message}
+                  InputProps={{
+                    inputComponent: IMaskInput,
+                    inputProps: {
+                      mask: '+{38} (000) 000-00-00',
+                    },
+                  }}
+                  sx={{ mb: 3 }}
+                />
+              )}
+            />
+          </Box>
+          {/* Email */}
+          <Box flex={1}>
+            <Typography mb={1}>
+              Введіть ваш e-mail<span style={{ color: 'red' }}>*</span>:
+            </Typography>
+
+            <Controller
+              name="email"
+              control={control}
+              rules={{
+                required: 'Вкажіть email',
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: 'Некоректний email',
+                },
+              }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  sx={{ mb: 3 }}
+                />
+              )}
+            />
+          </Box>
+        </Box>
         {/* Метод комунікації */}
 
         <Typography mb={1}>
@@ -182,11 +200,16 @@ export function TradeInStepContact({ control, errors, prevStep, handleFinalSubmi
 
         {/* Час контакту */}
 
-        <Typography mb={1}>Зручний час для зв’язку:</Typography>
+        <Typography mb={1}>
+          Зручний час для зв’язку<span style={{ color: 'red' }}>*</span>:
+        </Typography>
 
         <Controller
           name="contactTime"
           control={control}
+          rules={{
+            required: 'Вкажіть зручний час для зв’язку',
+          }}
           render={({ field }) => (
             <TextField
               {...field}
@@ -194,6 +217,8 @@ export function TradeInStepContact({ control, errors, prevStep, handleFinalSubmi
               rows={3}
               fullWidth
               placeholder="Напишіть, будь ласка,  свої коментарі"
+              error={!!errors.contactTime}
+              helperText={errors.contactTime?.message}
               sx={{ mb: 3 }}
             />
           )}

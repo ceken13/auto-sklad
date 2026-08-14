@@ -279,7 +279,7 @@ export const cars = [
   {
     id: 'staria',
     name: 'STARIA',
-    image: 'https://hyundai.com.ua/sites/default/files_actual/menu-and-frontpage-icons/staria_clearcut_21-1.jpg',
+    image: '/sites/all/libraries/testdrive-app/dist/TDfoto/260х140Staria.png',
     bigImage: '/sites/all/libraries/testdrive-app/dist/TDfoto/STARIA.png',
     isTestDriveAvailable: true,
     apiModel: 'Staria',

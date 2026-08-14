@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import CustomStepper from './components/CustomStepper';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useEffect } from 'react';
 //тут норм
 export default function App() {
   const [cities, setCities] = useState([]);
@@ -47,7 +48,41 @@ export default function App() {
   const [dealerChosen, setDealerChosen] = useState(false);
   const [noDealersPopupOpen, setNoDealersPopupOpen] = useState(false);
   const [allPopupShown, setAllPopupShown] = useState(false);
-  //тут працює
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const getAvailableTimeSlots = (selectedDate) => {
+    const slots = ['За домовленістю'];
+
+    if (!selectedDate) {
+      for (let h = 10; h <= 18; h++) {
+        slots.push(`${h}:00-${h + 1}:00`);
+      }
+      return slots;
+    }
+
+    const today = new Date();
+
+    const selected = new Date(selectedDate);
+
+    const isToday =
+      selected.getFullYear() === today.getFullYear() &&
+      selected.getMonth() === today.getMonth() &&
+      selected.getDate() === today.getDate();
+
+    let startHour = 10;
+
+    if (isToday) {
+      // якщо вже 13:18 → починаємо з 14
+      startHour = Math.max(10, today.getHours() + 1);
+    }
+
+    for (let h = startHour; h <= 18; h++) {
+      slots.push(`${h}:00-${h + 1}:00`);
+    }
+
+    return slots;
+  };
+  const timeSlots = getAvailableTimeSlots(date);
+
   const cityError = submitAttempted && !city;
   const dealerError = submitAttempted && !selectedDealer;
   const consentError = submitAttempted && !consent;
@@ -245,6 +280,7 @@ export default function App() {
     };
 
     try {
+      setSubmitLoading(true);
       const response = await fetch('/api/test-drive/order', {
         method: 'POST',
         headers: {
@@ -265,6 +301,8 @@ export default function App() {
     } catch (error) {
       console.error('Submit error:', error);
       alert('Помилка зʼєднання із сервером');
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -531,7 +569,15 @@ export default function App() {
                 Дата тест-драйву:
               </Typography>
 
-              <DateField value={date} onChange={setDate} />
+              <DateField
+                value={date}
+                onChange={(newDate) => {
+                  setDate(newDate);
+
+                  const slots = getAvailableTimeSlots(newDate);
+                  setTime(slots[0]);
+                }}
+              />
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
@@ -555,16 +601,15 @@ export default function App() {
                   },
                 }}
                 fullWidth
+                disabled={!date}
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
               >
-                {[' За домовленістю', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00', '18:00-19:00'].map(
-                  (t) => (
-                    <MenuItem key={t} value={t}>
-                      {t}
-                    </MenuItem>
-                  ),
-                )}
+                {timeSlots.map((slot) => (
+                  <MenuItem key={slot} value={slot}>
+                    {slot}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
           </Grid>
@@ -631,25 +676,26 @@ export default function App() {
           {/* ===================== */}
 
           <Button
+            disabled={submitLoading}
             style={{
-              display: 'block',
               width: '260px',
               lineHeight: '50px',
               height: '50px',
-              background: '#002c5f',
+              background: submitLoading ? '#5b7595' : '#002c5f',
               color: '#fff',
               margin: '50px auto 60px',
               padding: '0 10px',
-              cursor: 'pointer',
+              cursor: submitLoading ? 'not-allowed' : 'pointer',
               fontSize: '16px',
               borderRadius: 0,
               textTransform: 'none',
               fontWeight: '400',
               fontFamily: 'HyundaiSansHeadMedium',
+              display: 'flex',
             }}
             onClick={handleSubmit}
           >
-            Відправити
+            {submitLoading ? <span className="loader"></span> : 'Відправити'}
           </Button>
         </>
       )}

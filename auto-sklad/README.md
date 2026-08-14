@@ -105,6 +105,7 @@ npx nx run @auto-sklad/sklad-kr-bogdanauto-hyundai-com-ua:build
 
 npx nx reset
 npx nx show projects
+tree /f
 
 Богдан-Авто Запоріжжя sklad.hyundai-zp.com.ua/
 Богдан-Авто Черкаси sklad.hyundai-ck.com.ua/
