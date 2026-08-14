@@ -6,6 +6,12 @@ export const getConfigurationEnrichments = async () => {
 
   return response.data;
 };
+// GET CONFIGURATION TREE
+export const getConfigurationEnrichmentTree = async () => {
+  const response = await apiClient.get('/admin/configuration-enrichments/tree');
+
+  return response.data;
+};
 
 // CREATE
 export const createConfigurationEnrichment = async (payload) => {

@@ -15,12 +15,18 @@ import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getMediaUrl } from '../../utils/uploadImage';
+import { uploadAdminImage } from '../../api/admin.api';
+import { getConfigurationEnrichmentTree } from '../../api/enrichments.api';
+import { Autocomplete } from '@mui/material';
 
 export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onClose }) {
   const SPEC_SECTIONS = ['Безпека', 'Комфорт і обладнання', 'Мультимедіа', 'Світло', "Інтер'єр", "Екстер'єр"];
   const isEditMode = Boolean(initialData);
 
-  const normalizeImages = (arr) => (arr || []).map((img) => getMediaUrl(img));
+  const [configurationTree, setConfigurationTree] = useState([]);
+  const [configurationTreeLoading, setConfigurationTreeLoading] = useState(false);
+
+  const [availableColors, setAvailableColors] = useState([]);
 
   const emptySpec = {
     title: '',
@@ -66,6 +72,8 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       heightMm: initialData.heightMm ?? '',
       wheelbaseMm: initialData.wheelbaseMm ?? '',
 
+      colorImages: initialData.colorImages ?? [],
+
       curbWeightKg: initialData.curbWeightKg ?? '',
       grossWeightKg: initialData.grossWeightKg ?? '',
 
@@ -87,6 +95,8 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
 
     engine: '',
     enginePowerHP: '',
+
+    colorImages: [],
 
     trimLevel: '',
     fuelType: '',
@@ -113,6 +123,25 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
     specs: [emptySpec],
   });
 
+  useEffect(() => {
+    const loadConfigurationTree = async () => {
+      try {
+        setConfigurationTreeLoading(true);
+
+        const data = await getConfigurationEnrichmentTree();
+
+        setConfigurationTree(data || []);
+      } catch (error) {
+        console.error('GET configuration enrichment tree error:', error);
+        alert('Не вдалося завантажити список конфігурацій');
+      } finally {
+        setConfigurationTreeLoading(false);
+      }
+    };
+
+    loadConfigurationTree();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -125,47 +154,118 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
   // ---------------- FILE UPLOAD ----------------
 
   const isValidImageFile = (file) =>
-    ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type) && file.size <= 500 * 1024;
+    ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'].includes(file.type) && file.size <= 500 * 1024;
 
-  const handleMainImageUpload = (e) => {
+  const handleMainImageUpload = async (e) => {
     const file = e.target.files[0];
+
     if (!file) return;
 
     if (!isValidImageFile(file)) {
-      alert('Файл має бути PNG/JPG і ≤500KB');
+      alert('Файл має бути PNG/JPG/WEBP і ≤500KB');
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
+    try {
+      const data = await uploadAdminImage(file);
+
       setForm((prev) => ({
         ...prev,
-        imgCar: reader.result,
+        imgCar: data.url,
       }));
-    };
-    reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Upload main image error:', error);
+      alert('Не вдалося завантажити головне фото');
+    }
   };
+  const findConfigurationById = (tree, configurationId) => {
+    for (const brand of tree || []) {
+      for (const model of brand.models || []) {
+        const configuration = model.configurations?.find((config) => config.configurationId === configurationId);
 
-  const handleSliderUpload = (e) => {
+        if (configuration) {
+          return {
+            brand,
+            model,
+            configuration,
+          };
+        }
+      }
+    }
+
+    return null;
+  };
+  const applyConfiguration = (configurationId) => {
+    const id = String(configurationId || '').trim();
+
+    if (!id) {
+      setAvailableColors([]);
+
+      setForm((prev) => ({
+        ...prev,
+        colorImages: [],
+      }));
+
+      return;
+    }
+
+    const result = findConfigurationById(configurationTree, id);
+
+    if (!result) {
+      setAvailableColors([]);
+
+      setForm((prev) => ({
+        ...prev,
+        colorImages: [],
+      }));
+
+      return;
+    }
+
+    const { configuration } = result;
+    const colors = configuration.colors || [];
+
+    setAvailableColors(colors);
+
+    setForm((prev) => ({
+      ...prev,
+
+      // ЗМІНЮЄМО ТІЛЬКИ КОЛЬОРИ
+      colorImages: colors.map((color) => {
+        const existingColorImage = prev.colorImages?.find((item) => item.exteriorColorId === color.exteriorColorId);
+
+        return {
+          exteriorColor: color.exteriorColor,
+          exteriorColorId: color.exteriorColorId,
+          imgCar: existingColorImage?.imgCar || '',
+        };
+      }),
+    }));
+  };
+  const handleSliderUpload = async (e) => {
     const files = Array.from(e.target.files);
 
-    files.forEach((file) => {
+    for (const file of files) {
       if (!isValidImageFile(file)) {
         alert(`Файл ${file.name} не підходить`);
-        return;
+        continue;
       }
 
-      const reader = new FileReader();
+      try {
+        const data = await uploadAdminImage(file);
 
-      reader.onload = () => {
         setForm((prev) => ({
           ...prev,
-          sliderImages: [...prev.sliderImages, reader.result],
+          sliderImages: [...prev.sliderImages, data.url],
         }));
-      };
+      } catch (error) {
+        console.error(`Upload image ${file.name} error:`, error);
+        alert(`Не вдалося завантажити ${file.name}`);
+      }
+    }
 
-      reader.readAsDataURL(file);
-    });
+    // дозволяє повторно вибрати той самий файл
+    e.target.value = '';
   };
 
   const removeSliderImage = (img) => {
@@ -179,6 +279,76 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       ...prev,
       imgCar: '',
     }));
+  };
+  const addColorImage = () => {
+    setForm((prev) => ({
+      ...prev,
+      colorImages: [
+        ...prev.colorImages,
+        {
+          exteriorColor: '',
+          exteriorColorId: '',
+          imgCar: '',
+        },
+      ],
+    }));
+  };
+
+  const removeColorImage = (index) => {
+    setForm((prev) => ({
+      ...prev,
+      colorImages: prev.colorImages.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateColorImage = (index, field, value) => {
+    setForm((prev) => {
+      const colorImages = [...prev.colorImages];
+
+      colorImages[index] = {
+        ...colorImages[index],
+        [field]: value,
+      };
+
+      return {
+        ...prev,
+        colorImages,
+      };
+    });
+  };
+  const handleColorImageUpload = async (e, index) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    if (!isValidImageFile(file)) {
+      alert('Файл має бути PNG/JPG/WEBP і ≤500KB');
+      e.target.value = '';
+      return;
+    }
+
+    try {
+      const data = await uploadAdminImage(file);
+
+      setForm((prev) => {
+        const colorImages = [...prev.colorImages];
+
+        colorImages[index] = {
+          ...colorImages[index],
+          imgCar: data.url,
+        };
+
+        return {
+          ...prev,
+          colorImages,
+        };
+      });
+    } catch (error) {
+      console.error('Upload color image error:', error);
+      alert('Не вдалося завантажити фото кольору');
+    }
+
+    e.target.value = '';
   };
 
   // ---------------- SPECS ----------------
@@ -264,6 +434,14 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
       imgCar: form.imgCar || null,
       sliderImages: form.sliderImages || [],
 
+      colorImages: form.colorImages
+        .filter((item) => item.exteriorColor && item.exteriorColorId && item.imgCar)
+        .map((item) => ({
+          exteriorColor: item.exteriorColor,
+          exteriorColorId: item.exteriorColorId,
+          imgCar: item.imgCar,
+        })),
+
       engine: form.engine || null,
       enginePowerHP: form.enginePowerHP ? Number(form.enginePowerHP) : null,
 
@@ -321,8 +499,10 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
             required
             value={form.configurationId}
             onChange={handleChange}
+            onBlur={(e) => applyConfiguration(e.target.value)}
             fullWidth
           />
+
           <TextField
             name="specialPrice"
             label="Акційна ціна"
@@ -364,6 +544,103 @@ export default function ConfigurationEnrichmentForm({ onSubmit, initialData, onC
           Завантажити слайдер фото
           <input hidden type="file" multiple accept="image/*" onChange={handleSliderUpload} />
         </Button>
+
+        <Box>
+          <Typography variant="h6" sx={{ mb: 2, mt: 5 }}>
+            Фото автомобіля за кольорами
+          </Typography>
+          <Button
+            sx={{ mb: 3 }}
+            variant="contained"
+            onClick={() => applyConfiguration(form.configurationId)}
+            disabled={configurationTreeLoading || !form.configurationId.trim()}
+          >
+            {configurationTreeLoading ? 'Завантаження...' : 'Підтягнути кольори'}
+          </Button>
+          {!form.configurationId.trim() && (
+            <Typography color="text.secondary">Спочатку введіть ID конфігурації.</Typography>
+          )}
+
+          {form.configurationId.trim() && availableColors.length === 0 && (
+            <Typography color="text.secondary">Для цієї конфігурації кольори не знайдені.</Typography>
+          )}
+
+          <Stack spacing={2}>
+            {form.colorImages.map((colorImage, index) => (
+              <Box
+                key={`${colorImage.exteriorColorId}-${index}`}
+                sx={{
+                  border: '1px solid #ddd',
+                  borderRadius: 2,
+                  p: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2,
+                  }}
+                >
+                  <Box>
+                    <Typography variant="subtitle1" fontWeight={600}>
+                      {colorImage.exteriorColor}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      ID кольору: {colorImage.exteriorColorId}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {colorImage.imgCar && (
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: 180,
+                      mb: 2,
+                    }}
+                  >
+                    <img
+                      src={getMediaUrl(colorImage.imgCar)}
+                      alt={colorImage.exteriorColor}
+                      width={180}
+                      style={{
+                        display: 'block',
+                        borderRadius: 8,
+                      }}
+                    />
+
+                    <IconButton
+                      size="small"
+                      sx={{
+                        position: 'absolute',
+                        top: 4,
+                        right: 4,
+                        bgcolor: 'white',
+                      }}
+                      onClick={() => updateColorImage(index, 'imgCar', '')}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                )}
+
+                <Button variant="outlined" component="label">
+                  {colorImage.imgCar ? 'Замінити фото' : 'Завантажити фото цього кольору'}
+
+                  <input
+                    hidden
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={(e) => handleColorImageUpload(e, index)}
+                  />
+                </Button>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
 
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           {form.sliderImages.map((img, i) => (

@@ -24,7 +24,7 @@ export function AdminConfigurationEnrichments() {
   const formRef = useRef(null);
 
   const [page, setPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 60;
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
   const paginatedItems = items.slice((page - 1) * itemsPerPage, page * itemsPerPage);
