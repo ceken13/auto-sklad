@@ -82,6 +82,37 @@ export default function App() {
     return slots;
   };
   const timeSlots = getAvailableTimeSlots(date);
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_id', 'utm_term', 'utm_content'];
+
+  const [utm, setUtm] = useState({
+    utm_source: '',
+    utm_medium: '',
+    utm_campaign: '',
+    utm_id: '',
+    utm_term: '',
+    utm_content: '',
+  });
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+
+    let savedUtm = {};
+
+    try {
+      savedUtm = JSON.parse(sessionStorage.getItem('test_drive_utm') || '{}');
+    } catch (error) {
+      console.error('Failed to parse saved UTM:', error);
+    }
+
+    const currentUtm = utmKeys.reduce((result, key) => {
+      result[key] = searchParams.get(key) || savedUtm[key] || '';
+      return result;
+    }, {});
+
+    sessionStorage.setItem('test_drive_utm', JSON.stringify(currentUtm));
+
+    setUtm(currentUtm);
+  }, []);
 
   const cityError = submitAttempted && !city;
   const dealerError = submitAttempted && !selectedDealer;
@@ -277,6 +308,7 @@ export default function App() {
       phone,
       date,
       time,
+      utm,
     };
 
     try {
